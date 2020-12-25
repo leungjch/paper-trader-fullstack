@@ -4,10 +4,20 @@
 -- cat setup_db.sql | heroku pg:psql postgresql-defined-91770 --app leungjch-paper-trader
 
 -- To reset database, run
--- heroku pg:reset --confirm leungjch-paper-trader to clear everything
+-- heroku pg:reset --confirm leungjch-paper-trader 
+
+-- Users
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username text,
+    hash_password BYTEA,
+    cash NUMERIC
+);
+
 -- Trade history
 CREATE TABLE trade_history (
-	trade_id serial PRIMARY KEY,
+	trade_id INTEGER PRIMARY KEY,
+    trade_user_id INTEGER,
 	trade_symbol TEXT,
 	trade_type TEXT, 
     trade_n INTEGER,
@@ -17,6 +27,7 @@ CREATE TABLE trade_history (
 
 -- Current portfolio
 CREATE TABLE portfolio (
+    user_id INTEGER,
 	trade_symbol TEXT, 
     n_holding INTEGER,
     current_price NUMERIC,
@@ -24,3 +35,4 @@ CREATE TABLE portfolio (
     -- sector TEXT,
     -- size TEXT
 );
+
