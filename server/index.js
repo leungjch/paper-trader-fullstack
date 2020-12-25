@@ -27,6 +27,7 @@ pool.connect();
 
 const app = express();
 app.use(cors())
+app.use(express.json());
 // app.use(function (req, res, next) {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -41,19 +42,19 @@ app.use(cors())
 // User API
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users', (error, results) => {
-
     if (error) {
       throw error
     }
     response.status(200).json(results.rows)
-    console.log("Successfuly get users");
+    console.log("Server: Successfuly get users");
   });
 }
 
 const addUsers = (request, response) => {
-  const {username, hash_password, cash} = request.body
+  console.log("Server: Received adduser data as", request.body)
 
-  pool.query("INSERT INTO users (username, hash_password, cash) VALUES ($1, $2, $3)",
+  const {username, hash_password, cash} = request.body
+  pool.query("INSERT INTO users (username, hash_password, cash) VALUES($1, $2, $3)",
               [username, hash_password, cash],
               (error) => {
                 if (error) {
@@ -64,13 +65,15 @@ const addUsers = (request, response) => {
       )
 }
 
-
 app
   .route('/api/users')
   // GET
   .get(getUsers)
   // POST
   .post(addUsers)
+
+
+
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

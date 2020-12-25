@@ -4,7 +4,10 @@
   "description": "Portfolio management simulator",
   "scripts": {
     "start": "node server",
-    "build": "cd client/ && npm install && npm run build"
+    "build": "cd client/ && npm install && npm run build",
+    "resetdb": "heroku pg:reset --confirm leungjch-paper-trader",
+    "loaddb": "cat setup_db.sql | heroku pg:psql postgresql-defined-91770 --app leungjch-paper-trader",
+    "cleardb": "heroku pg:reset --confirm leungjch-paper-trader && cat setup_db.sql | heroku pg:psql postgresql-defined-91770 --app leungjch-paper-trader"
   },
   "author": "Justin Leung",
   "repository": {

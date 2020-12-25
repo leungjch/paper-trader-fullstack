@@ -15,4 +15,3 @@ Node.js and Express are used here to process the API requests from the React app
 
 I got a simple API to work with fetching the users, and figured out the interaction between the Node backend and the React client. Now, I need to write out all the other trade history / portfolio APIs. Once we have the database all set up, I will need to start on fetching data from the stocks API (currently, I chose RapidAPI). 
 
-I've implemented the basic structure of the multi-page React frontend, using React router. The tricky part will be handling user authentication (prevent users from entering other pages of the site if they aren't logged in). 

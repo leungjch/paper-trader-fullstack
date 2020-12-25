@@ -9,7 +9,7 @@
 -- Users
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username text,
+    username TEXT,
     hash_password BYTEA,
     cash NUMERIC
 );
