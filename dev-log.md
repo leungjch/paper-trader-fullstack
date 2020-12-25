@@ -9,4 +9,6 @@ I then did some reading about Heroku's support for SQL. They support PostgreSQL 
 ## Dec 25 2020
 I updated the  `setup_db.sql` script to be used so that it can easily initialize/reset the database for testing.
 
+Heroku has handy CLI commands to interact remotely with the database they provide to you. Run `heroku pg:psql` to connect to your database and `heroku pg:reset` to clear the database. 
+
 Node.js and Express are used here to process the API requests from the React app. We will implement a RESTful API. 
