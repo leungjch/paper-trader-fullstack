@@ -1,15 +1,13 @@
 const express = require('express');
+const cors = require('cors')
 const path = require('path');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
 // Connect to Heroku PostgreSQL DB
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
-const client = new Client({
+const pool = new Pool({
 //   connectionString: process.env.DATABASE_URL,
   connectionString: "postgres://iioxcfyrutgczy:80f3200be4abf011168dbef178c5049a1682df9944e1e2eabc45c58a4947312c@ec2-52-44-139-108.compute-1.amazonaws.com:5432/dek0oshg3gkfo4",
   ssl: {
@@ -17,48 +15,62 @@ const client = new Client({
   }
 });
 
-client.connect();
+pool.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+pool.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
-  client.end();
+
 });
 
+const app = express();
+app.use(cors())
+// app.use(function (req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+//   next();
+// });
 
-// Multi-process to utilize all CPU cores.
-if (!isDev && cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
-
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
-
-} else {
-  const app = express();
-
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
-
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-  });
-
-  // All remaining requests return the React app, so it can handle routing.
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
-
-  app.listen(PORT, function () {
-    console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
+// ----------------------------------------------------------------------------
+// IMPLEMENT API HERE
+// 
+// ----------------------------------------------------------------------------
+// User API
+const getUsers = (request, response) => {
+  pool.query('SELECT * FROM users', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
   });
 }
+
+const addUsers = (request, response) => {
+  const {username, hash_password, cash} = request.body
+
+  pool.query("INSERT INTO users (username, hash_password, cash) VALUES ($1, $2, $3)",
+              [username, hash_password, cash],
+              (error) => {
+                if (error) {
+                  throw error
+                }
+                response.status(201).json({status: 'success', message:'User added.'})
+          }
+      )
+       
+}
+
+
+app
+  .route('/users')
+  // GET
+  .get(getUsers)
+  // POST
+  .post(addUsers)
+
+app.listen(PORT, function () {
+  console.error(`App listening on port ${PORT}`);
+});
