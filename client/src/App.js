@@ -5,10 +5,10 @@ function App() {
 
 
   function getUser() {
-    fetch('/users')
-    .then(response => {
-      console.log(response.text)
-    })
+    console.log("Helldo");
+    fetch('/api/users')
+    .then((response) => response.json())
+    .then((data) => console.log("DATA", data[0]['username']));
   }
 
   return (
@@ -26,7 +26,7 @@ function App() {
         >
           Hello
         </a>
-        <button>Buy</button>
+        <button onClick = {getUser}>Buy</button>
       </header>
     </div>
   );

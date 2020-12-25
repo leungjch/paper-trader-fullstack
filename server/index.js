@@ -17,13 +17,13 @@ const pool = new Pool({
 
 pool.connect();
 
-pool.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
+// pool.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+//   if (err) throw err;
+//   for (let row of res.rows) {
+//     console.log(JSON.stringify(row));
+//   }
 
-});
+// });
 
 const app = express();
 app.use(cors())
@@ -41,10 +41,12 @@ app.use(cors())
 // User API
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users', (error, results) => {
+
     if (error) {
       throw error
     }
     response.status(200).json(results.rows)
+    console.log("Successfuly get users");
   });
 }
 
@@ -60,12 +62,11 @@ const addUsers = (request, response) => {
                 response.status(201).json({status: 'success', message:'User added.'})
           }
       )
-       
 }
 
 
 app
-  .route('/users')
+  .route('/api/users')
   // GET
   .get(getUsers)
   // POST
