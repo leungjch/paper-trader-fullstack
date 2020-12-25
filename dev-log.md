@@ -12,3 +12,5 @@ I updated the  `setup_db.sql` script to be used so that it can easily initialize
 Heroku has handy CLI commands to interact remotely with the database they provide to you. Run `heroku pg:psql` to connect to your database and `heroku pg:reset` to clear the database. 
 
 Node.js and Express are used here to process the API requests from the React app. We will implement a RESTful API. 
+
+I got a simple API to work with fetching the users, and figured out the interaction between the Node backend and the React client. Now, I need to write out all the other trade history / portfolio APIs. Once we have the database all set up, I will need to start on fetching data from the stocks API (currently, I chose RapidAPI). 
