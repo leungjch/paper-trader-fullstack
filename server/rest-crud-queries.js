@@ -163,7 +163,7 @@ const getStockInfo = (request, response) => {
     
         res.on("error", function () {
             console.log("Server error")
-            response.status(200).json({})
+            response.status(200).json({empty: true})
         }).on("data", function (chunk) {
             chunks.push(chunk);
         }).on("end", function () {
@@ -175,7 +175,7 @@ const getStockInfo = (request, response) => {
                 response.status(200).json(data)    
             } else {
                 // Stock not found
-                response.status(200).json({})
+                response.status(200).json({empty: true})
             }
 
 

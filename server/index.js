@@ -8,7 +8,6 @@ const { STOCK_API_KEY } = require('./config')
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-
 const app = express();
 
 app.use(cors())
