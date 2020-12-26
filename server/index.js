@@ -13,6 +13,17 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
+
+if (process.env.NODE_ENV === 'production') {
+  // Exprees will serve up production assets
+  app.use(express.static('client/build'));
+  
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+});
+}
+
 // User APIs
 app.get('/api/users', getUsers);
 app.get('/api/users/:id', getUserByName);
@@ -28,6 +39,9 @@ app.post('/api/history/', addHistory);
 
 // Search API
 app.get('/api/search/:ticker', getStockInfo)
+
+
+
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);
