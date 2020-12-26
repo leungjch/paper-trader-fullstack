@@ -16,17 +16,6 @@ CREATE TABLE users (
     cash NUMERIC
 );
 
--- Trade history
-CREATE TABLE trade_history (
-	trade_id SERIAL PRIMARY KEY,
-    trade_user_id INTEGER,
-	trade_symbol TEXT,
-	trade_type TEXT, 
-    trade_n INTEGER,
-    trade_price NUMERIC,
-    trade_date TIMESTAMP
-);
-
 -- Current portfolio
 CREATE TABLE portfolio (
     user_id INTEGER,
@@ -38,13 +27,36 @@ CREATE TABLE portfolio (
     -- size TEXT
 );
 
-INSERT INTO users (username, hash_password, cash)
+-- Trade history
+CREATE TABLE trade_history (
+	trade_id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+	ticker TEXT,
+	trade_type TEXT, 
+    trade_n INTEGER,
+    price NUMERIC,
+    date TIMESTAMP
+);
+
+
+
 -- Initialize guest user
+INSERT INTO users (username, hash_password, cash)
 VALUES ('Guest', 'hunter2', 500000);
 
--- Add some random
+-- Add some random trades
+-- Portfolio
 INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total) 
 VALUES
     (1, 'TSLA', 50, 420, 500*50),
     (1, 'V', 10, 11, 11*10),
     (1, 'MRNA', 100, 12, 100*12);
+
+-- Trade history
+INSERT INTO trade_history (user_id, ticker, trade_type, trade_n, price, date)
+VALUES
+    (1, 'TSLA', 'Buy', 25, 100, '2016-06-22 19:10:25'),
+    (1, 'TSLA', 'Buy', 75, 100, '2016-06-22 20:10:00'),
+    (1, 'TSLA', 'Sell', 25, 100, '2016-06-22 19:10:25'),
+    (1, 'V', 'Buy', 10, 9.48, '2016-06-22 19:10:25'),
+    (1, 'MRNA', 'Buy', 100, 10.59, '2016-06-22 20:10:00');

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup, Form } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function LoginPage() {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [userId, setUserId] = useState("")
   const [authenticated, setAuthenticated] = useState(false)
   
-  // Router history
-  const history = useHistory();
+    // Router navigator
+  const navigate = useNavigate();
+
 
   function getUser() {
     console.log("Client: Getuser request");
@@ -27,10 +29,17 @@ function LoginPage() {
       console.log("Client: Received request data", data);
       // Usernames must be unique
       if (data.length == 1 && data[0]['hash_password'] == password) {
+
+        // User is authenticated
         console.log("User authenticated!")
         setAuthenticated(true);
+
         // Redirect to portfolio page
-        history.push("/portfolio");
+        navigate(
+          "/portfolio", 
+          { state: {username: username, userId: data[0]['id']}}
+        );
+
       } else {
         alert("Incorrect username or password");
       }

@@ -17,4 +17,4 @@ I got a simple API to work with fetching the users, and figured out the interact
 
 I've implemented the basic structure of the multi-page React frontend, using React router. The tricky part will be handling user authentication (prevent users from entering other pages of the site if they aren't logged in). 
 
-I created APIs for the portfolio. All that's left is creating an API for the transaction histories (which should be very similar to the portfolio), and then working with the external API to fetch real stock data. I also got the login screen to work with some basic user authentication, and can display the portfolio holdings. 
+I created APIs for the portfolio. All that's left is creating an API for the transaction histories (which should be very similar to the portfolio), and then working with the external API to fetch real stock data. After that, I need to start working on the data visualization for the portfolio dashboard, and once that's done, we have a MVP. I also got the login screen to work with some basic user authentication, and can display the portfolio holdings. 

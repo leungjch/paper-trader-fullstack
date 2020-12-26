@@ -8,7 +8,7 @@ GET     /api/users/:id     getUserByName()
 
 ------------------- Portfolio -------------------
 GET     /api/portfolio/     getPortfolios()
-GET     /api/portfolio/:id  getPortfolioByName()
+GET     /api/portfolio/:id  getPortfolioById()
 
 ---------- Stock Info (External API) ------------
 GET     /api/search/:symbol    searchStockbySymbol()
@@ -19,6 +19,10 @@ POST     /api/holdings/:symbol    buyStockbySymbol()
 ------------------- Sell ------------------------
 UPDATE     /api/holdings/:symbol    sellStockBySymbol()
 DELETE     /api/holdings/:symbol    sellAllStockBySymbol()
+
+------------------- History ---------------------
+GET     /api/history/:id        getHistoryById()
+POST    /api/history            addHistory()
 
 */
 
@@ -89,10 +93,10 @@ const getPortfolios = (request, response) => {
     });
 }
 
-const getPortfolioByName = (request, response) => {
+const getPortfolioById = (request, response) => {
     const username = request.params.id
     console.log(username)
-    pool.query('SELECT * FROM portfolio WHERE username = $1',
+    pool.query('SELECT * FROM portfolio WHERE userId = $1',
         [username], (error, results) => {
             if (error) {
                 throw error
@@ -101,11 +105,43 @@ const getPortfolioByName = (request, response) => {
         })
 }
 
+// ----------------------------------------------------------------------------
+// Transaction history API
+const getHistoryById = (request, response) => {
+    const userId = request.params.id
+    console.log(username)
+    pool.query('SELECT * FROM trade_history WHERE userId = $1',
+        [userId], (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(200).json(results.rows)
+        })
+}
+
+const addHistory = (request, response) => {
+    console.log("Server: Received addHistory data as", request.body)
+
+    const { user_id, ticker, trade_type, trade_n, price, date } = request.body
+    pool.query("INSERT INTO users (username, hash_password, cash) VALUES($1, $2, $3, $4, $5, $6)",
+        [user_id, ticker, trade_type, trade_n, price, date],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: 'Transaction successfully recorded.' })
+        }
+    )
+}
+
 module.exports = {
     getUsers,
     getUserByName,
     addUsers,
 
     getPortfolios,
-    getPortfolioByName
+    getPortfolioById,
+
+    getHistoryById,
+    addHistory
 }

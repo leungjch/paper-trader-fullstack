@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   Link
 } from "react-router-dom";
@@ -37,27 +37,14 @@ export default function App() {
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/portfolio">
-            <PortfolioPage />
-          </Route>
-          <Route path="/buy">
-            <BuyPage />
-          </Route>
-          <Route path="/sell">
-            <SellPage />
-          </Route>
-          <Route path="/history">
-            <HistoryPage />
-          </Route>
-          <Route path="/">
-            <LoginPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/login" element = {<LoginPage/>}/>
+          <Route path="/portfolio" element = {<PortfolioPage />}/>
+          <Route path="/buy" element = {<BuyPage />}/>
+          <Route path="/sell" element = {<SellPage />}/>
+          <Route path="/history" element = {<HistoryPage />}/>
+          <Route path="/" element = {<LoginPage />}/>
+        </Routes>
       </div>
     </Router>
   );

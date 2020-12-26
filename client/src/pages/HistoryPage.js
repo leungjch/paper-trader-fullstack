@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 
-function PortfolioPage() {
+function HistoryPage() {
 
     const [username, setUsername] = useState("")
     const [userId, setUserId] = useState("")
 
     const [authenticated, setAuthenticated] = useState(false)
-    const [portfolioData, setPortfolioData] = useState([])
+    const [historyData, setHistoryData] = useState([])
 
 
     // Fetch portfolio data for user from DB
-    function getPortfolio() {
+    function getHistory() {
         console.log("User request is", "/api/portfolio/" + username)
-        fetch('/api/portfolio/' + username)
+        fetch('/api/history/' + username)
             .then((response) => response.json())
             .then((data) => {
-                console.log("Client: Loaded portfolio data", data);
-                setPortfolioData(data);
+                console.log("Client: Loaded history data", data);
+                setHistoryData(data);
             })
     }
 
-    function renderPortfolioRow(item, index) {
+    function renderHistoryRow(item, index) {
         return (
           <tr key={index}>
             <td>{item.ticker}</td>
@@ -36,14 +36,14 @@ function PortfolioPage() {
 
     useEffect(() => {
         // Fetch portfolio data
-        getPortfolio()
+        getHistory()
     }, []);
 
 
 
     return (
         <div>
-            <h2> Your Portfolio </h2>
+            <h2> Transaction History </h2>
 
             <Table striped condensed hover>
                 <thead>
@@ -55,11 +55,11 @@ function PortfolioPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {portfolioData.map(renderPortfolioRow)}
+                    {portfolioData.map(renderHistoryRow)}
                 </tbody>
             </Table>
         </div>
     );
 }
 
-export { PortfolioPage };
+export { HistoryPage };

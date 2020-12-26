@@ -1,17 +1,9 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getUsers, getUserByName, addUsers, getPortfolios, getPortfolioByName } = require('./rest-crud-queries');
+const { getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory} = require('./rest-crud-queries');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
-
-// pool.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-//   if (err) throw err;
-//   for (let row of res.rows) {
-//     console.log(JSON.stringify(row));
-//   }
-
-// });
 
 const app = express();
 app.use(cors())
@@ -23,14 +15,18 @@ app.use(express.json());
 //   next();
 // });
 
-// User related APIs
+// User APIs
 app.get('/api/users', getUsers);
 app.get('/api/users/:id', getUserByName);
 app.post('/api/users', addUsers);
 
-// Portfolio related APIs
+// Portfolio APIs
 app.get('/api/portfolio', getPortfolios);
-app.get('/api/portfolio/:id', getPortfolioByName);
+app.get('/api/portfolio/:id', getPortfolioById);
+
+// History APIs
+app.get('/api/history/:id', getHistoryById);
+app.post('/api/history/', addHistory);
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

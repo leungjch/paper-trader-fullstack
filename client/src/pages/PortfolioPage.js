@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function PortfolioPage() {
+const PortfolioPage = (props) => {
+    
 
     const [username, setUsername] = useState("")
     const [userId, setUserId] = useState("")
@@ -10,6 +11,8 @@ function PortfolioPage() {
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
 
+    const navigate = useNavigate();
+    const {state} = useLocation();
 
     // Fetch portfolio data for user from DB
     function getPortfolio() {
@@ -33,18 +36,18 @@ function PortfolioPage() {
         )
       }
 
-
     useEffect(() => {
         // Fetch portfolio data
         getPortfolio()
-    }, []);
 
+        console.log(props)
+    }, []);
 
     return (
         <div>
             <h2> Your Portfolio </h2>
 
-            <Table striped condensed hover>
+            <Table striped hover>
                 <thead>
                     <tr>
                         <th>Ticker</th>
