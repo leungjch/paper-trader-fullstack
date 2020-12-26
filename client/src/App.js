@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -7,44 +7,51 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { UserContext, UserProvider } from './UserContext';
 
 import { LoginPage } from './pages/LoginPage.js'
 import { PortfolioPage } from './pages/PortfolioPage'
 
 export default function App() {
+
+  const { user } = useContext(UserContext);
+
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            {/* <li>
+    <UserProvider>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              {/* <li>
               <Link to="/login">Login</Link>
             </li> */}
-            <li>
-              <Link to="/portfolio">Portfolio</Link>
-            </li>
-            <li>
-              <Link to="/buy">Buy</Link>
-            </li>
-            <li>
-              <Link to="/sell">Sell</Link>
-            </li>
-            <li>
-              <Link to="/history">Transaction History</Link>
-            </li>
-          </ul>
-        </nav>
+              <li>
+                <Link to="/portfolio">Portfolio</Link>
+              </li>
+              <li>
+                <Link to="/buy">Buy</Link>
+              </li>
+              <li>
+                <Link to="/sell">Sell</Link>
+              </li>
+              <li>
+                <Link to="/history">Transaction History</Link>
+              </li>
+            </ul>
+          </nav>
 
-        <Routes>
-          <Route path="/login" element = {<LoginPage/>}/>
-          <Route path="/portfolio" element = {<PortfolioPage />}/>
-          <Route path="/buy" element = {<BuyPage />}/>
-          <Route path="/sell" element = {<SellPage />}/>
-          <Route path="/history" element = {<HistoryPage />}/>
-          <Route path="/" element = {<LoginPage />}/>
-        </Routes>
-      </div>
-    </Router>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/buy" element={<BuyPage />} />
+            <Route path="/sell" element={<SellPage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/" element={<LoginPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserProvider>
+
   );
 }
 

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PortfolioPage() {
-    const { state } = useLocation();
-    const { mUsername, mUserId } = state;
 
-    const [username, setUsername] = useState(mUsername)
-    const [userId, setUserId] = useState(mUserId)
+    const [username, setUsername] = useState("")
+    const [userId, setUserId] = useState("")
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
@@ -37,9 +35,6 @@ function PortfolioPage() {
     }
 
     useEffect(() => {
-        setUsername(state.mUserName)
-        setUserId(state.mUserId)
-
         // Fetch portfolio data
         getPortfolio()
 

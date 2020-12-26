@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
+import { UserContext } from '../UserContext';
+
 
 function LoginPage() {
+  
+  const { login } = useContext(UserContext);
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -32,13 +36,10 @@ function LoginPage() {
 
         // User is authenticated
         console.log("User authenticated!")
-        setAuthenticated(true);
+        login(username);
 
         // Redirect to portfolio page
-        navigate(
-          "/portfolio", 
-          { state: {mUsername: username, mUserId: data[0]['id']}}
-        );
+        navigate("/portfolio");
 
       } else {
         alert("Incorrect username or password");
