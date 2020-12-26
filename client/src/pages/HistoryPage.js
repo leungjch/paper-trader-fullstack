@@ -7,7 +7,6 @@ function HistoryPage() {
     const [historyData, setHistoryData] = useState([])
     const { user } = useContext(UserContext);
 
-
     // Fetch portfolio data for user from DB
     function getHistory() {
         console.log()
@@ -31,7 +30,6 @@ function HistoryPage() {
           </tr>
         )
       }
-
 
     useEffect(() => {
         // Fetch portfolio data

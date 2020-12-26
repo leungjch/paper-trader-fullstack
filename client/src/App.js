@@ -9,9 +9,10 @@ import {
 } from "react-router-dom";
 import { UserContext, UserProvider } from './UserContext';
 
-import { LoginPage } from './pages/LoginPage.js'
+import { LoginPage } from './pages/LoginPage'
 import { PortfolioPage } from './pages/PortfolioPage'
 import { HistoryPage } from './pages/HistoryPage'
+import { BuyPage } from './pages/BuyPage'
 
 
 export default function App() {
@@ -65,9 +66,9 @@ export default function App() {
 //   return <h2>Your Portfolio</h2>;
 // }
 
-function BuyPage() {
-  return <h2>Buy</h2>;
-}
+// function BuyPage() {
+//   return <h2>Buy</h2>;
+// }
 
 function SellPage() {
   return <h2>Sell</h2>;

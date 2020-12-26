@@ -23,3 +23,5 @@ I created APIs for the portfolio. All that's left is creating an API for the tra
 I ran into a problem with user state and navigation. I need to pass the user ID across different pages so that I can query and modify the database with different kinds of info. I think that I will need to implement React's Context API to fix this. 
 
 To use Context API, I added `userContext.js`. Then, in my `App.js`, I wrap my app around with a `userContext.Provider` component to expose the user state to the entire app. 
+
+Looks like the Context API works. Now I need to implement the Buy and Sell APIs and integrate the RapidAPI to access real life stock data. 

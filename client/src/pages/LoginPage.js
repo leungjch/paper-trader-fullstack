@@ -14,7 +14,6 @@ function LoginPage() {
     // Router navigator
   const navigate = useNavigate();
 
-
   function getUser() {
     console.log("Client: Getuser request");
     fetch('/api/users')
@@ -76,7 +75,7 @@ function LoginPage() {
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)} />
           <Form.Text className="text-muted">
