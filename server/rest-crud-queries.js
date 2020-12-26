@@ -29,6 +29,10 @@ POST    /api/history            addHistory()
 // Connect to Heroku PostgreSQL DB
 const { Pool } = require('pg');
 
+// Get api key
+const { STOCK_API_KEY } = require('./config')
+
+
 const pool = new Pool({
     //   connectionString: process.env.DATABASE_URL,
     connectionString: "postgres://iioxcfyrutgczy:80f3200be4abf011168dbef178c5049a1682df9944e1e2eabc45c58a4947312c@ec2-52-44-139-108.compute-1.amazonaws.com:5432/dek0oshg3gkfo4",
