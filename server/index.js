@@ -4,7 +4,6 @@ const path = require('path');
 const { getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
-
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
@@ -12,7 +11,6 @@ const app = express();
 
 app.use(cors())
 app.use(express.json());
-
 
 if (process.env.NODE_ENV === 'production') {
   // Exprees will serve up production assets
@@ -34,8 +32,6 @@ app.post('/api/history/', addHistory);
 
 // Search API
 app.get('/api/search/:ticker', getStockInfo)
-
-
 
 
 app.listen(PORT, function () {
