@@ -10,7 +10,9 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    hash_password BYTEA,
+    hash_password TEXT,
+
+    -- hash_password BYTEA,
     cash NUMERIC
 );
 
@@ -37,4 +39,5 @@ CREATE TABLE portfolio (
 );
 
 INSERT INTO users (username, hash_password, cash)
-VALUES ('john', 'hunter2', 100);
+-- Initialize guest user
+VALUES ('Guest', 'hunter2', 500000);
