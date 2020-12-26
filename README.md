@@ -8,3 +8,5 @@ Backend:
 - PostgreSQL for storage of transaction history and portfolio and performing simple CRUD operations
 - Node.js and Express.js for server
 - RESTful RapidAPI for obtaining stock quotas from Yahoo Finance
+
+To read some more details over the course of the project, read the [dev diary](dev-diary.md). 
