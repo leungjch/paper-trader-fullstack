@@ -37,7 +37,7 @@ function LoginPage() {
         // Redirect to portfolio page
         navigate(
           "/portfolio", 
-          { state: {username: username, userId: data[0]['id']}}
+          { state: {mUsername: username, mUserId: data[0]['id']}}
         );
 
       } else {

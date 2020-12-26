@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 
-const PortfolioPage = (props) => {
-    
+function PortfolioPage() {
+    const { state } = useLocation();
+    const { mUsername, mUserId } = state;
 
-    const [username, setUsername] = useState("")
-    const [userId, setUserId] = useState("")
+    const [username, setUsername] = useState(mUsername)
+    const [userId, setUserId] = useState(mUserId)
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
 
     const navigate = useNavigate();
-    const {state} = useLocation();
 
     // Fetch portfolio data for user from DB
     function getPortfolio() {
-        console.log("User request is", "/api/portfolio/" + username)
-        fetch('/api/portfolio/' + username)
+        console.log("Portfolio request is", "/api/portfolio/" + userId)
+        fetch('/api/portfolio/' + userId)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Client: Loaded portfolio data", data);
@@ -27,20 +27,22 @@ const PortfolioPage = (props) => {
 
     function renderPortfolioRow(item, index) {
         return (
-          <tr key={index}>
-            <td>{item.ticker}</td>
-            <td>{item.n_holding}</td>
-            <td>${item.current_price}</td>
-            <td>${item.current_total}</td>
-          </tr>
+            <tr key={index}>
+                <td>{item.ticker}</td>
+                <td>{item.n_holding}</td>
+                <td>${item.current_price}</td>
+                <td>${item.current_total}</td>
+            </tr>
         )
-      }
+    }
 
     useEffect(() => {
+        setUsername(state.mUserName)
+        setUserId(state.mUserId)
+
         // Fetch portfolio data
         getPortfolio()
 
-        console.log(props)
     }, []);
 
     return (

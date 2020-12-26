@@ -96,7 +96,7 @@ const getPortfolios = (request, response) => {
 const getPortfolioById = (request, response) => {
     const username = request.params.id
     console.log(username)
-    pool.query('SELECT * FROM portfolio WHERE userId = $1',
+    pool.query('SELECT * FROM portfolio WHERE user_id = $1',
         [username], (error, results) => {
             if (error) {
                 throw error
