@@ -11,7 +11,7 @@ GET     /api/portfolio/     getPortfolios()
 GET     /api/portfolio/:id  getPortfolioById()
 
 ---------- Stock Info (External API) ------------
-GET     /api/search/:symbol    searchStockbySymbol()
+GET     /api/search/:ticker    searchStockbyTicker()
 
 ------------------- Buy -------------------------
 POST     /api/holdings/:symbol    buyStockbySymbol()
@@ -29,9 +29,11 @@ POST    /api/history            addHistory()
 // Connect to Heroku PostgreSQL DB
 const { Pool } = require('pg');
 
+// To send requests to RapidAPI
+const http = require("https")
+
 // Get api key
 const { STOCK_API_KEY } = require('./config')
-
 
 const pool = new Pool({
     //   connectionString: process.env.DATABASE_URL,
@@ -137,6 +139,44 @@ const addHistory = (request, response) => {
         }
     )
 }
+// ----------------------------------------------------------------------------
+// Stock querying API
+// Use APIs provided by RapidAPI, such as their unofficial Yahoo Finance API
+const getStockInfo = (request, response) => {
+
+    const requestedTicker = request.params.ticker
+
+    const options = {
+        "method": "GET",
+        "hostname": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        "port": null,
+        "path": `/stock/v2/get-summary?symbol=${requestedTicker}`,
+        "headers": {
+            "x-rapidapi-key": STOCK_API_KEY,
+            "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+            "useQueryString": true
+        }
+    };
+    
+    const req = http.request(options, function (res) {
+        const chunks = [];
+    
+        res.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+    
+        res.on("end", function () {
+            const body = Buffer.concat(chunks);
+            console.log(JSON.parse(body.toString()))
+            response.status(200).json(JSON.parse(body.toString()))
+
+        });
+    });
+    
+    req.end();
+
+}
+
 
 module.exports = {
     getUsers,
@@ -147,5 +187,7 @@ module.exports = {
     getPortfolioById,
 
     getHistoryById,
-    addHistory
+    addHistory,
+
+    getStockInfo
 }

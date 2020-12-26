@@ -25,3 +25,5 @@ I ran into a problem with user state and navigation. I need to pass the user ID 
 To use Context API, I added `userContext.js`. Then, in my `App.js`, I wrap my app around with a `userContext.Provider` component to expose the user state to the entire app. 
 
 Looks like the Context API works. Now I need to implement the Buy and Sell APIs and integrate the RapidAPI to access real life stock data. 
+
+In order to get the stock data, I need to use an external source (RapidAPI). They provide me with an API key, and I have a quota of requests that I can send per day (500). This API key should be kept secret, so set up my repo to store the key in the `.env` file at the root of the repository, and it's hidden by the `.gitignore` file. I had a choice between sending the API request from the React client, or to make the React client send a request to the backend, which handles the API request. Since the client shouldn't really be handling external requests, I made the RapidAPI handling similar to how I handle the client sending requests to the backend, which query the PostgreSQL database. 
