@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
+import { UserContext, UserProvider } from '../UserContext';
 
 function HistoryPage() {
 
-    const [username, setUsername] = useState("")
-    const [userId, setUserId] = useState("")
-
-    const [authenticated, setAuthenticated] = useState(false)
     const [historyData, setHistoryData] = useState([])
+    const { user } = useContext(UserContext);
 
 
     // Fetch portfolio data for user from DB
     function getHistory() {
-        console.log("User request is", "/api/portfolio/" + username)
-        fetch('/api/history/' + username)
+        console.log()
+        console.log("History request is", "/api/history/" + user.id)
+        fetch('/api/history/' + user.id)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Client: Loaded history data", data);
@@ -25,9 +24,10 @@ function HistoryPage() {
         return (
           <tr key={index}>
             <td>{item.ticker}</td>
-            <td>{item.n_holding}</td>
-            <td>{item.current_price}</td>
-            <td>{item.current_total}</td>
+            <td>{item.trade_type}</td>
+            <td>{item.trade_n}</td>
+            <td>{item.price}</td>
+            <td>{item.date}</td>
           </tr>
         )
       }
@@ -38,23 +38,23 @@ function HistoryPage() {
         getHistory()
     }, []);
 
-
-
     return (
         <div>
             <h2> Transaction History </h2>
 
-            <Table striped condensed hover>
+            <Table striped hover>
                 <thead>
                     <tr>
                         <th>Ticker</th>
+                        <th>Action</th>
                         <th>Number of shares</th>
-                        <th>Current price</th>
-                        <th>Total value</th>
+                        <th>Price</th>
+                        <th>Date</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {portfolioData.map(renderHistoryRow)}
+                    {historyData.map(renderHistoryRow)}
                 </tbody>
             </Table>
         </div>

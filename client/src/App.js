@@ -11,6 +11,8 @@ import { UserContext, UserProvider } from './UserContext';
 
 import { LoginPage } from './pages/LoginPage.js'
 import { PortfolioPage } from './pages/PortfolioPage'
+import { HistoryPage } from './pages/HistoryPage'
+
 
 export default function App() {
 
@@ -71,6 +73,6 @@ function SellPage() {
   return <h2>Sell</h2>;
 }
 
-function HistoryPage() {
-  return <h2>Transaction History</h2>;
-}
+// function HistoryPage() {
+//   return <h2>Transaction History</h2>;
+// }

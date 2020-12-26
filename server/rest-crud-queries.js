@@ -109,8 +109,8 @@ const getPortfolioById = (request, response) => {
 // Transaction history API
 const getHistoryById = (request, response) => {
     const userId = request.params.id
-    console.log(username)
-    pool.query('SELECT * FROM trade_history WHERE userId = $1',
+    console.log(userId)
+    pool.query('SELECT * FROM trade_history WHERE user_id = $1',
         [userId], (error, results) => {
             if (error) {
                 throw error

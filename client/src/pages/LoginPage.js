@@ -42,10 +42,7 @@ function LoginPage() {
       } else {
         alert("Incorrect username or password");
       }
-      
-      
     })
-
   }
 
   // Guest login
@@ -72,7 +69,6 @@ function LoginPage() {
         getUser();
       })
   }
-
 
   return (
     <div className="LoginPage">
@@ -106,9 +102,7 @@ function LoginPage() {
           onClick = {loginAsGuest}>
             Guest mode
        </Button>
-
         </ButtonGroup>
-
       </Form>
     </div>
   );
