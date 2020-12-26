@@ -8,6 +8,7 @@ GET     /api/users/:id     getUserByName()
 
 ------------------- Portfolio -------------------
 GET     /api/portfolio/     getPortfolios()
+GET     /api/portfolio/:id  getPortfolioByName()
 
 ---------- Stock Info (External API) ------------
 GET     /api/search/:symbol    searchStockbySymbol()
@@ -20,7 +21,6 @@ UPDATE     /api/holdings/:symbol    sellStockBySymbol()
 DELETE     /api/holdings/:symbol    sellAllStockBySymbol()
 
 */
-
 
 // Connect to Heroku PostgreSQL DB
 const { Pool } = require('pg');
@@ -77,9 +77,35 @@ const addUsers = (request, response) => {
         }
     )
 }
+// ----------------------------------------------------------------------------
+// Portfolio API
+const getPortfolios = (request, response) => {
+    pool.query('SELECT * FROM portfolio', (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+        console.log("Server: Successfuly get portfolios");
+    });
+}
+
+const getPortfolioByName = (request, response) => {
+    const username = request.params.id
+    console.log(username)
+    pool.query('SELECT * FROM portfolio WHERE username = $1',
+        [username], (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(200).json(results.rows)
+        })
+}
 
 module.exports = {
     getUsers,
     getUserByName,
     addUsers,
+
+    getPortfolios,
+    getPortfolioByName
 }

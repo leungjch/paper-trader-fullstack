@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup, Form } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 
 function LoginPage() {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [authenticated, setAuthenticated] = useState(false)
+  
+  // Router history
+  const history = useHistory();
 
   function getUser() {
     console.log("Client: Getuser request");
@@ -23,9 +27,10 @@ function LoginPage() {
       console.log("Client: Received request data", data);
       // Usernames must be unique
       if (data.length == 1 && data[0]['hash_password'] == password) {
+        console.log("User authenticated!")
         setAuthenticated(true);
         // Redirect to portfolio page
-
+        history.push("/portfolio");
       } else {
         alert("Incorrect username or password");
       }
@@ -33,6 +38,12 @@ function LoginPage() {
       
     })
 
+  }
+
+  function loginAsGuest() {
+    setUsername("Guest")
+    setPassword("hunter2")
+    verifyUser();
   }
 
   function addUser() {
@@ -86,7 +97,7 @@ function LoginPage() {
        </Button>
           <Button 
           variant="info"
-          onClick = {getUser}>
+          onClick = {loginAsGuest}>
             Guest mode
        </Button>
 

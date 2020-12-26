@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import { LoginPage } from './pages/LoginPage.js'
+import { PortfolioPage } from './pages/PortfolioPage'
 
 export default function App() {
   return (
@@ -16,9 +17,9 @@ export default function App() {
       <div>
         <nav>
           <ul>
-            <li>
+            {/* <li>
               <Link to="/login">Login</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/portfolio">Portfolio</Link>
             </li>
@@ -66,9 +67,9 @@ export default function App() {
 //   return <h2>Login</h2>;
 // }
 
-function PortfolioPage() {
-  return <h2>Your Portfolio</h2>;
-}
+// function PortfolioPage() {
+//   return <h2>Your Portfolio</h2>;
+// }
 
 function BuyPage() {
   return <h2>Buy</h2>;

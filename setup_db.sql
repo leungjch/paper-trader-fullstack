@@ -41,3 +41,10 @@ CREATE TABLE portfolio (
 INSERT INTO users (username, hash_password, cash)
 -- Initialize guest user
 VALUES ('Guest', 'hunter2', 500000);
+
+
+INSERT INTO portfolio (trade_symbol, n_holding, current_price, current_total) 
+VALUES
+    ('TSLA', 50, 420, 500*50),
+    ('V', 10, 11, 11*10),
+    ('MRNA', 100, 12, 100*12);

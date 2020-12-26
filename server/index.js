@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getUsers, getUserByName, addUsers } = require('./rest-crud-queries');
+const { getUsers, getUserByName, addUsers, getPortfolios, getPortfolioByName } = require('./rest-crud-queries');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
@@ -23,9 +23,14 @@ app.use(express.json());
 //   next();
 // });
 
-app.get('/api/users', getUsers)
-app.get('/api/users/:id', getUserByName)
-app.post('/api/users', addUsers)
+// User related APIs
+app.get('/api/users', getUsers);
+app.get('/api/users/:id', getUserByName);
+app.post('/api/users', addUsers);
+
+// Portfolio related APIs
+app.get('/api/portfolio', getPortfolios);
+app.get('/api/portfolio/:id', getPortfolioByName);
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);
