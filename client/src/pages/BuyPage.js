@@ -3,12 +3,18 @@ import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 
 function BuyPage() {
 
-    const API_KEY = process.env.REACT_APP_STOCK_API_KEY;
     const [requestTicker, setRequestTicker] = useState("")
 
     function getQuote() {
-        console.log("Ticker is", requestTicker, API_KEY)
-    }
+        console.log("User request is", "/api/search/" + requestTicker)
+        fetch('/api/search/' + requestTicker)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Client: Received stock data", data);
+
+        })
+      }
+    
 
     return (
     <div>
