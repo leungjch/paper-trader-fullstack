@@ -5,13 +5,20 @@ function BuyPage() {
 
     const [requestTicker, setRequestTicker] = useState("")
 
+    // RapidAPI stock data format
+    // Price:       data['price']['regularMarketPrice']
+    // MCap:        data['price']['marketCap']
+    // Sector:      data['summaryProfile']['sector']
+    // Description: data['summaryProfile']['longBusinessSummary']
+    //
+
+
     function getQuote() {
         console.log("User request is", "/api/search/" + requestTicker)
         fetch('/api/search/' + requestTicker)
         .then((response) => response.json())
         .then((data) => {
           console.log("Client: Received stock data", data);
-
         })
       }
     

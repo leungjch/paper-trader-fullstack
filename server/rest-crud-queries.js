@@ -161,14 +161,23 @@ const getStockInfo = (request, response) => {
     const req = http.request(options, function (res) {
         const chunks = [];
     
-        res.on("data", function (chunk) {
+        res.on("error", function () {
+            console.log("Server error")
+            response.status(200).json({})
+        }).on("data", function (chunk) {
             chunks.push(chunk);
-        });
-    
-        res.on("end", function () {
+        }).on("end", function () {
             const body = Buffer.concat(chunks);
-            console.log(JSON.parse(body.toString()))
-            response.status(200).json(JSON.parse(body.toString()))
+            
+            if (body.length !== 0) {
+                // Success
+                const data = JSON.parse(body)
+                response.status(200).json(data)    
+            } else {
+                // Stock not found
+                response.status(200).json({})
+            }
+
 
         });
     });
