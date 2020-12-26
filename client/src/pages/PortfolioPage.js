@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, ButtonGroup, Form } from 'react-bootstrap';
+import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 
 function PortfolioPage() {
 
     const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const [userId, setUserId] = useState("")
+
     const [authenticated, setAuthenticated] = useState(false)
-    const [portfolio, setPortfolio] = useState([])
+    const [portfolioData, setPortfolioData] = useState([])
 
 
     // Fetch portfolio data for user from DB
@@ -17,10 +18,21 @@ function PortfolioPage() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Client: Loaded portfolio data", data);
-                setPortfolio(data);
+                setPortfolioData(data);
             })
 
     }
+
+    function renderPortfolioRow(item, index) {
+        return (
+          <tr key={index}>
+            <td>{item.ticker}</td>
+            <td>{item.n_holding}</td>
+            <td>{item.current_price}</td>
+            <td>{item.current_total}</td>
+          </tr>
+        )
+      }
 
 
     useEffect(() => {
@@ -28,8 +40,26 @@ function PortfolioPage() {
         getPortfolio()
     }, []);
 
+
+
     return (
-        <h2> Your Portfolio </h2>
+        <div>
+            <h2> Your Portfolio </h2>
+
+            <Table striped condensed hover>
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Number of shares</th>
+                        <th>Current price</th>
+                        <th>Total value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {portfolioData.map(renderPortfolioRow)}
+                </tbody>
+            </Table>
+        </div>
     );
 }
 
