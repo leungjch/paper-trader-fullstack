@@ -10,8 +10,6 @@ function LoginPage() {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [userId, setUserId] = useState("")
-  const [authenticated, setAuthenticated] = useState(false)
   
     // Router navigator
   const navigate = useNavigate();
@@ -36,7 +34,7 @@ function LoginPage() {
 
         // User is authenticated
         console.log("User authenticated!")
-        login(username);
+        login(username, data[0]['id']);
 
         // Redirect to portfolio page
         navigate("/portfolio");
@@ -50,12 +48,14 @@ function LoginPage() {
 
   }
 
+  // Guest login
   function loginAsGuest() {
     setUsername("Guest")
     setPassword("hunter2")
     verifyUser();
   }
 
+  // Register a new user
   function addUser() {
     let username = prompt("Enter name")
     let hash_password = prompt("Enter password");
@@ -71,10 +71,6 @@ function LoginPage() {
         alert(data);
         getUser();
       })
-  }
-
-  function verifyLogin() {
-      
   }
 
 

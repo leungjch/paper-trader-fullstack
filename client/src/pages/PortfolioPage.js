@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { UserContext, UserProvider } from '../UserContext';
 
 function PortfolioPage() {
 
@@ -10,7 +10,8 @@ function PortfolioPage() {
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
 
-    const navigate = useNavigate();
+    const { user } = useContext(UserContext);
+
 
     // Fetch portfolio data for user from DB
     function getPortfolio() {
@@ -19,6 +20,7 @@ function PortfolioPage() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Client: Loaded portfolio data", data);
+                console.log("User info is, ", user)
                 setPortfolioData(data);
             })
     }
@@ -37,13 +39,11 @@ function PortfolioPage() {
     useEffect(() => {
         // Fetch portfolio data
         getPortfolio()
-
     }, []);
 
     return (
         <div>
             <h2> Your Portfolio </h2>
-
             <Table striped hover>
                 <thead>
                     <tr>

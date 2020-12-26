@@ -5,11 +5,12 @@ const UserContext = React.createContext({user: {}});
 // @function  UserProvider
 // Create function to provide UserContext
 const UserProvider = ({ children }) => {
-    const [user, setUser] = React.useState({ name: '', auth: false });
+    const [user, setUser] = React.useState({ name: '', id: '', auth: false });
   
-    const login = (name) => {
+    const login = (name, userId) => {
       setUser((user) => ({
         name: name,
+        id: userId,
         auth: true,
       }));
     };
@@ -17,6 +18,7 @@ const UserProvider = ({ children }) => {
     const logout = () => {
       setUser((user) => ({
         name: '',
+        id: '',
         auth: false,
       }));
     };
