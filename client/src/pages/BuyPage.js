@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 
 
-
 function BuyPage() {
 
     const [requestTicker, setRequestTicker] = useState("")
@@ -10,7 +9,6 @@ function BuyPage() {
     function getQuote() {
         console.log("Ticker is", requestTicker)
     }
-
 
     return (
     <div>
