@@ -32,6 +32,8 @@ const { Pool } = require('pg');
 // To send requests to RapidAPI
 const http = require("https")
 
+const { spawn } = require('child_process');
+
 // Get api key
 const { STOCK_API_KEY } = require('./config')
 
@@ -267,6 +269,29 @@ const getStockInfo = (request, response) => {
     req.end();
 }
 
+const getYFinance = (request, response) => {
+    var ticker = request.params.stock
+    var requestType = request.params.type
+    console.log(ticker)
+    var dataset = []
+    // spawn new child process to call the python script
+    const python = spawn('python3', ['server/get-yfinance-stock-data.py', ticker, requestType]);
+    // collect data from script
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        dataset.push(data)
+        
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        response.send(dataset.join(""))
+        console.log(dataset.join(""))
+    });
+
+}
+
 
 module.exports = {
     getUsers,
@@ -287,4 +312,5 @@ module.exports = {
 
     getStockInfo,
 
+    getYFinance,
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { updatePortfolioByStock, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById} = require('./rest-crud-queries');
+const { getYFinance, updatePortfolioByStock, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -38,6 +38,8 @@ app.post('/api/history/', addHistory);
 // Search API
 app.get('/api/search/:ticker', getStockInfo)
 
+// Yfinance API
+app.get('/api/yfinance/:stock/:type', getYFinance)
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

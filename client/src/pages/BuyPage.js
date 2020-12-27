@@ -21,8 +21,8 @@ function BuyPage() {
         if (requestTicker === "") {
             return 
         }
-        console.log("User request is", "/api/search/" + requestTicker)
-        fetch('/api/search/' + requestTicker)
+        console.log("User request is", `/api/yfinance/${requestTicker}/info`)
+        fetch(`/api/yfinance/${requestTicker}/info`)
             .then((response) => response.json())
             .then((data) => {
 
@@ -34,7 +34,7 @@ function BuyPage() {
                 } else {
 
                     setStockData(cleanStockData(data));
-                    console.log(stockData)
+                    console.log(cleanStockData(data))
                 }
             })
         // console.log(cleanStockData(Tesla))
@@ -48,7 +48,7 @@ function BuyPage() {
             .then((data) => {
                 const userData = data[0]
                 const cash = userData['cash']
-                const price = stockData['price']['raw']
+                const price = stockData['price']
                 console.log(data, cash, price)
 
                 // If user does not have enough funds, throw error

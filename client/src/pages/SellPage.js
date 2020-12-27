@@ -60,7 +60,7 @@ function SellPage() {
                     // Else, enter into DB
                 } else {
                     const userData = data[0]
-                    const price = stockData['price']['raw']
+                    const price = stockData['price']
 
                     // Number of shares currently held
                     const nHolding = userData['n_holding'];
