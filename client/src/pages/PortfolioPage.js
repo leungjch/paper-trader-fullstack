@@ -42,6 +42,9 @@ function PortfolioPage() {
                 <td>{item.n_holding}</td>
                 <td>${item.current_price}</td>
                 <td>${item.current_total}</td>
+                <td>{item.sector}</td>
+                <td>${item.marketcap}</td>
+
             </tr>
         )
     }
@@ -50,7 +53,7 @@ function PortfolioPage() {
         // Fetch portfolio data
         getPortfolio()
 
-    }, [portfolioData, cash]);
+    }, [cash]);
 
     return (
         <div>
@@ -63,6 +66,8 @@ function PortfolioPage() {
                         <th>Number of shares</th>
                         <th>Current price</th>
                         <th>Total value</th>
+                        <th>Sector</th>
+                        <th>Market cap</th>
                     </tr>
                 </thead>
                 <tbody>

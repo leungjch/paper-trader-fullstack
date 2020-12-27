@@ -4,12 +4,14 @@ import { UserContext, UserProvider } from '../UserContext';
 import Tesla from './TSLA.js'
 import cleanStockData from "../helper-functions/cleanStockData"
 import { useNavigate, useLocation } from "react-router-dom";
+import StockQuote from "../components/StockQuote"
 
 function SellPage() {
 
     const [requestTicker, setRequestTicker] = useState("")
     const [numShares, setNumShares] = useState(0);
     const [stockData, setStockData] = useState({ empty: true })
+    const [confirmButton, setConfirmButton] = useState(false)
 
     const { user } = useContext(UserContext);
 
@@ -17,25 +19,29 @@ function SellPage() {
 
     
     function getQuote() {
-        // console.log("User request is", "/api/search/" + requestTicker)
-        // fetch('/api/search/' + requestTicker)
-        //     .then((response) => response.json())
-        //     .then((data) => {
+        if (requestTicker === "") {
+            return 
+        }
+        console.log("User request is", `/api/yfinance/${requestTicker}/info`)
+        fetch(`/api/yfinance/${requestTicker}/info`)
+            .then((response) => response.json())
+            .then((data) => {
 
-        //         console.log("Client: Received stock data", data);
+                console.log("Client: Received stock data", data);
 
-        //         // If returned object is empty
-        //         if (data['empty']) {
-        //             alert("Invalid stock ticker")
-        //         } else {
+                // If returned object is empty
+                if (data['empty']) {
+                    alert("Invalid stock ticker")
+                } else {
 
-        //             setStockData(cleanStockData(data));
-        //             console.log(stockData)
-        //         }
-        //     })
+                    setStockData(cleanStockData(data));
+                    console.log(cleanStockData(data))
+                }
+            })
+        setConfirmButton(true)
 
-            console.log(cleanStockData(Tesla))
-            setStockData(cleanStockData(Tesla))
+        // console.log(cleanStockData(Tesla))
+        // setStockData(cleanStockData(Tesla))
     
     }
 
@@ -127,55 +133,58 @@ function SellPage() {
 
     return (
         <div>
-            <h2>Sell</h2>
-            <Form>
+            <Form style={{marginBottom: "1em"}}>
                 <Form.Group controlId="formBasicEmail">
+                    <h2>Buy</h2>
+
                     {/* <Form.Label></Form.Label> */}
                     <Form.Control
                         type="text"
                         placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
-                        onChange={(e) => setRequestTicker(e.target.value)} />
+                        onChange={(e) => { setConfirmButton(false); setStockData({empty:true}); setRequestTicker(e.target.value)}} />
                     <Form.Text className="text-muted">
                     </Form.Text>
                 </Form.Group>
-                <ButtonGroup>
-                    <Button
+                <Button
                         variant="info"
                         // type="submit"
                         onClick={getQuote}>
                         Request Quote
                 </Button>
-                </ButtonGroup>
             </Form>
-
 
             { stockData['empty'] ?
                 '' :
-                // stockData['description']
-                <Form>
+                <div>
+                 <Form style={{marginBottom: "1em"}}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Buy shares</Form.Label>
+                        <Form.Label>Sell shares</Form.Label>
                         <Form.Control
                             type="number"
                             placeholder="Number of shares"
-                            onChange={(e) => setNumShares(parseInt(e.target.value))} />
+                            onChange={(e) => {setConfirmButton(true); setNumShares(parseInt(e.target.value))} } />
                         <Form.Text className="text-muted">
                         </Form.Text>
                     </Form.Group>
                     <ButtonGroup>
+                    { confirmButton ? 
                         <Button
                             variant="success"
                             // type="success"
                             onClick={sellShares}>
-                            Sell
+                            Confirm Sell
+
                 </Button>
+
+                        : ""
+                    }
                     </ButtonGroup>
                 </Form>
 
-            }
+                <StockQuote data={stockData} />
 
-
-
+                </div>
+                }
         </div>
     );
 }

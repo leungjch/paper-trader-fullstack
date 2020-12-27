@@ -14,6 +14,7 @@ function BuyPage() {
     const [requestTicker, setRequestTicker] = useState("")
     const [numShares, setNumShares] = useState(0);
     const [stockData, setStockData] = useState({ empty: true })
+    const [confirmButton, setConfirmButton] = useState(false)
 
     const { user } = useContext(UserContext);
 
@@ -37,6 +38,7 @@ function BuyPage() {
                     console.log(cleanStockData(data))
                 }
             })
+        setConfirmButton(true)
         // console.log(cleanStockData(Tesla))
         // setStockData(cleanStockData(Tesla))
     }
@@ -90,7 +92,7 @@ function BuyPage() {
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: numShares, current_price: price, current_total: price * (numShares) })
+                                    body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: numShares, current_price: price, current_total: price * (numShares), sector: stockData['sector'], marketCap: stockData['marketCap'] })
                                 })
                             } else {
                                 // Perform UPDATE into portfolio DB
@@ -134,7 +136,7 @@ function BuyPage() {
                     <Form.Control
                         type="text"
                         placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
-                        onChange={(e) => setRequestTicker(e.target.value)} />
+                        onChange={(e) => { setConfirmButton(false); setStockData({empty:true}); setRequestTicker(e.target.value)}} />
                     <Form.Text className="text-muted">
                     </Form.Text>
                 </Form.Group>
@@ -146,7 +148,6 @@ function BuyPage() {
                 </Button>
             </Form>
 
-
             { stockData['empty'] ?
                 '' :
                 <div>
@@ -156,18 +157,22 @@ function BuyPage() {
                         <Form.Control
                             type="number"
                             placeholder="Number of shares"
-                            onChange={(e) => setNumShares(parseInt(e.target.value))} />
+                            onChange={(e) => {setConfirmButton(true); setNumShares(parseInt(e.target.value))} } />
                         <Form.Text className="text-muted">
                         </Form.Text>
                     </Form.Group>
                     <ButtonGroup>
-
+                    { confirmButton ? 
                         <Button
                             variant="success"
                             // type="success"
                             onClick={buyShares}>
                             Confirm Buy
+
                 </Button>
+
+                        : ""
+                    }
                     </ButtonGroup>
                 </Form>
 
