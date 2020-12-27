@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
+import BarChart from "../components/BarChart"
 import { UserContext, UserProvider } from '../UserContext';
 import formatNumber from '../helper-functions/formatNumber'
 
@@ -26,6 +27,8 @@ function PortfolioPage() {
                 setPortfolioData(data);
             })
 
+        
+
         // Also get the amount of cash that user currently has
         fetch('/api/users/' + user.name)
             .then((response) => response.json())
@@ -40,7 +43,9 @@ function PortfolioPage() {
             <tr key={index}>
                 <td>{item.ticker}</td>
                 <td>{item.n_holding}</td>
+                <td>${item.buy_price}</td>
                 <td>${item.current_price}</td>
+                <td>{(100*(item.current_price-item.buy_price)/item.buy_price).toFixed(2)}%</td>
                 <td>${item.current_total}</td>
                 <td>{item.sector}</td>
                 <td>${item.marketcap}</td>
@@ -53,6 +58,9 @@ function PortfolioPage() {
         // Fetch portfolio data
         getPortfolio()
 
+        // Fetch trades statistics
+
+        // 
     }, [cash]);
 
     return (
@@ -64,7 +72,9 @@ function PortfolioPage() {
                     <tr>
                         <th>Ticker</th>
                         <th>Number of shares</th>
+                        <th>Average buy-in price</th>
                         <th>Current price</th>
+                        <th>Percentage change</th>
                         <th>Total value</th>
                         <th>Sector</th>
                         <th>Market cap</th>
@@ -74,7 +84,11 @@ function PortfolioPage() {
                     {portfolioData.map(renderPortfolioRow)}
                 </tbody>
             </Table>
+
+            <BarChart data={[1,2,3,4,5]} width={500} height={100} />
         </div>
+
+
     );
 }
 

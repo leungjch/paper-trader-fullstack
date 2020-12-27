@@ -85,7 +85,7 @@ function SellPage() {
                     // Case 1: User is selling some (not all) of their shares
                     if (numShares < nHolding) {
                         // UPDATE entry to fewer shares
-                        fetch(`/api/portfolio/${user.id}/${stockData['ticker']}`, {
+                        fetch(`/api/portfolio/sell/${user.id}/${stockData['ticker']}`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',

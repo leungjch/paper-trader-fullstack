@@ -23,6 +23,7 @@ CREATE TABLE portfolio (
     user_id INTEGER,
 	ticker TEXT, 
     n_holding INTEGER,
+    buy_price NUMERIC(1000,2),
     current_price NUMERIC(1000,2),
     current_total NUMERIC(1000,2),
     sector TEXT,
@@ -53,11 +54,11 @@ VALUES ('Guest', 'hunter2', 500000);
 
 -- Add some random trades
 -- Portfolio
-INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total, sector, marketCap) 
+INSERT INTO portfolio (user_id, ticker, n_holding, buy_price, current_price, current_total, sector, marketCap) 
 VALUES
-    (1, 'TSLA', 50, 420, 500*50, 'Consumer Cyclical', 627292438528),
-    (1, 'V', 10, 11, 11*10, 'Financial Services', 460060393472),
-    (1, 'MRNA', 100, 12, 100*12, 'Healthcare', 48826658816);
+    (1, 'TSLA', 50, 100, 420, 500*50, 'Consumer Cyclical', 627292438528),
+    (1, 'V', 10, 9.48, 11, 11*10, 'Financial Services', 460060393472),
+    (1, 'MRNA', 100, 10.59, 12, 100*12, 'Healthcare', 48826658816);
 
 -- Trade history
 INSERT INTO trade_history (user_id, ticker, trade_type, trade_n, price, date)

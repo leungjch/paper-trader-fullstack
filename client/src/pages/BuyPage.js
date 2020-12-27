@@ -75,12 +75,13 @@ function BuyPage() {
                         .then((data) => {
                             // Loop through portfolio and check if stock already exists
                             let isNewEntry = true;
-                            let alreadyN = 0;
+                            let oldStock = {n_holding: 0, price: 0, current_total:0, buy_price:0}; 
                             data.forEach(function (value, index) {
                                 if (value['ticker'] == stockData['ticker']) {
-                                    console.log("Updating value")
+                                    console.log("Updating value", value)
                                     isNewEntry = false;
-                                    alreadyN = value['n_holding']
+                                    oldStock = value
+                                    
                                 }
                             })
                             console.log("Isnewentry: ", isNewEntry)
@@ -92,16 +93,21 @@ function BuyPage() {
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: numShares, current_price: price, current_total: price * (numShares), sector: stockData['sector'], marketCap: stockData['marketCap'] })
+                                    body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], buy_price: price, n_holding: numShares, current_price: price, current_total: price * (numShares), sector: stockData['sector'], marketCap: stockData['marketCap'] })
                                 })
                             } else {
-                                // Perform UPDATE into portfolio DB
-                                fetch(`/api/portfolio/${user.id}`, {
+                                let avgPrice = (parseFloat(oldStock['current_total']) + stockData['price']*numShares)/(parseInt(oldStock['n_holding']) + numShares)
+                                let newTotal = price * numShares + parseFloat(oldStock['current_total'])
+
+                                console.log("UPDATNG", numShares + oldStock['n_holding'])
+                                console.log("DUPATING", avgPrice)
+                                  // Perform UPDATE into portfolio DB
+                                fetch(`/api/portfolio/${user.id}/${stockData['ticker']}`, {
                                     method: 'PUT',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ n_holding: numShares + alreadyN, current_price: price, current_total: price * (numShares + alreadyN), user_id: user.id, ticker: stockData['ticker'] })
+                                    body: JSON.stringify({ n_holding: numShares + parseInt(oldStock['n_holding']), buy_price: avgPrice, current_price: price, current_total: newTotal, user_id: user.id, ticker: stockData['ticker'] })
                                 })
                             }
                         });

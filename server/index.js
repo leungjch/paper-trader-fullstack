@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getYFinance, updatePortfolioByStock, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById} = require('./rest-crud-queries');
+const { getYFinance, updatePortfolioByStock, sellPortfolioByStock, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -29,6 +29,7 @@ app.get('/api/portfolio/:id', getPortfolioById);
 app.get('/api/portfolio/:id/:stock', getPortfolioByStock)
 app.post('/api/portfolio/:id', addToPortfolioById);
 app.put('/api/portfolio/:id/:stock', updatePortfolioByStock);
+app.put('/api/portfolio/sell/:id/:stock', sellPortfolioByStock);
 app.delete('/api/portfolio/:id/:stock', deleteFromPortfolioById)
 
 // History APIs

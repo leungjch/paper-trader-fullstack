@@ -155,8 +155,8 @@ const getPortfolioByStock = (request, response) => {
 }
 
 const addToPortfolioById = (request, response) => {
-    const { user_id, ticker, n_holding, current_price, current_total } = request.body
-    pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total) VALUES($1, $2, $3, $4, $5)",
+    const { user_id, ticker, n_holding, current_price, current_total, buy_price } = request.body
+    pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total, buy_price) VALUES($1, $2, $3, $4, $5, $6)",
         [user_id, ticker, n_holding, current_price, current_total],
         (error) => {
             if (error) {
@@ -182,6 +182,20 @@ const deleteFromPortfolioById = (request, response) => {
 }
 
 const updatePortfolioByStock = (request, response) => {
+    const { user_id, ticker, n_holding, current_price, current_total, buy_price } = request.body;
+
+    pool.query("UPDATE portfolio SET n_holding = $3, current_price = $4, current_total = $5, buy_price = $6 WHERE user_id = $1 AND ticker = $2",
+        [user_id, ticker, n_holding, current_price, current_total, buy_price],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: `Updated portfolio for UserID ${user_id}.` })
+        }
+    )
+}
+
+const sellPortfolioByStock = (request, response) => {
     const { user_id, ticker, n_holding, current_price, current_total } = request.body;
 
     pool.query("UPDATE portfolio SET n_holding = $3, current_price = $4, current_total = $5 WHERE user_id = $1 AND ticker = $2",
@@ -304,6 +318,7 @@ module.exports = {
     getPortfolioByStock,
     addToPortfolioById,
     updatePortfolioByStock,
+    sellPortfolioByStock,
 
     deleteFromPortfolioById,
 
