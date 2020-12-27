@@ -155,9 +155,9 @@ const getPortfolioByStock = (request, response) => {
 }
 
 const addToPortfolioById = (request, response) => {
-    const { user_id, ticker, n_holding, current_price, current_total, buy_price } = request.body
-    pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total, buy_price) VALUES($1, $2, $3, $4, $5, $6)",
-        [user_id, ticker, n_holding, current_price, current_total],
+    const { user_id, ticker, n_holding, current_price, current_total, buy_price, sector, marketCap } = request.body
+    pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total, buy_price, sector, marketCap) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+        [user_id, ticker, n_holding, current_price, current_total, buy_price, sector, marketCap],
         (error) => {
             if (error) {
                 throw error

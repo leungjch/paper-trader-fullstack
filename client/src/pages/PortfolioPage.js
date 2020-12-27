@@ -85,7 +85,7 @@ function PortfolioPage() {
                 </tbody>
             </Table>
 
-            <BarChart data={[1,2,3,4,5]} width={500} height={100} />
+            <BarChart data={portfolioData} width={500} height={100} />
         </div>
 
 
