@@ -129,6 +129,19 @@ const addToPortfolioById = (request, response) => {
     )
 }
 
+const removeFromPortfolioById = (request, response) => {
+    const { user_id, ticker, n_holding, current_price, current_total } = request.body
+    pool.query("DELETE FROM portfolio WHERE user_id = $1 AND ticker = $2",
+        [user_id, ticker, n_holding],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: `Sold all shares of ${ticker}$ from portfolio.` })
+        }
+    )
+}
+
 const updatePortfolioById = (request, response) => {
     const { user_id, cash } = request.body
     pool.query("UPDATE users SET cash = $2 WHERE user_id = $1",
@@ -230,5 +243,6 @@ module.exports = {
     getHistoryById,
     addHistory,
 
-    getStockInfo
+    getStockInfo,
+    removeFromPortfolioById
 }

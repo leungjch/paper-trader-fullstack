@@ -84,8 +84,6 @@ function BuyPage() {
                                     },
                                     body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: numShares, current_price: price, current_total: price * (numShares) })
                                 })
-
-
                             } else {
                                 // Perform UPDATE into portfolio DB
                                 fetch(`/api/portfolio/${user.id}`, {
