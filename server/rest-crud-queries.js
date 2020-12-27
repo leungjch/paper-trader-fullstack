@@ -87,6 +87,11 @@ const addUsers = (request, response) => {
         }
     )
 }
+
+const updateUserCash = (request, response) => {
+    
+}
+
 // ----------------------------------------------------------------------------
 // Portfolio API
 const getPortfolios = (request, response) => {
@@ -100,15 +105,41 @@ const getPortfolios = (request, response) => {
 }
 
 const getPortfolioById = (request, response) => {
-    const username = request.params.id
-    console.log(username)
+    const id = request.params.id
+    console.log(id)
     pool.query('SELECT * FROM portfolio WHERE user_id = $1',
-        [username], (error, results) => {
+        [id], (error, results) => {
             if (error) {
                 throw error
             }
             response.status(200).json(results.rows)
         })
+}
+
+const addToPortfolioById = (request, response) => {
+    const { user_id, ticker, n_holding, current_price, current_total } = request.body
+    pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total) VALUES($1, $2, $3, $4, $5)",
+        [user_id, ticker, n_holding, current_price, current_total],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: `Bought ${n_holding}$ shares of ${ticker}$ to portfolio.` })
+        }
+    )
+}
+
+const updatePortfolioById = (request, response) => {
+    const { user_id, cash } = request.body
+    pool.query("UPDATE users SET cash = $2 WHERE user_id = $1",
+        [user_id, cash],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: `Updated cash to ${cash} for UserID ${user_id}.` })
+        }
+    )
 }
 
 // ----------------------------------------------------------------------------
@@ -129,7 +160,7 @@ const addHistory = (request, response) => {
     console.log("Server: Received addHistory data as", request.body)
 
     const { user_id, ticker, trade_type, trade_n, price, date } = request.body
-    pool.query("INSERT INTO users (username, hash_password, cash) VALUES($1, $2, $3, $4, $5, $6)",
+    pool.query("INSERT INTO trade_history (user_id, ticker, trade_type, trade_n, price, date) VALUES($1, $2, $3, $4, $5, $6)",
         [user_id, ticker, trade_type, trade_n, price, date],
         (error) => {
             if (error) {
@@ -183,7 +214,6 @@ const getStockInfo = (request, response) => {
     });
     
     req.end();
-
 }
 
 
@@ -194,6 +224,8 @@ module.exports = {
 
     getPortfolios,
     getPortfolioById,
+    addToPortfolioById,
+    updatePortfolioById,
 
     getHistoryById,
     addHistory,

@@ -38,8 +38,6 @@ CREATE TABLE trade_history (
     date TIMESTAMP
 );
 
-
-
 -- Initialize guest user
 INSERT INTO users (username, hash_password, cash)
 VALUES ('Guest', 'hunter2', 500000);

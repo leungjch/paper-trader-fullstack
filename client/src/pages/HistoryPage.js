@@ -25,7 +25,7 @@ function HistoryPage() {
             <td>{item.ticker}</td>
             <td>{item.trade_type}</td>
             <td>{item.trade_n}</td>
-            <td>{item.price}</td>
+            <td>${item.price}</td>
             <td>{item.date}</td>
           </tr>
         )

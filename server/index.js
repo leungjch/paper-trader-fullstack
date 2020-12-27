@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory} = require('./rest-crud-queries');
+const { getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, updatePortfolioById} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -25,6 +25,8 @@ app.post('/api/users', addUsers);
 // Portfolio APIs
 app.get('/api/portfolio', getPortfolios);
 app.get('/api/portfolio/:id', getPortfolioById);
+app.post('/api/portfolio/:id', addToPortfolioById);
+app.put('/api/portfolio/:id', updatePortfolioById);
 
 // History APIs
 app.get('/api/history/:id', getHistoryById);
