@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, updatePortfolioById} = require('./rest-crud-queries');
+const { updatePortfolioByStock, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -21,12 +21,15 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/api/users', getUsers);
 app.get('/api/users/:id', getUserByName);
 app.post('/api/users', addUsers);
+app.put('/api/users/:id/:addCash', addCashById)
 
 // Portfolio APIs
 app.get('/api/portfolio', getPortfolios);
 app.get('/api/portfolio/:id', getPortfolioById);
+app.get('/api/portfolio/:id/:stock', getPortfolioByStock)
 app.post('/api/portfolio/:id', addToPortfolioById);
-app.put('/api/portfolio/:id', updatePortfolioById);
+app.put('/api/portfolio/:id/:stock', updatePortfolioByStock);
+app.delete('/api/portfolio/:id/:stock', deleteFromPortfolioById)
 
 // History APIs
 app.get('/api/history/:id', getHistoryById);
@@ -38,5 +41,4 @@ app.get('/api/search/:ticker', getStockInfo)
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);
-  
 });

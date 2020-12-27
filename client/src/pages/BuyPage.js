@@ -97,14 +97,14 @@ function BuyPage() {
                         });
 
                     // Update user cash
-                    let cashRemaining = cash - numShares * price
+                    let subtractCash = - (numShares * price)
                     // Perform update into user DB
-                    fetch(`/api/users/${user.id}`, {
+                    fetch(`/api/users/${user.id}/${subtractCash}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ user_id: user.id, cash: cashRemaining })
+                        body: JSON.stringify({ user_id: user.id, cash: subtractCash })
                     });
                 }
             }
@@ -115,7 +115,9 @@ function BuyPage() {
         <div>
             <Form>
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Username</Form.Label>
+                    <h2>Buy</h2>
+
+                    {/* <Form.Label></Form.Label> */}
                     <Form.Control
                         type="text"
                         placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
@@ -132,7 +134,6 @@ function BuyPage() {
                 </Button>
                 </ButtonGroup>
             </Form>
-
 
             { stockData['empty'] ?
                 '' :
@@ -156,8 +157,6 @@ function BuyPage() {
                 </Button>
                     </ButtonGroup>
                 </Form>
-
-
             }
 
         </div>

@@ -88,8 +88,31 @@ const addUsers = (request, response) => {
     )
 }
 
-const updateUserCash = (request, response) => {
-    
+// const updateCashById = (request, response) => {
+//     const { user_id, cash } = request.body
+//     pool.query("UPDATE users SET cash = $2 WHERE user_id = $1",
+//         [user_id, cash],
+//         (error) => {
+//             if (error) {
+//                 throw error
+//             }
+//             response.status(201).json({ status: 'success', message: `Updated cash to ${cash} for UserID ${user_id}.` })
+//         }
+//     )
+// }
+
+const addCashById = (request, response) => {
+    const id = request.params.id
+    const addCash = request.params.addCash
+    pool.query("UPDATE users SET cash = cash + $2 WHERE id = $1",
+        [id, addCash],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            response.status(201).json({ status: 'success', message: `Added cash to ${addCash} for UserID ${id}.` })
+        }
+    )
 }
 
 // ----------------------------------------------------------------------------
@@ -116,6 +139,19 @@ const getPortfolioById = (request, response) => {
         })
 }
 
+const getPortfolioByStock = (request, response) => {
+    const id = request.params.id
+    const stock = request.params.stock
+    console.log(id)
+    pool.query('SELECT * FROM portfolio WHERE user_id = $1 AND ticker = $2',
+        [id, stock], (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(200).json(results.rows)
+        })
+}
+
 const addToPortfolioById = (request, response) => {
     const { user_id, ticker, n_holding, current_price, current_total } = request.body
     pool.query("INSERT INTO portfolio (user_id, ticker, n_holding, current_price, current_total) VALUES($1, $2, $3, $4, $5)",
@@ -129,28 +165,30 @@ const addToPortfolioById = (request, response) => {
     )
 }
 
-const removeFromPortfolioById = (request, response) => {
-    const { user_id, ticker, n_holding, current_price, current_total } = request.body
+const deleteFromPortfolioById = (request, response) => {
+    const user_id = request.params.id;
+    const stock = request.params.stock;
     pool.query("DELETE FROM portfolio WHERE user_id = $1 AND ticker = $2",
-        [user_id, ticker, n_holding],
+        [user_id, stock],
         (error) => {
             if (error) {
                 throw error
             }
-            response.status(201).json({ status: 'success', message: `Sold all shares of ${ticker}$ from portfolio.` })
+            response.status(201).json({ status: 'success', message: `Sold all shares of ${stock}$ from portfolio.` })
         }
     )
 }
 
-const updatePortfolioById = (request, response) => {
-    const { user_id, cash } = request.body
-    pool.query("UPDATE users SET cash = $2 WHERE user_id = $1",
-        [user_id, cash],
+const updatePortfolioByStock = (request, response) => {
+    const { user_id, ticker, n_holding, current_price, current_total } = request.body;
+
+    pool.query("UPDATE portfolio SET n_holding = $3, current_price = $4, current_total = $5 WHERE user_id = $1 AND ticker = $2",
+        [user_id, ticker, n_holding, current_price, current_total],
         (error) => {
             if (error) {
                 throw error
             }
-            response.status(201).json({ status: 'success', message: `Updated cash to ${cash} for UserID ${user_id}.` })
+            response.status(201).json({ status: 'success', message: `Updated portfolio for UserID ${user_id}.` })
         }
     )
 }
@@ -201,31 +239,31 @@ const getStockInfo = (request, response) => {
             "useQueryString": true
         }
     };
-    
+
     const req = http.request(options, function (res) {
         const chunks = [];
-    
+
         res.on("error", function () {
             console.log("Server error")
-            response.status(200).json({empty: true})
+            response.status(200).json({ empty: true })
         }).on("data", function (chunk) {
             chunks.push(chunk);
         }).on("end", function () {
             const body = Buffer.concat(chunks);
-            
+
             if (body.length !== 0) {
                 // Success
                 const data = JSON.parse(body)
-                response.status(200).json(data)    
+                response.status(200).json(data)
             } else {
                 // Stock not found
-                response.status(200).json({empty: true})
+                response.status(200).json({ empty: true })
             }
 
 
         });
     });
-    
+
     req.end();
 }
 
@@ -234,15 +272,19 @@ module.exports = {
     getUsers,
     getUserByName,
     addUsers,
+    addCashById,
 
     getPortfolios,
     getPortfolioById,
+    getPortfolioByStock,
     addToPortfolioById,
-    updatePortfolioById,
+    updatePortfolioByStock,
+
+    deleteFromPortfolioById,
 
     getHistoryById,
     addHistory,
 
     getStockInfo,
-    removeFromPortfolioById
+
 }

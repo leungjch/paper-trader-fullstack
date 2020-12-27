@@ -14,13 +14,11 @@ import { LoginPage } from './pages/LoginPage'
 import { PortfolioPage } from './pages/PortfolioPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { BuyPage } from './pages/BuyPage'
+import { SellPage } from './pages/SellPage'
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-
 export default function App() {
-
-
 
   const { user } = useContext(UserContext);
   console.log("User auth from app.js", user)
@@ -61,11 +59,6 @@ export default function App() {
         </div>
       </Router>
     </UserProvider>
-
   );
-}
-
-function SellPage() {
-  return <h2>Sell</h2>;
 }
 
