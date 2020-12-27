@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { UserContext, UserProvider } from '../UserContext';
+import formatNumber from '../helper-functions/formatNumber'
 
 function PortfolioPage() {
 
     const [username, setUsername] = useState("")
     const [userId, setUserId] = useState("")
+    const [cash, setCash] = useState("")
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
 
     const { user } = useContext(UserContext);
-
+// https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
 
     // Fetch portfolio data for user from DB
     function getPortfolio() {
@@ -22,6 +24,14 @@ function PortfolioPage() {
                 console.log("Client: Loaded portfolio data", data);
                 console.log("User info is, ", user)
                 setPortfolioData(data);
+            })
+
+        // Also get the amount of cash that user currently has
+        fetch('/api/users/' + user.name)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('data is', data)
+                setCash(data[0].cash);
             })
     }
 
@@ -39,11 +49,13 @@ function PortfolioPage() {
     useEffect(() => {
         // Fetch portfolio data
         getPortfolio()
-    }, []);
+
+    }, [cash]);
 
     return (
         <div>
             <h2> Your Portfolio </h2>
+            <h3> Available Cash: ${formatNumber(cash)} </h3>
             <Table striped hover>
                 <thead>
                     <tr>

@@ -3,6 +3,7 @@ import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { UserContext, UserProvider } from '../UserContext';
 import Tesla from './TSLA.js'
 import cleanStockData from "../helper-functions/cleanStockData"
+import { useNavigate, useLocation } from "react-router-dom";
 
 function SellPage() {
 
@@ -12,23 +13,30 @@ function SellPage() {
 
     const { user } = useContext(UserContext);
 
+    const navigate = useNavigate();
+
+    
     function getQuote() {
-        console.log("User request is", "/api/search/" + requestTicker)
-        fetch('/api/search/' + requestTicker)
-            .then((response) => response.json())
-            .then((data) => {
+        // console.log("User request is", "/api/search/" + requestTicker)
+        // fetch('/api/search/' + requestTicker)
+        //     .then((response) => response.json())
+        //     .then((data) => {
 
-                console.log("Client: Received stock data", data);
+        //         console.log("Client: Received stock data", data);
 
-                // If returned object is empty
-                if (data['empty']) {
-                    alert("Invalid stock ticker")
-                } else {
+        //         // If returned object is empty
+        //         if (data['empty']) {
+        //             alert("Invalid stock ticker")
+        //         } else {
 
-                    setStockData(cleanStockData(data));
-                    console.log(stockData)
-                }
-            })
+        //             setStockData(cleanStockData(data));
+        //             console.log(stockData)
+        //         }
+        //     })
+
+            console.log(cleanStockData(Tesla))
+            setStockData(cleanStockData(Tesla))
+    
     }
 
     function sellShares() {
@@ -39,24 +47,24 @@ function SellPage() {
             .then((data) => {
 
                 const userData = data[0]
-
+                console.log(data)
 
                 // If stock not found, throw error
                 if (data.length == 0) {
                     alert("Stock not in portfolio")
 
-                // Else user is selling more shares than they have, return error
+                    // Else user is selling more shares than they have, return error
                 } else if (userData['n_holding'] < numShares) {
                     alert("Insufficient shares")
 
-                // Else, enter into DB
+                    // Else, enter into DB
                 } else {
                     const userData = data[0]
                     const price = stockData['price']['raw']
 
                     // Number of shares currently held
                     const nHolding = userData['n_holding'];
-                    
+
                     // Add to History: 
                     // ADD new entry of trade
                     fetch('/api/history', {
@@ -76,10 +84,10 @@ function SellPage() {
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: nHolding - numShares, current_price: price, current_total: price * (nHolding - numShares)})
+                            body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], n_holding: nHolding - numShares, current_price: price, current_total: price * (nHolding - numShares) })
                         })
-                    
-                    // Case 2: User is selling ALL of their shares
+
+                        // Case 2: User is selling ALL of their shares
                     } else if (numShares == nHolding) {
                         // DELETE entry from portfolio (sell all)
                         fetch(`/api/portfolio/${user.id}/${requestTicker}`, {
@@ -92,7 +100,7 @@ function SellPage() {
 
                     }
                     // Case 3: Unexpected behaviour (we already covered this case before)
-                      else {
+                    else {
                         alert("Unexpected behaviour")
                     }
 
@@ -110,7 +118,12 @@ function SellPage() {
                 }
             }
 
-            ) }
+            ).then(// Redirect back to portfolio
+                navigate("/portfolio"))
+
+
+
+    }
 
     return (
         <div>
@@ -160,6 +173,8 @@ function SellPage() {
                 </Form>
 
             }
+
+
 
         </div>
     );

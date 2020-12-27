@@ -70,7 +70,8 @@ function LoginPage() {
   }
 
   return (
-    <div className="LoginPage">
+
+    <div className="LoginPage" style = {{ alignItems: 'center', justifyContent:'center', margin: 'auto', width: "50%"}}>
       <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
@@ -94,7 +95,7 @@ function LoginPage() {
           variant="primary"
           // type="submit"
           onClick = {verifyUser}>
-            Submit
+            Sign In
        </Button>
           <Button 
           variant="info"

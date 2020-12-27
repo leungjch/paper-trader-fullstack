@@ -3,8 +3,13 @@ import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { UserContext, UserProvider } from '../UserContext';
 import Tesla from './TSLA.js'
 import cleanStockData from "../helper-functions/cleanStockData"
+import StockQuote from "../components/StockQuote"
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 function BuyPage() {
+
+    const navigate = useNavigate();
 
     const [requestTicker, setRequestTicker] = useState("")
     const [numShares, setNumShares] = useState(0);
@@ -13,6 +18,9 @@ function BuyPage() {
     const { user } = useContext(UserContext);
 
     function getQuote() {
+        if (requestTicker === "") {
+            return 
+        }
         console.log("User request is", "/api/search/" + requestTicker)
         fetch('/api/search/' + requestTicker)
             .then((response) => response.json())
@@ -109,11 +117,16 @@ function BuyPage() {
                 }
             }
 
-            ) }
+
+            ).then(// Redirect back to portfolio
+                navigate("/portfolio"))
+            
+
+        }
 
     return (
         <div>
-            <Form>
+            <Form style={{marginBottom: "1em"}}>
                 <Form.Group controlId="formBasicEmail">
                     <h2>Buy</h2>
 
@@ -125,20 +138,19 @@ function BuyPage() {
                     <Form.Text className="text-muted">
                     </Form.Text>
                 </Form.Group>
-                <ButtonGroup>
-                    <Button
+                <Button
                         variant="info"
                         // type="submit"
                         onClick={getQuote}>
                         Request Quote
                 </Button>
-                </ButtonGroup>
             </Form>
+
 
             { stockData['empty'] ?
                 '' :
-                // stockData['description']
-                <Form>
+                <div>
+                 <Form style={{marginBottom: "1em"}}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Buy shares</Form.Label>
                         <Form.Control
@@ -149,16 +161,21 @@ function BuyPage() {
                         </Form.Text>
                     </Form.Group>
                     <ButtonGroup>
+
                         <Button
                             variant="success"
                             // type="success"
                             onClick={buyShares}>
-                            Buy
+                            Confirm Buy
                 </Button>
                     </ButtonGroup>
                 </Form>
-            }
 
+                <StockQuote data={stockData} />
+
+                </div>
+                }
+            
         </div>
     );
 }

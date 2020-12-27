@@ -6,6 +6,8 @@
 -- To reset database, run
 -- heroku pg:reset --confirm leungjch-paper-trader
 
+-- Note: we use NUMERIC(1000,2) since PSQL gives a maximum of 1000 digits. We only want to round off to the first two decimals.
+
 -- Users
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -13,7 +15,7 @@ CREATE TABLE users (
     hash_password TEXT,
 
     -- hash_password BYTEA,
-    cash NUMERIC
+    cash NUMERIC(1000,2)
 );
 
 -- Current portfolio
@@ -21,8 +23,8 @@ CREATE TABLE portfolio (
     user_id INTEGER,
 	ticker TEXT, 
     n_holding INTEGER,
-    current_price NUMERIC,
-    current_total NUMERIC
+    current_price NUMERIC(1000,2),
+    current_total NUMERIC(1000,2)
     -- sector TEXT,
     -- size TEXT
 );
@@ -34,7 +36,7 @@ CREATE TABLE trade_history (
 	ticker TEXT,
 	trade_type TEXT, 
     trade_n INTEGER,
-    price NUMERIC,
+    price NUMERIC(1000,2),
     date TIMESTAMP
 );
 
