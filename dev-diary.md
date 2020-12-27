@@ -33,3 +33,9 @@ I've played around a bit with the RapidAPI Yahoo Finance API. I created a helper
 I've implemented the full functionalities for buying and selling stocks. Now, I need to start thinking more carefully about the data APIs that I'm using, because I found out that the one I'm using has significant limits. I also have one last functionality to implement for the database: live updates of the portfolio worth in order to generate the time-series graph of the portfolio. This feature is going to be quite challenging - I will need to request an API to fetch the price of each stock that the user is holding, for every user in the database (for simplicity, let's work with the one Guest user for now). I'm thinking of using **Yahoo Finance Low-Latency (100 requests / day)** for obtaining detailed stock information, and **IEX cloud (50,000 requests / month)** for obtaining regular live price updates. 
 
 After I implement this last major feature, the focus will finally shift to the front end. I will have to start to pick up D3.js and think about the portfolio dashboard visualization. I'm also thinking of showing a graph beside the buy/sell pages, which should come with the API call that I make. 
+
+
+## Dec 27 2020
+The RapidAPI was really frustrating me - I didn't like the small API request limit. Instead, I looked at the `yfinance` python package. I wrote a little script (`get-yfinance-stock-data.py`) to fetch use the package to retrieve the stock data. It should also provide some time series data which would be useful. I'm thinking of switching over to IEX or Alpaca for the regular price quotes. 
+
+I'm making progress on the frontend, but for now I need to make sure that the yfinance Python works properly with Heroku. 
