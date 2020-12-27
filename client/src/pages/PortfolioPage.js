@@ -50,7 +50,7 @@ function PortfolioPage() {
         // Fetch portfolio data
         getPortfolio()
 
-    }, [cash]);
+    }, [portfolioData, cash]);
 
     return (
         <div>
