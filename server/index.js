@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getYFinance, clearPortfolioValueHistory, getPortfolioHistoryBackforecast, addPortfolioWorthEntry, updatePortfolioByStock, sellPortfolioByStock, getPortfolioVoid, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById, getUsersVoid, updatePriceInPortfolio} = require('./rest-crud-queries');
+const { getYFinance, getPortfolioValueHistory, clearPortfolioValueHistory, getPortfolioHistoryBackforecast, addPortfolioWorthEntry, updatePortfolioByStock, sellPortfolioByStock, getPortfolioVoid, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById, getUsersVoid, updatePriceInPortfolio} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -42,10 +42,13 @@ app.get('/api/search/:ticker', getStockInfo)
 // Yfinance API
 app.get('/api/yfinance/:stock/:type', getYFinance)
 
+app.get('/api/portfolioValueHistory/:id', getPortfolioValueHistory)
+
+
 
 // Update portfolio prices every 15 minutes
 // Back-forecast portfolio values
-setInterval(async function() {
+async function updatePortfolioEverything() {
   var userList =  await getUsersVoid();
   await clearPortfolioValueHistory(); // Clear history to fetch new 30-day back-forecast
   console.log(userList)
@@ -58,7 +61,9 @@ setInterval(async function() {
     await getPortfolioHistoryBackforecast(user, portfolio);
 
   }
-}, 30000);  // update every 15 minutes
+}
+updatePortfolioEverything();
+setInterval(updatePortfolioEverything, 30000);  // update every 15 minutes
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

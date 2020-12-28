@@ -17,6 +17,8 @@ function PortfolioPage() {
     const [portfolioData, setPortfolioData] = useState([])
     const [portfolioStatistics, setPortfolioStatistics] = useState({mCapAggregate:[]})
 
+    const [portfolioHistory, setPortfolioHistory] = useState([])
+
     const { user } = useContext(UserContext);
 // https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
 
@@ -42,6 +44,13 @@ function PortfolioPage() {
                 setCash(data[0].cash);
             })
 
+        // Also get the portfolio value history
+        fetch('/api/portfolioValueHistory/' + user['id'])
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Portfoliovaluehistory is', data)
+                setPortfolioHistory(portfolioHistory);
+            })
 
         
     }

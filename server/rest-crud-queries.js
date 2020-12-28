@@ -374,15 +374,13 @@ const getYFinance = (request, response) => {
 
 const getPortfolioValueHistory = (request, response) => {
     const userId = request.params.id
-    console.log(username)
-    pool.query('SELECT * FROM portfoliovaluehistory ORDER BY tstamp WHERE user_id = $1',
+    pool.query('SELECT tstamp, networth FROM portfoliovaluehistory WHERE user_id = $1 ORDER BY tstamp',
         [userId], (error, results) => {
             if (error) {
                 throw error
             }
             response.status(200).json(results.rows)
         })
-
 }
 
 const addPortfolioWorthEntry = (user, portfolio) => {
@@ -488,8 +486,11 @@ module.exports = {
     sellPortfolioByStock,
     updatePriceInPortfolio,
     getPortfolioHistoryBackforecast,
+
+    getPortfolioValueHistory,
     clearPortfolioValueHistory,
 
+    
     addPortfolioWorthEntry,
 
     deleteFromPortfolioById,
