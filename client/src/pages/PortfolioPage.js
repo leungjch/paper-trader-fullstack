@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import BarChart from "../components/BarChart"
 import PieChart from "../components/PieChart"
+import AreaChart from "../components/AreaChart"
 
 import { UserContext, UserProvider } from '../UserContext';
 import formatNumber from '../helper-functions/formatNumber'
@@ -49,7 +50,7 @@ function PortfolioPage() {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Portfoliovaluehistory is', data)
-                setPortfolioHistory(portfolioHistory);
+                setPortfolioHistory(data);
             })
 
         
@@ -144,6 +145,7 @@ function PortfolioPage() {
 
             <BarChart data={portfolioData} width={500} height={100} />
             <PieChart data={portfolioStatistics['mCapAggregate']} />
+            <AreaChart data={portfolioHistory} />
         </div>
 
 

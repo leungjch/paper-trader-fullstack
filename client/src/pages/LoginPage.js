@@ -3,7 +3,6 @@ import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from '../UserContext';
 
-
 function LoginPage() {
   
   const { login } = useContext(UserContext);
