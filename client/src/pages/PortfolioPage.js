@@ -14,6 +14,7 @@ function PortfolioPage() {
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
+    const [portfolioStatistics, setPortfolioStatistics] = useState({})
 
     const { user } = useContext(UserContext);
 // https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
@@ -40,6 +41,7 @@ function PortfolioPage() {
             })
     }
 
+    
     function renderPortfolioRow(item, index) {
         return (
             <tr key={index}>
@@ -56,12 +58,44 @@ function PortfolioPage() {
         )
     }
 
+    // Large cap: 10B+
+    // Mid cap: 2-10B
+    // Small cap: 0.3-2B
+    // Micro cap: < 0.3B
+
+    // Tabulate stocks by market cap
+    function computeMarketCaps() {
+        let large = 0
+        let medium = 0
+        let small = 0
+        let micro = 0
+
+        for (var i = 0; i < portfolioData.length; i++) {
+            // Micro cap
+            if (portfolioData[i]['marketCap'] < 0.3e9) {
+                micro += 1
+
+            // Else Small cap
+            } else if (portfolioData[i]['marketCap'] < 2e9) {
+                small += 1
+            // Else medium cap
+            } else if (portfolioData[i]['marketCap'] < 10e9) {
+                medium += 1
+            // Else large cap
+            } else {
+                large += 1
+            }
+        }
+        return {micro: micro, small:small, medium:medium, large:large}
+    }
+
+
     useEffect(() => {
         // Fetch portfolio data
         getPortfolio()
 
         // Fetch trades statistics
-
+        console.log("Market caps are", computeMarketCaps())
         // 
     }, [cash]);
 
@@ -88,7 +122,7 @@ function PortfolioPage() {
             </Table>
 
             <BarChart data={portfolioData} width={500} height={100} />
-            <PieChart />
+            <PieChart data={portfolioData} />
         </div>
 
 

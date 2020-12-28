@@ -4,9 +4,9 @@ import * as d3 from 'd3';
 function PieChart(props) {
 
     // var data = props.data;
-    var width = 300
-    var height = 300
-    var margin = 10
+    var width = 500
+    var height = 500
+    var margin = 100
     var radius = Math.min(width, height) / 2 - margin
 
     const ref = useRef();
@@ -24,10 +24,10 @@ function PieChart(props) {
     useEffect(() => {
         d3.select(ref.current).selectAll("*").remove()
         drawChart();
-    }, []);
+    }, [props.data]);
 
     const drawChart = () => {
-        // let data = props.data
+        let data = props.data
 
         var svg = d3.select(ref.current)
         .attr('width', width)
@@ -37,7 +37,8 @@ function PieChart(props) {
             ',' + (height / 2) + ')');
 
         // Create dummy data
-        var data = [{sector:"A", val:1}, {sector:"B", val:4}]
+        // var data = [{ticker:"A", current_total:1}, {ticker:"B", current_total:4}]
+
         // set the color scale
         var color = d3.scaleOrdinal()
             .domain(["A", "B"])
@@ -46,7 +47,7 @@ function PieChart(props) {
         // Compute the position of each group on the pie:
         var pie = d3.pie()
             // .sort(null) // Do not sort group by size
-            .value(function (d) { console.log(d.val); return d.val; })
+            .value(function (d) { console.log(d.current_total); return d.current_total; })
         var data_ready = pie(data)
         console.log("data ready", data_ready)
         // The arc generator
@@ -56,8 +57,8 @@ function PieChart(props) {
 
         // Another arc that won't be drawn. Just for labels positioning
         var outerArc = d3.arc()
-            .innerRadius(radius * 0.9)
-            .outerRadius(radius * 0.9)
+            .innerRadius(radius * 1)
+            .outerRadius(radius * 1)
 
         // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
         svg
@@ -85,7 +86,7 @@ function PieChart(props) {
                 var posB = outerArc.centroid(d) // line break: we use the other arc generator that has been built only for that
                 var posC = outerArc.centroid(d); // Label position = almost the same as posB
                 var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-                posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+                posC[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
                 return [posA, posB, posC]
             })
 
@@ -95,7 +96,7 @@ function PieChart(props) {
             .data(data_ready)
             .enter()
             .append('text')
-            .text(function (d) { console.log("DATA", d); return d.data.sector })
+            .text(function (d) { console.log("DATA", d); return d.data.ticker })
             .attr('transform', function (d) {
                 var pos = outerArc.centroid(d);
                 var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2

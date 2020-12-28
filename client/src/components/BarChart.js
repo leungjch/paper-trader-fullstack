@@ -38,6 +38,7 @@ function BarChart(props) {
         .range([ 0, width ])
         .domain(data.map((s) => s.ticker))
         .padding(0.2);
+        
       svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x))
