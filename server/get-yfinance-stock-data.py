@@ -32,6 +32,9 @@ elif requestType == "timeseries":
 
     except ValueError:
         print("{empty:true}")
-   
 
+elif requestType == "bulkPrice":
+    tickers = sys.argv[1] 
+    for tick in tickers:
+        print("TICKER IS" tick)
 sys.stdout.flush()
