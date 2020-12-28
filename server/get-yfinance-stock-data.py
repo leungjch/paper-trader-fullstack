@@ -34,7 +34,12 @@ elif requestType == "timeseries":
         print("{empty:true}")
 
 elif requestType == "bulkPrice":
-    tickers = sys.argv[1] 
+    prices = []
+    # Decode json string into Python list
+    tickers = json.loads(sys.argv[1])
     for tick in tickers:
-        print("TICKER IS" tick)
+        # print("TICK IS", tick)
+        # Get price data
+         prices.append({"ticker": tick, "price": yf.Ticker(tick).info['regularMarketPrice']})
+    print(prices)
 sys.stdout.flush()

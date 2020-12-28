@@ -133,7 +133,7 @@ const addCashById = (request, response) => {
 // ----------------------------------------------------------------------------
 // Portfolio API
 const getPortfolios = (request, response) => {
-    pool.query('SELECT * FROM portfolio SORT BY current_total', (error, results) => {
+    pool.query('SELECT * FROM portfolio', (error, results) => {
         if (error) {
             throw error
         }
@@ -237,10 +237,11 @@ const sellPortfolioByStock = (request, response) => {
 // Given an array of tickers, update the prices
 const updatePriceInPortfolio = (userId, portfolio) => {
     var tickers = portfolio.map(e => e.ticker)
+    // console.log(tickers)
     var dataset = []
     
     // spawn new child process to call the python script
-    const python = spawn('python3', ['server/get-yfinance-stock-data.py', tickers, "bulkPrice"]);
+    const python = spawn('python3', ['server/get-yfinance-stock-data.py', JSON.stringify(tickers), "bulkPrice"]);
     // collect data from script
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
@@ -251,23 +252,25 @@ const updatePriceInPortfolio = (userId, portfolio) => {
         console.log(`child process close all stdio with code ${code}`);
         // send data to browser
         // response.send(dataset.join(""))
-        updatedPrices = dataset.join("")
-
+        updatedPrices = JSON.parse(dataset.join("").replace(/'/g, '"'))
+        console.log("UPDATED PRICES ARE", typeof(dataset.join("")))
+        for (let item of updatedPrices) {
+            console.log("Updating ", item['ticker'], " to ", item['price'])
         // Perform SQL query to update multiple rows at once
-        pool.query(`UPDATE portfolio p
-                    SET current_price = s.current_price
-                    FROM unnest($1) s (current_price NUMERIC(1000,2), ticker TEXT)
-                    WHERE p.user_id = $2 AND p.ticker = s.ticker`
-                    [updatedPrices, userId],
+        pool.query(`UPDATE portfolio SET current_price = $1 WHERE user_id = $2 AND ticker = $3`,
+                    [item['price'], userId, item['ticker']],
                     (error) => {
                         if (error) {
                             throw error
                         }
-                        response.status(201).json({ status: 'success', message: `Updated prices of entire portfolio for UserID ${user_id}.` })
+                        // response.status(201).json({ status: 'success', message: `Updated prices of entire portfolio for UserID ${userId}.` })
                     }
                 );
-        console.log(dataset.join(""))
+        
+        }
+        // console.log(dataset.join(""))
     });
+
 
 }
 

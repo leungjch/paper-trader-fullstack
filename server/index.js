@@ -53,7 +53,7 @@ setInterval(async function() {
     var portfolio = await getPortfolioVoid(userId);
     await updatePriceInPortfolio(userId, portfolio)
   }
-}, 500);
+}, 5000);
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);
