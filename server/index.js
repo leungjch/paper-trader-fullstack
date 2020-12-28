@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 const path = require('path');
-const { getYFinance, getPortfolioHistoryBackforecast, addPortfolioWorthEntry, updatePortfolioByStock, sellPortfolioByStock, getPortfolioVoid, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById, getUsersVoid, updatePriceInPortfolio} = require('./rest-crud-queries');
+const { getYFinance, clearPortfolioValueHistory, getPortfolioHistoryBackforecast, addPortfolioWorthEntry, updatePortfolioByStock, sellPortfolioByStock, getPortfolioVoid, getPortfolioByStock, deleteFromPortfolioById, getStockInfo, getUsers, getUserByName, addUsers, getPortfolios, getPortfolioById, getHistoryById, addHistory, addToPortfolioById, addCashById, getUsersVoid, updatePriceInPortfolio} = require('./rest-crud-queries');
 const { STOCK_API_KEY } = require('./config')
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -47,12 +47,13 @@ app.get('/api/yfinance/:stock/:type', getYFinance)
 // Back-forecast portfolio values
 setInterval(async function() {
   var userList =  await getUsersVoid();
+  await clearPortfolioValueHistory(); // Clear history to fetch new 30-day back-forecast
   console.log(userList)
   for (var user of userList) {
     var userId = await user['id'];
     var portfolio = await getPortfolioVoid(userId);
 
-    // await updatePriceInPortfolio(user['id'], portfolio);
+    await updatePriceInPortfolio(user['id'], portfolio);
     // await addPortfolioWorthEntry(user, portfolio);
     await getPortfolioHistoryBackforecast(user, portfolio);
 

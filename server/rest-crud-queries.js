@@ -380,7 +380,7 @@ const addPortfolioWorthEntry = (user, portfolio) => {
     for (let stock of portfolio) {
         netWorth += stock['current_price'] * stock['n_holding'];
     }
-    pool.query("INSERT INTO portfolio_value_history (user_id, netWorth, tstamp) VALUES($1, $2, $3)",
+    pool.query("INSERT INTO portfoliovaluehistory (user_id, netWorth, tstamp) VALUES($1, $2, $3)",
         [user['id'], netWorth, new Date()],
         (error) => {
             if (error) {
@@ -391,6 +391,17 @@ const addPortfolioWorthEntry = (user, portfolio) => {
     )
 
 } 
+const clearPortfolioValueHistory = () => {
+    pool.query(` TRUNCATE TABLE portfoliovaluehistory;
+                 ALTER SEQUENCE portfoliovaluehistory_tstampid_seq RESTART WITH 1`
+    ,
+    (error) => {
+        if (error) {
+            throw error
+        }
+    }
+);
+}
 
 const getPortfolioHistoryBackforecast = (user, portfolio) => {
     userId = user['id']
@@ -416,21 +427,21 @@ const getPortfolioHistoryBackforecast = (user, portfolio) => {
         console.log("SUM PORTFOLIO IS ", dataset.join(""))
 
         // Reset values
-        pool.query(`DELETE FROM portfolio_value_history WHERE user_id = $1`,
-                    [userId],
-                    (error) => {
-                        if (error) {
-                            throw error
-                        }
-                    }
-                );
+        // pool.query(`DELETE FROM portfoliovaluehistory WHERE user_id = $1`,
+        //             [userId],
+        //             (error) => {
+        //                 if (error) {
+        //                     throw error
+        //                 }
+        //             }
+        //         );
 
         // Loop through new time series data
         for (let item of updatedPrices) {
             // console.log("SUM PORTFOLIO")
 
         // Perform SQL query to update multiple rows at once
-        pool.query(`INSERT INTO portfolio_value_history (user_id, netWorth, tStamp) VALUES ($1, $2, $3)`,
+        pool.query(`INSERT INTO portfoliovaluehistory (user_id, netWorth, tStamp) VALUES ($1, $2, $3)`,
                     [userId, item['Sum'], item['Date']],
                     (error) => {
                         if (error) {
@@ -464,6 +475,7 @@ module.exports = {
     sellPortfolioByStock,
     updatePriceInPortfolio,
     getPortfolioHistoryBackforecast,
+    clearPortfolioValueHistory,
 
     addPortfolioWorthEntry,
 

@@ -23,7 +23,7 @@ data.fillna(method='ffill', inplace=True)
 
 data['Sum'] = data.sum(axis=1)
 
-portfolioValueHistory = data['Sum'].reset_index().to_dict('records')
+portfoliovaluehistory = data['Sum'].reset_index().to_dict('records')
 
 # print(data)
-print(portfolioValueHistory)
+print(portfoliovaluehistory)

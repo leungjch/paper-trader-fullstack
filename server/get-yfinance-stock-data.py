@@ -73,13 +73,13 @@ elif requestType == "bulkPriceCalculatePortfolio":
 
     data['Sum'] = data.sum(axis=1)
 
-    portfolioValueHistory = data['Sum'].reset_index()
+    portfoliovaluehistory = data['Sum'].reset_index()
     
     # Convert timestamp to date
-    portfolioValueHistory['Date'] = portfolioValueHistory['Date'].dt.strftime('%Y-%m-%d')
+    portfoliovaluehistory['Date'] = portfoliovaluehistory['Date'].dt.strftime('%Y-%m-%d')
 
-    portfolioValueHistory = portfolioValueHistory.to_dict('records')
+    portfoliovaluehistory = portfoliovaluehistory.to_dict('records')
     # print(data)
-    print(portfolioValueHistory)
+    print(portfoliovaluehistory)
 
 sys.stdout.flush()

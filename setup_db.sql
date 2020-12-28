@@ -42,8 +42,8 @@ CREATE TABLE trade_history (
 );
 
 -- Portfolio Value History
-CREATE TABLE portfolio_value_history (
-    tstamp_id SERIAL PRIMARY KEY,
+CREATE TABLE portfoliovaluehistory (
+    tstampid SERIAL NOT NULL,
     tstamp TIMESTAMP,
     user_id INTEGER,
     netWorth NUMERIC(1000,2)
