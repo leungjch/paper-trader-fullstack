@@ -5,6 +5,7 @@ import PieChart from "../components/PieChart"
 
 import { UserContext, UserProvider } from '../UserContext';
 import formatNumber from '../helper-functions/formatNumber'
+import abbreviateNumber from "../helper-functions/abbreviateNumber"
 
 function PortfolioPage() {
 
@@ -44,7 +45,6 @@ function PortfolioPage() {
 
         
     }
-
     
     function renderPortfolioRow(item, index) {
         return (
@@ -56,7 +56,7 @@ function PortfolioPage() {
                 <td>{(100*(item.current_price-item.buy_price)/item.buy_price).toFixed(2)}%</td>
                 <td>${item.current_total}</td>
                 <td>{item.sector}</td>
-                <td>${item.marketcap}</td>
+                <td>${abbreviateNumber(item.marketcap)}</td>
 
             </tr>
         )

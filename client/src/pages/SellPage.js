@@ -135,7 +135,7 @@ function SellPage() {
         <div>
             <Form style={{marginBottom: "1em"}}>
                 <Form.Group controlId="formBasicEmail">
-                    <h2>Buy</h2>
+                    <h2>Sell</h2>
 
                     {/* <Form.Label></Form.Label> */}
                     <Form.Control
