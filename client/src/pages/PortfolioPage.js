@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
 import BarChart from "../components/BarChart"
+import PieChart from "../components/PieChart"
+
 import { UserContext, UserProvider } from '../UserContext';
 import formatNumber from '../helper-functions/formatNumber'
 
@@ -86,6 +88,7 @@ function PortfolioPage() {
             </Table>
 
             <BarChart data={portfolioData} width={500} height={100} />
+            <PieChart />
         </div>
 
 
