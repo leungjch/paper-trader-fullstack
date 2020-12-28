@@ -66,7 +66,7 @@ const getUsers = (request, response) => {
 // Get users (called explicitly by server only)
 async function getUsersVoid() {
     try { 
-        const res = await pool.query('SELECT id FROM users');
+        const res = await pool.query('SELECT * FROM users');
         return res.rows
     }
     catch (err) {
@@ -156,7 +156,7 @@ const getPortfolioById = (request, response) => {
 
 async function getPortfolioVoid(userId) {
     try { 
-        const res = await pool.query('SELECT ticker FROM portfolio WHERE user_id = $1', [userId]);
+        const res = await pool.query('SELECT * FROM portfolio WHERE user_id = $1', [userId]);
         return res.rows
     }
     catch (err) {
@@ -371,6 +371,27 @@ const getYFinance = (request, response) => {
 }
 
 
+const addPortfolioWorthEntry = (user, portfolio) => {
+    // ADD new portfolio value entry
+
+    // Calculate net worth
+    netWorth = 0;
+    for (let stock of portfolio) {
+        netWorth += stock['current_price'] * stock['n_holding'];
+    }
+    pool.query("INSERT INTO portfolio_value_history (user_id, netWorth, tstamp) VALUES($1, $2, $3)",
+        [user['id'], netWorth, new Date()],
+        (error) => {
+            if (error) {
+                throw error
+            }
+            console.log("Inserted new net worth entry")
+        }
+    )
+
+} 
+
+
 module.exports = {
     getUsers,
     getUsersVoid,
@@ -386,6 +407,8 @@ module.exports = {
     updatePortfolioByStock,
     sellPortfolioByStock,
     updatePriceInPortfolio,
+
+    addPortfolioWorthEntry,
 
     deleteFromPortfolioById,
 

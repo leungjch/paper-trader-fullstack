@@ -43,9 +43,10 @@ CREATE TABLE trade_history (
 
 -- Portfolio Value History
 CREATE TABLE portfolio_value_history (
-    user_id INTEGER PRIMARY KEY,
-    date TIMESTAMP,
-    value NUMERIC(1000,2)
+    tstamp_id SERIAL PRIMARY KEY,
+    tstamp TIMESTAMP,
+    user_id INTEGER,
+    netWorth NUMERIC(1000,2)
 );
 
 -- Initialize guest user
