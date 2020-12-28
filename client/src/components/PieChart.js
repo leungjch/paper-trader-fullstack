@@ -37,7 +37,7 @@ function PieChart(props) {
             ',' + (height / 2) + ')');
 
         // Create dummy data
-        // var data = [{ticker:"A", current_total:1}, {ticker:"B", current_total:4}]
+        // var data = [{label:"A", val:1}, {label:"B", val:4}]
 
         // set the color scale
         var color = d3.scaleOrdinal()
@@ -46,10 +46,10 @@ function PieChart(props) {
 
         // Compute the position of each group on the pie:
         var pie = d3.pie()
-            // .sort(null) // Do not sort group by size
-            .value(function (d) { console.log(d.current_total); return d.current_total; })
+            .sort(null) // Do not sort group by size
+            .value(function (d) { return d.val; })
         var data_ready = pie(data)
-        console.log("data ready", data_ready)
+        // console.log("data ready", data_ready)
         // The arc generator
         var arc = d3.arc()
             .innerRadius(radius * 0.5)         // This is the size of the donut hole
@@ -96,7 +96,7 @@ function PieChart(props) {
             .data(data_ready)
             .enter()
             .append('text')
-            .text(function (d) { console.log("DATA", d); return d.data.ticker })
+            .text(function (d) { return d.data.label })
             .attr('transform', function (d) {
                 var pos = outerArc.centroid(d);
                 var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2

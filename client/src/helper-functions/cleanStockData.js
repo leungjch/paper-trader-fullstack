@@ -3,7 +3,7 @@ function cleanStockData(data) {
 
     var summary = "";
     var price = 0;
-    var sector = data['sector'];
+    var sector = data['sector'] === null ? "N/A" : data['sector'];
     // Get important values from RapidAPI stock data
     if ("longBusinessSummary" in data && data['longBusinessSummary'].length !== 0) {
         summary = data['longBusinessSummary']

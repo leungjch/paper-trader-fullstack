@@ -14,7 +14,7 @@ function PortfolioPage() {
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
-    const [portfolioStatistics, setPortfolioStatistics] = useState({})
+    const [portfolioStatistics, setPortfolioStatistics] = useState({mCapAggregate:[]})
 
     const { user } = useContext(UserContext);
 // https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
@@ -28,6 +28,7 @@ function PortfolioPage() {
                 console.log("Client: Loaded portfolio data", data);
                 console.log("User info is, ", user)
                 setPortfolioData(data);
+                computeMarketCaps(data)
             })
 
         
@@ -39,6 +40,9 @@ function PortfolioPage() {
                 console.log('data is', data)
                 setCash(data[0].cash);
             })
+
+
+        
     }
 
     
@@ -62,31 +66,41 @@ function PortfolioPage() {
     // Mid cap: 2-10B
     // Small cap: 0.3-2B
     // Micro cap: < 0.3B
-
     // Tabulate stocks by market cap
-    function computeMarketCaps() {
+    function computeMarketCaps(data) {
         let large = 0
         let medium = 0
         let small = 0
         let micro = 0
-
-        for (var i = 0; i < portfolioData.length; i++) {
+        let portfolioDta = data
+        for (var j = 0; j < portfolioDta.length; j++) {
+            let mCap = parseFloat(portfolioDta[j]['marketcap'])
+            let holding = parseFloat(portfolioDta[j]['current_total'])
             // Micro cap
-            if (portfolioData[i]['marketCap'] < 0.3e9) {
-                micro += 1
+            console.log("Marketdd caps data:::", j, mCap, portfolioDta.length)
+            if (mCap < 0.3e9) {
+                micro += holding
 
             // Else Small cap
-            } else if (portfolioData[i]['marketCap'] < 2e9) {
-                small += 1
+            } else if (mCap < 2e9) {
+                small += holding
             // Else medium cap
-            } else if (portfolioData[i]['marketCap'] < 10e9) {
-                medium += 1
+            } else if (mCap < 10e9) {
+                medium += holding
             // Else large cap
             } else {
-                large += 1
+                large += holding
             }
         }
-        return {micro: micro, small:small, medium:medium, large:large}
+        let obj =  [{label: "Micro", val: micro}, {label:"Small", val:small}, {label:"Medium", val:medium}, {label:"Large", val: large}]
+        
+        let cleanObj = obj.filter(function (el) {
+            return el['val'] !== 0
+        })
+
+        console.log("Market caps obj is", cleanObj)
+        setPortfolioStatistics({ ...portfolioStatistics,
+                                 mCapAggregate: cleanObj                              })
     }
 
 
@@ -94,8 +108,6 @@ function PortfolioPage() {
         // Fetch portfolio data
         getPortfolio()
 
-        // Fetch trades statistics
-        console.log("Market caps are", computeMarketCaps())
         // 
     }, [cash]);
 
@@ -122,7 +134,7 @@ function PortfolioPage() {
             </Table>
 
             <BarChart data={portfolioData} width={500} height={100} />
-            <PieChart data={portfolioData} />
+            <PieChart data={portfolioStatistics['mCapAggregate']} />
         </div>
 
 
