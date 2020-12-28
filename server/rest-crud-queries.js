@@ -35,7 +35,8 @@ const http = require("https")
 const { spawn } = require('child_process');
 
 // Get api key
-const { STOCK_API_KEY } = require('./config')
+const { STOCK_API_KEY } = require('./config');
+const { resolve } = require('path');
 
 const pool = new Pool({
     //   connectionString: process.env.DATABASE_URL,
@@ -60,6 +61,18 @@ const getUsers = (request, response) => {
         response.status(200).json(results.rows)
         console.log("Server: Successfuly get users");
     });
+}
+
+// Get users (called explicitly by server only)
+async function getUsersVoid() {
+    try { 
+        const res = await pool.query('SELECT id FROM users');
+        return res.rows
+    }
+    catch (err) {
+        return err
+    }
+
 }
 
 // Get a single user by their username
@@ -120,7 +133,7 @@ const addCashById = (request, response) => {
 // ----------------------------------------------------------------------------
 // Portfolio API
 const getPortfolios = (request, response) => {
-    pool.query('SELECT * FROM portfolio', (error, results) => {
+    pool.query('SELECT * FROM portfolio SORT BY current_total', (error, results) => {
         if (error) {
             throw error
         }
@@ -139,6 +152,16 @@ const getPortfolioById = (request, response) => {
             }
             response.status(200).json(results.rows)
         })
+}
+
+async function getPortfolioVoid(userId) {
+    try { 
+        const res = await pool.query('SELECT ticker FROM portfolio WHERE user_id = $1', [userId]);
+        return res.rows
+    }
+    catch (err) {
+        return err
+    }
 }
 
 const getPortfolioByStock = (request, response) => {
@@ -167,6 +190,7 @@ const addToPortfolioById = (request, response) => {
     )
 }
 
+// Completely delete a stock entry (happens when sell all shares of a stock)
 const deleteFromPortfolioById = (request, response) => {
     const user_id = request.params.id;
     const stock = request.params.stock;
@@ -180,7 +204,7 @@ const deleteFromPortfolioById = (request, response) => {
         }
     )
 }
-
+// Change stock and funds in a portfolio (buy or sell)
 const updatePortfolioByStock = (request, response) => {
     const { user_id, ticker, n_holding, current_price, current_total, buy_price } = request.body;
 
@@ -195,6 +219,7 @@ const updatePortfolioByStock = (request, response) => {
     )
 }
 
+// Sell a stock in portfolio
 const sellPortfolioByStock = (request, response) => {
     const { user_id, ticker, n_holding, current_price, current_total } = request.body;
 
@@ -207,6 +232,43 @@ const sellPortfolioByStock = (request, response) => {
             response.status(201).json({ status: 'success', message: `Updated portfolio for UserID ${user_id}.` })
         }
     )
+}
+
+// Given an array of tickers, update the prices
+const updatePriceInPortfolio = (userId, portfolio) => {
+    var tickers = portfolio.map(e => e.ticker)
+    var dataset = []
+    
+    // spawn new child process to call the python script
+    const python = spawn('python3', ['server/get-yfinance-stock-data.py', tickers, "bulkPrice"]);
+    // collect data from script
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        dataset.push(data)
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        // response.send(dataset.join(""))
+        updatedPrices = dataset.join("")
+
+        // Perform SQL query to update multiple rows at once
+        pool.query(`UPDATE portfolio p
+                    SET current_price = s.current_price
+                    FROM unnest($1) s (current_price NUMERIC(1000,2), ticker TEXT)
+                    WHERE p.user_id = $2 AND p.ticker = s.ticker`
+                    [updatedPrices, userId],
+                    (error) => {
+                        if (error) {
+                            throw error
+                        }
+                        response.status(201).json({ status: 'success', message: `Updated prices of entire portfolio for UserID ${user_id}.` })
+                    }
+                );
+        console.log(dataset.join(""))
+    });
+
 }
 
 // ----------------------------------------------------------------------------
@@ -294,7 +356,6 @@ const getYFinance = (request, response) => {
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
         dataset.push(data)
-        
     });
     // in close event we are sure that stream from child process is closed
     python.on('close', (code) => {
@@ -309,6 +370,7 @@ const getYFinance = (request, response) => {
 
 module.exports = {
     getUsers,
+    getUsersVoid,
     getUserByName,
     addUsers,
     addCashById,
@@ -316,9 +378,11 @@ module.exports = {
     getPortfolios,
     getPortfolioById,
     getPortfolioByStock,
+    getPortfolioVoid,
     addToPortfolioById,
     updatePortfolioByStock,
     sellPortfolioByStock,
+    updatePriceInPortfolio,
 
     deleteFromPortfolioById,
 
