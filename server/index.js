@@ -58,7 +58,7 @@ setInterval(async function() {
     await getPortfolioHistoryBackforecast(user, portfolio);
 
   }
-}, 10000);  // update every 15 minutes
+}, 30000);  // update every 15 minutes
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

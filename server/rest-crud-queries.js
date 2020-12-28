@@ -372,6 +372,19 @@ const getYFinance = (request, response) => {
 }
 
 
+const getPortfolioValueHistory = (request, response) => {
+    const userId = request.params.id
+    console.log(username)
+    pool.query('SELECT * FROM portfoliovaluehistory ORDER BY tstamp WHERE user_id = $1',
+        [userId], (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(200).json(results.rows)
+        })
+
+}
+
 const addPortfolioWorthEntry = (user, portfolio) => {
     // ADD new portfolio value entry
 
