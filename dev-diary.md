@@ -39,3 +39,6 @@ After I implement this last major feature, the focus will finally shift to the f
 The RapidAPI was really frustrating me - I didn't like the small API request limit. Instead, I looked at the `yfinance` python package. I wrote a little script (`get-yfinance-stock-data.py`) to fetch use the package to retrieve the stock data. It should also provide some time series data which would be useful. I'm thinking of switching over to IEX or Alpaca for the regular price quotes. 
 
 I'm making progress on the frontend, but for now I need to make sure that the yfinance Python works properly with Heroku. 
+
+## Dec 28 2020
+I spent a long time yesterday trying to figure out how to do live price updates. I spent a long time and got the functionality to work, but the Heroku dyno sleeps after every hour, which means that my price updates don't work unless a user is active on the app. Also, I am limited to 10,000 entries on the database, which could make storing time series data a problem if I have too much. To simplify this (at the cost of realism) I think I will just "back-forecast" the portfolio values 1 or 2 months behind. 

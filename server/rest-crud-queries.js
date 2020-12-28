@@ -237,7 +237,7 @@ const sellPortfolioByStock = (request, response) => {
 // Given an array of tickers, update the prices
 const updatePriceInPortfolio = (userId, portfolio) => {
     var tickers = portfolio.map(e => e.ticker)
-    // console.log(tickers)
+    console.log(tickers)
     var dataset = []
     
     // spawn new child process to call the python script
@@ -253,7 +253,7 @@ const updatePriceInPortfolio = (userId, portfolio) => {
         // send data to browser
         // response.send(dataset.join(""))
         updatedPrices = JSON.parse(dataset.join("").replace(/'/g, '"'))
-        console.log("UPDATED PRICES ARE", typeof(dataset.join("")))
+        console.log("UPDATED PRICES ARE", dataset.join(""))
         for (let item of updatedPrices) {
             console.log("Updating ", item['ticker'], " to ", item['price'])
         // Perform SQL query to update multiple rows at once
@@ -264,11 +264,12 @@ const updatePriceInPortfolio = (userId, portfolio) => {
                             throw error
                         }
                         // response.status(201).json({ status: 'success', message: `Updated prices of entire portfolio for UserID ${userId}.` })
+                        console.log("DONE UPDATE PRICE IN PORTFOLIO")
+
                     }
                 );
         
         }
-        // console.log(dataset.join(""))
     });
 
 
@@ -375,7 +376,7 @@ const addPortfolioWorthEntry = (user, portfolio) => {
     // ADD new portfolio value entry
 
     // Calculate net worth
-    netWorth = 0;
+    netWorth = parseFloat(user['cash']);
     for (let stock of portfolio) {
         netWorth += stock['current_price'] * stock['n_holding'];
     }
@@ -385,11 +386,66 @@ const addPortfolioWorthEntry = (user, portfolio) => {
             if (error) {
                 throw error
             }
-            console.log("Inserted new net worth entry")
+            console.log("Inserted new net worth entry", netWorth)
         }
     )
 
 } 
+
+const getPortfolioHistoryBackforecast = (user, portfolio) => {
+    userId = user['id']
+    var cleanPortfolio = portfolio.map(e => ({"ticker": e.ticker, "n_holding": e.n_holding}))
+    // console.log(tickers)
+    var dataset = []
+    
+    // spawn new child process to call the python script
+    const python = spawn('python3', ['server/get-yfinance-stock-data.py', JSON.stringify(cleanPortfolio), "bulkPriceCalculatePortfolio"]);
+    // collect data from script
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        dataset.push(data)
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        // response.send(dataset.join(""))
+        console.log("Done")
+        console.log(dataset.join(""))
+        updatedPrices = JSON.parse(dataset.join("").replace(/'/g, '"'))
+        console.log("SUM PORTFOLIO IS ", dataset.join(""))
+
+        // Reset values
+        pool.query(`DELETE FROM portfolio_value_history WHERE user_id = $1`,
+                    [userId],
+                    (error) => {
+                        if (error) {
+                            throw error
+                        }
+                    }
+                );
+
+        // Loop through new time series data
+        for (let item of updatedPrices) {
+            // console.log("SUM PORTFOLIO")
+
+        // Perform SQL query to update multiple rows at once
+        pool.query(`INSERT INTO portfolio_value_history (user_id, netWorth, tStamp) VALUES ($1, $2, $3)`,
+                    [userId, item['Sum'], item['Date']],
+                    (error) => {
+                        if (error) {
+                            throw error
+                        }
+                        // response.status(201).json({ status: 'success', message: `Updated prices of entire portfolio for UserID ${userId}.` })
+                    }
+                );
+        
+        }
+        // console.log(dataset.join(""))
+    });
+
+
+}
 
 
 module.exports = {
@@ -407,6 +463,7 @@ module.exports = {
     updatePortfolioByStock,
     sellPortfolioByStock,
     updatePriceInPortfolio,
+    getPortfolioHistoryBackforecast,
 
     addPortfolioWorthEntry,
 
