@@ -421,7 +421,7 @@ const getPortfolioHistoryBackforecast = (user, portfolio) => {
     var dataset = []
     
     // spawn new child process to call the python script
-    const python = spawn('python3', ['server/get-yfinance-stock-data.py', JSON.stringify(cleanPortfolio), "bulkPriceCalculatePortfolio"]);
+    const python = spawn('python3', ['server/get-yfinance-stock-data.py', JSON.stringify(cleanPortfolio), "bulkPriceCalculatePortfolio", user['cash']]);
     // collect data from script
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');

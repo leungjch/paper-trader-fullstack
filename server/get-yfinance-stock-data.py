@@ -50,6 +50,7 @@ elif requestType == "bulkPrice":
 elif requestType == "bulkPriceCalculatePortfolio":
     # portfolio = [{"ticker": 'TSLA', "n_holding":10}, {"ticker": 'MSFT', "n_holding":5}, {"ticker": 'BTC-USD', "n_holding":3}]
     portfolio = json.loads(sys.argv[1])
+    cash = float(sys.argv[3])
     # print(portfolio)
     data = pd.DataFrame()
 
@@ -59,7 +60,7 @@ elif requestType == "bulkPriceCalculatePortfolio":
         n_holding = stock['n_holding']
 
         # Query price history
-        hist = yf.Ticker(tick).history(period="2mo")[['Close']]
+        hist = yf.Ticker(tick).history(period="3mo")[['Close']]
 
         # Append column
         data = pd.concat([data, hist], axis=1)
@@ -71,7 +72,7 @@ elif requestType == "bulkPriceCalculatePortfolio":
     # Fill NA values
     data.fillna(method='ffill', inplace=True)
 
-    data['Sum'] = data.sum(axis=1)
+    data['Sum'] = data.sum(axis=1) + cash
 
     portfoliovaluehistory = data['Sum'].reset_index()
     

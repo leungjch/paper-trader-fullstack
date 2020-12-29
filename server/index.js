@@ -61,9 +61,11 @@ async function updatePortfolioEverything() {
     await getPortfolioHistoryBackforecast(user, portfolio);
 
   }
+  await console.log("Done updating portfoliovaluehistory")
+
 }
 updatePortfolioEverything();
-setInterval(updatePortfolioEverything, 30000);  // update every 15 minutes
+setInterval(updatePortfolioEverything, 900000);  // update every 15 minutes
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

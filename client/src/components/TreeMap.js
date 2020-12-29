@@ -175,7 +175,7 @@ function TreeMap(props) {
         .append("text")
         .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
         .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-        .text(function(d){ return d.data.name.replace('mister_','') })
+        .text(function(d){ return d.data.name })
         .attr("font-size", "19px")
         .attr("fill", "white")
     
@@ -189,7 +189,7 @@ function TreeMap(props) {
         .append("text")
         .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
         .attr("y", function(d){ return d.y0+35})    // +20 to adjust position (lower)
-        .text(function(d){ return d.data.value })
+        .text(function(d){ return "$"+d.data.value })
         .attr("font-size", "11px")
         .attr("fill", "white")
 
@@ -206,13 +206,13 @@ function TreeMap(props) {
         .attr("fill",  function(d){ return color(d.data.name)} )
 
     // Add the chart heading
-    svg
-    .append("text")
-        .attr("x", 0)
-        .attr("y", 14)    // +20 to adjust position (lower)
-        .text("Three group leaders and 14 employees")
-        .attr("font-size", "19px")
-        .attr("fill",  "grey" )
+    // svg
+    // .append("text")
+    //     .attr("x", 0)
+    //     .attr("y", 14)    // +20 to adjust position (lower)
+    //     .text("Three group leaders and 14 employees")
+    //     .attr("font-size", "19px")
+    //     .attr("fill",  "grey" )
 }
 
   return (

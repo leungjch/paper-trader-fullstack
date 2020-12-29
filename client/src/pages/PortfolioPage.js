@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, ButtonGroup, Form, Table } from 'react-bootstrap';
+import { Button, ButtonGroup, Form, Table, Row, Card, Container, Col } from 'react-bootstrap';
 import BarChart from "../components/BarChart"
 import PieChart from "../components/PieChart"
 import AreaChart from "../components/AreaChart"
@@ -23,7 +23,7 @@ function PortfolioPage() {
     const [portfolioHistory, setPortfolioHistory] = useState([])
 
     const { user } = useContext(UserContext);
-// https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
+    // https://aesalazar.com/blog/professional-color-combinations-for-dashboards-or-mobile-bi-applications
 
     // Fetch portfolio data for user from DB
     function getPortfolio() {
@@ -38,7 +38,7 @@ function PortfolioPage() {
                 computeMarketCaps(data)
             })
 
-        
+
 
         // Also get the amount of cash that user currently has
         fetch('/api/users/' + user.name)
@@ -54,10 +54,10 @@ function PortfolioPage() {
             .then((data) => {
                 console.log('Portfoliovaluehistory is', data)
                 setPortfolioHistory(data);
-                
-            })   
+
+            })
     }
-    
+
     function renderPortfolioRow(item, index) {
         return (
             <tr key={index}>
@@ -65,7 +65,7 @@ function PortfolioPage() {
                 <td>{item.n_holding}</td>
                 <td>${item.buy_price}</td>
                 <td>${item.current_price}</td>
-                <td>{(100*(item.current_price-item.buy_price)/item.buy_price).toFixed(2)}%</td>
+                <td>{(100 * (item.current_price - item.buy_price) / item.buy_price).toFixed(2)}%</td>
                 <td>${item.current_total}</td>
                 <td>{item.sector}</td>
                 <td>${abbreviateNumber(item.marketcap)}</td>
@@ -78,27 +78,27 @@ function PortfolioPage() {
     function computeSectors(data) {
 
         const result = [];
-        
+
         for (const stock of data) {
 
             if (result.some(e => e.name === stock['sector'])) {
                 for (let obj of result) {
-                    
+
                     if (obj['name'] === stock['sector']) {
-                        obj['children'].push({"name": stock['ticker'], "value": stock['current_total'], "colname": 3})
+                        obj['children'].push({ "name": stock['ticker'], "value": stock['current_total'], "colname": 3 })
                     }
-                    
+
                 }
 
-            } else result.push({"name": stock['sector'], "children": [{"name": stock['ticker'], "value": stock['current_total'], "colname": 3}], "colname": 2})
+            } else result.push({ "name": stock['sector'], "children": [{ "name": stock['ticker'], "value": stock['current_total'], "colname": 3 }], "colname": 2 })
 
-            }
-        const finalResult = {"name": "Sectors", "colname": 1, "children":result}
+        }
+        const finalResult = { "name": "Sectors", "colname": 1, "children": result }
 
-        
+
         console.log("TREEMAP", finalResult);
         setPortfolioStatistics_sectorsTreeMap(finalResult);
-}
+    }
 
     // Large cap: 10B+
     // Mid cap: 2-10B
@@ -120,19 +120,19 @@ function PortfolioPage() {
             if (mCap < 0.3e9) {
                 micro += holding
 
-            // Else Small cap
+                // Else Small cap
             } else if (mCap < 2e9) {
                 small += holding
-            // Else medium cap
+                // Else medium cap
             } else if (mCap < 10e9) {
                 medium += holding
-            // Else large cap
+                // Else large cap
             } else {
                 large += holding
             }
         }
-        let obj =  [{label: "Micro", val: micro}, {label:"Small", val:small}, {label:"Medium", val:medium}, {label:"Large", val: large}]
-        
+        let obj = [{ label: "Micro", val: micro }, { label: "Small", val: small }, { label: "Medium", val: medium }, { label: "Large", val: large }]
+
         let cleanObj = obj.filter(function (el) {
             return el['val'] !== 0
         })
@@ -148,33 +148,69 @@ function PortfolioPage() {
     }, [cash]);
 
     return (
-        <div>
-            <h2> Your Portfolio </h2>
-            <h3> Available Cash: ${formatNumber(cash)} </h3>
-            <Table striped hover>
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Number of shares</th>
-                        <th>Average buy-in price</th>
-                        <th>Current price</th>
-                        <th>Percentage change</th>
-                        <th>Total value</th>
-                        <th>Sector</th>
-                        <th>Market cap</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {portfolioData.map(renderPortfolioRow)}
-                </tbody>
-            </Table>
+        // <div>
+        //     <h2> Your Portfolio </h2>
+        //     <h3> Available Cash: ${formatNumber(cash)} </h3>
+        //     <h3> Portfolio Value: $ { portfolioHistory.length !== 0? formatNumber(portfolioHistory[portfolioHistory.length-1]['networth']) : "Loading"} </h3>
+        //     <Table striped hover>
+        //         <thead>
+        //             <tr>
+        //                 <th>Ticker</th>
+        //                 <th>Number of shares</th>
+        //                 <th>Average buy-in price</th>
+        //                 <th>Current price</th>
+        //                 <th>Percentage change</th>
+        //                 <th>Total value</th>
+        //                 <th>Sector</th>
+        //                 <th>Market cap</th>
+        //             </tr>
+        //         </thead>
+        //         <tbody>
+        //             {portfolioData.map(renderPortfolioRow)}
+        //         </tbody>
+        //     </Table>
 
-            <BarChart data={portfolioData} width={500} height={100} />
-            {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
-            <AreaChart data={portfolioHistory} />
-            {portfolioStatistics_sectorsTreeMap !== null? <TreeMap data = {portfolioStatistics_sectorsTreeMap} /> : ''}
+        //     <BarChart data={portfolioData} width={500} height={100} />
+        //     {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
+        //     <AreaChart data={portfolioHistory} />
+        //     {portfolioStatistics_sectorsTreeMap !== null? <TreeMap data = {portfolioStatistics_sectorsTreeMap} /> : ''}
+        // </div>
 
-        </div>
+        <Container>
+            <Row>
+                <Col xs={12} md={8}>
+                <Card>Hello</Card>
+                </Col>
+                <Col xs={6} md={4}>
+                <Card>Hello</Card>
+                </Col>
+            </Row>
+
+            {/* Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop */}
+            <Row>
+                <Col class="border" style={{border:"10px", borderColor:"black", borderRadius:"1px"}} xs={6} md={4}>
+                <Card>Hello</Card>
+                </Col>
+                <Col xs={6} md={4}>
+                <Card>Hello</Card>
+
+                </Col>
+                <Col xs={6} md={4}>
+                    <Card>Hello</Card>
+                </Col>
+            </Row>
+
+            {/* Columns are always 50% wide, on mobile and desktop */}
+            <Row>
+                <Col xs={6}>
+                    <Card>Hello</Card>
+                </Col>
+                <Col xs={6}>
+                <Card>Hello</Card>
+                </Col>
+            </Row>
+
+        </Container>
 
 
     );
