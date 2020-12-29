@@ -1,5 +1,5 @@
 :root {
-  --sharpShadow: 0 1px 1px rgb(107, 107, 107),0 2px 2px rgba(128, 128, 128, 0.192),0 4px 4px rgba(184, 184, 184, 0.15),0 8px 8px rgba(197, 197, 197, 0.1),0 16px 16px rgba(0,0,0,0.05);
+  --sharpShadow: 0 1px 1px rgb(207, 207, 207),0 2px 2px rgba(189, 189, 189, 0.192),0 4px 4px rgba(184, 184, 184, 0.15),0 8px 8px rgba(197, 197, 197, 0.1),0 16px 16px rgba(0,0,0,0.05);
 }
 .App {
   text-align: center;
@@ -76,7 +76,7 @@
 .DivBoxSmall {
   box-shadow:var(--sharpShadow);
   text-align:center;
-  margin-bottom:10%;
+  margin-bottom:2%;
   /* display: inline-block; */
   /* display:flex; */
   /* flex-direction: column; */

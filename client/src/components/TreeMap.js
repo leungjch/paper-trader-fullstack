@@ -218,7 +218,7 @@ function TreeMap(props) {
 }
 
   return (
-    <div className="treeMap" style={{ padding: 10}}>
+    <div className="treeMap" style={{ padding: 1}}>
       <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
     </svg>
 </div>

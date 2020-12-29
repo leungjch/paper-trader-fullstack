@@ -34,7 +34,6 @@ export default function App() {
     <UserProvider>
       <Router>
 
-        <div className="globalAppStyle">
 
           <Navbar variant="light" bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
             <Navbar.Brand style={{ fontSize: "30px" }}>Paper Trader</Navbar.Brand>
@@ -77,9 +76,9 @@ export default function App() {
               <Route path="/" element={<LoginPage />} />
             </Routes>
           </div>
-        </div>
       </Router>
     </UserProvider>
+
 
   );
 }

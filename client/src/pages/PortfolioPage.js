@@ -151,26 +151,31 @@ function PortfolioPage() {
         // 
     }, [cash]);
 
+    // Set margin for rows
+    const rowStyle = {
+        margin: '0.5%'
+    };
+
     return (
 
         <Container fluid>
 
-            <Row>
+            <Row style={rowStyle} noGutters={true}>
                 {/* Key statistics card */}
 
-                <Col className="colStats">
-                <div className="DivBoxSmall">
+                <Col style={rowStyle} noGutters={true} className="colStats">
+                    <div className="DivBoxSmall">
                         <div className="DivBoxText">
                             Portfolio Value
                                         </div>
-                                        <div className="DivBoxStatistic">
+                        <div className="DivBoxStatistic">
 
                             ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
                         </div>
                     </div>
                 </Col>
 
-                <Col className="colStats">
+                <Col style={rowStyle} noGutters={true} className="colStats">
                     <div className="DivBoxSmall">
                         <div className="DivBoxText">
                             % Profit
@@ -182,7 +187,7 @@ function PortfolioPage() {
                 </Col>
 
 
-                <Col className="colStats">
+                <Col style={rowStyle} noGutters={true} className="colStats">
                     <div className="DivBoxSmall">
                         <div className="DivBoxText">
                             Cash Reserve
@@ -194,7 +199,7 @@ function PortfolioPage() {
                 </Col>
 
 
-                <Col className="colStats">
+                <Col style={rowStyle} noGutters={true} className="colStats">
                     <div className="DivBoxSmall">
                         <div className="DivBoxText">
                             Assets Owned
@@ -209,27 +214,15 @@ function PortfolioPage() {
 
             </Row>
 
-            <Row>
-                <Col>
+            <Row style={rowStyle} noGutters={true}>
 
-                    <Card>
-                        <Card.Header>
-                            Portfolio Growth
-                                </Card.Header>
-                        <Card.Body>
-                            <AreaChart height={500} width={730} data={portfolioHistory} />
 
-                        </Card.Body>
-                    </Card>
-
-                </Col>
-
-                <Col>
+                <Col style={rowStyle} noGutters={true}>
 
                     <Card>
                         <Card.Header>
                             Portfolio Details
-                            </Card.Header>
+        </Card.Header>
                         <Card.Body>
                             <Table striped hover>
                                 <thead>
@@ -256,10 +249,26 @@ function PortfolioPage() {
 
                 </Col>
 
+
+                <Col style={rowStyle} noGutters={true}>
+
+                    <Card>
+                        <Card.Header>
+                            Portfolio Growth
+                                </Card.Header>
+                        <Card.Body>
+                            <AreaChart height={500} width={800} data={portfolioHistory} />
+
+                        </Card.Body>
+                    </Card>
+
+                </Col>
+
+
             </Row>
 
-            <Row>
-                <Col>
+            <Row style={rowStyle} noGutters={true}>
+                <Col style={rowStyle} noGutters={true}>
                     <Card>
                         <Card.Header>Assets by Total Value</Card.Header>
                         <Card.Body>
@@ -268,11 +277,20 @@ function PortfolioPage() {
                     </Card>
                 </Col>
 
-                <Col>
+                <Col style={rowStyle} noGutters={true}>
                     <Card>
                         <Card.Header>Market Capitalization </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300}  data={portfolioStatistics_mCapAggregate} /> : ''}
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300} data={portfolioStatistics_mCapAggregate} /> : ''}
+                        </Card.Body>
+                    </Card >
+                </Col>
+
+                <Col style={rowStyle} noGutters={true}>
+                    <Card>
+                        <Card.Header>Profit/Loss By Sector </Card.Header>
+                        <Card.Body>
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={400} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
                         </Card.Body>
                     </Card >
 
@@ -282,17 +300,14 @@ function PortfolioPage() {
 
             </Row>
 
-
-            <Row>
-
-
-                <Col>
+            <Row style={rowStyle} noGutters={true}>
+                <Col style={rowStyle} noGutters={true}>
                     <Card>
                         <Card.Header>
                             Sector Allocation
                                         </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={600} height={400} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+                            {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={900} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
 
                         </Card.Body>
                     </Card>
@@ -301,16 +316,6 @@ function PortfolioPage() {
 
                 </Col>
 
-                <Col>
-                    <Card>
-                        <Card.Header>Market Capitalization </Card.Header>
-                        <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300}  data={portfolioStatistics_mCapAggregate} /> : ''}
-                        </Card.Body>
-                    </Card >
-
-
-                </Col>
 
 
 
