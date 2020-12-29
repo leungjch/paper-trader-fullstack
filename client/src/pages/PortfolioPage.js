@@ -152,190 +152,158 @@ function PortfolioPage() {
     }, [cash]);
 
     return (
-        // <div>
-        //     <h2> Your Portfolio </h2>
-        //     <h3> Available Cash: ${formatNumber(cash)} </h3>
-        //     <h3> Portfolio Value: $ { portfolioHistory.length !== 0? formatNumber(portfolioHistory[portfolioHistory.length-1]['networth']) : "Loading"} </h3>
-        // <Table striped hover>
-        //     <thead>
-        //         <tr>
-        //             <th>Ticker</th>
-        //             <th>Number of shares</th>
-        //             <th>Average buy-in price</th>
-        //             <th>Current price</th>
-        //             <th>Percentage change</th>
-        //             <th>Total value</th>
-        //             <th>Sector</th>
-        //             <th>Market cap</th>
-        //         </tr>
-        //     </thead>
-        //     <tbody>
-        //         {portfolioData.map(renderPortfolioRow)}
-        //     </tbody>
-        // </Table>
-
-        //     <BarChart data={portfolioData} width={500} height={100} />
-        //     {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
-        //     <AreaChart data={portfolioHistory} />
-        //     {portfolioStatistics_sectorsTreeMap !== null? <TreeMap data = {portfolioStatistics_sectorsTreeMap} /> : ''}
-        // </div>
 
         <Container fluid>
 
             <Row>
                 {/* Key statistics card */}
-                <Col xs={5} md={5} fluid id={"left"}>
-                    <div>
-                        <div className="DivBoxSmall">
-                            <div className="DivBoxTitle">
-                                Account Summary
-                        </div>
 
-                        </div>
-                        <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row noGutters={true} style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col className="colStats">
-                                    <div className="DivBoxSmall">
-                                        <div className="DivBoxText">
-                                            Portfolio Value
-                                        </div>
-                                        <div className="DivBoxStatistic">
-                                            ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
-                                        </div>
-                                    </div>
-                                </Col>
-
-                                <Col className="colStats">
-                                    <div className="DivBoxSmall">
-                                        <div className="DivBoxText">
-                                            % Profit
-                                        </div>
-                                        <div className="DivBoxStatistic">
-                                            {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-
-                            <Row noGutters={true} style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col className="colStats">
-                                    <div className="DivBoxSmall">
-                                        <div className="DivBoxText">
-                                            Cash Reserve
-                                        </div>
-                                        <div className="DivBoxStatistic">
-                                            ${formatNumber(cash)}
-                                        </div>
-                                    </div>
-                                </Col>
-
-                                <Col className="colStats">
-                                    <div className="DivBoxSmall">
-                                        <div className="DivBoxText">
-                                            Assets Owned
-                                            </div>
-                                        <div className="DivBoxStatistic">
-                                            {portfolioData.length}
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col>
-                                    <Card>
-                                        <Card.Header>
-                                            Sector Allocation
+                <Col className="colStats">
+                    <Card>
+                        <Card.Header>
+                            Portfolio Value
                                         </Card.Header>
-                                        <Card.Body>
-                                            {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={600} height={1000} data={portfolioStatistics_sectorsTreeMap} /> : ''}
-
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-
-                            </Row>
-
-                        </Container>
-                    </div>
-                </Col>
-                {/* Portfolio value chart */}
-                <Col xs={7} md={7} id={"right"}>
-
-                    <Row>
-                        <Card>
-                            <Card.Header>
-                                Portfolio Growth
-                                </Card.Header>
-                            <Card.Body>
-                                <AreaChart height={300} width={900} data={portfolioHistory} />
-
-                            </Card.Body>
-                        </Card>
-
-                    </Row>
-
-                    <Row>
-                        <Card>
-                            <Card.Header>
-                                Portfolio Details
-                            </Card.Header>
-                            <Card.Body>
-                                <Table striped hover>
-                                    <thead>
-                                        <tr>
-                                            <th>Asset</th>
-                                            <th>Shares</th>
-                                            <th>Buy-in price</th>
-                                            <th>Current price</th>
-                                            <th>% Profit</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {portfolioData.map(renderPortfolioRow)}
-                                    </tbody>
-                                </Table>
-
-                            </Card.Body>
-
-
-                        </Card>
-
-                    </Row>
-                    <Row>
-                                <Col>
-                                    <Card>
-                                        <Card.Header>Assets by Total Value</Card.Header>
-                                        <Card.Body>
-                                            <BarChart data={portfolioData} width={700 * 0.6} height={400 * 0.6} />
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-
-                                <Col>
-                                    <Card>
-                                        <Card.Header>Market Capitalization</Card.Header>
-                                        <Card.Body>
-                                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700*0.6} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
-                                        </Card.Body>
-                                    </Card >
-
-
-                                </Col>
-                            </Row>
-
+                        <Card.Body>
+                            ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
+                        </Card.Body>
+                    </Card>
                 </Col>
 
-                {/* <Col xs={8} md={6} fluid id={"left"}>
-                    <div className = "DivBox_Big">
-                    <h2>Sector Allocation</h2>
-                    <div className="CenterChart">
-                    {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+                <Col className="colStats">
+                    <div className="DivBoxSmall">
+                        <div className="DivBoxText">
+                            % Profit
+                                        </div>
+                        <div className="DivBoxStatistic">
+                            {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
+                                        </div>
                     </div>
+                </Col>
+
+
+                <Col className="colStats">
+                    <div className="DivBoxSmall">
+                        <div className="DivBoxText">
+                            Cash Reserve
+                                        </div>
+                        <div className="DivBoxStatistic">
+                            ${formatNumber(cash)}
+                        </div>
                     </div>
-                </Col> */}
+                </Col>
+
+
+                <Col className="colStats">
+                    <div className="DivBoxSmall">
+                        <div className="DivBoxText">
+                            Assets Owned
+                                            </div>
+                        <div className="DivBoxStatistic">
+                            {portfolioData.length}
+                        </div>
+                    </div>
+                </Col>
+
+
+
             </Row>
+
+            <Row>
+                <Col>
+
+                    <Card>
+                        <Card.Header>
+                            Portfolio Growth
+                                </Card.Header>
+                        <Card.Body>
+                            <AreaChart height={500} width={800} data={portfolioHistory} />
+
+                        </Card.Body>
+                    </Card>
+
+                </Col>
+
+                <Col>
+
+                    <Card>
+                        <Card.Header>
+                            Portfolio Details
+                            </Card.Header>
+                        <Card.Body>
+                            <Table striped hover>
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Shares</th>
+                                        <th>Buy-in price</th>
+                                        <th>Current price</th>
+                                        <th>% Profit</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {portfolioData.map(renderPortfolioRow)}
+                                </tbody>
+                            </Table>
+
+                        </Card.Body>
+
+
+                    </Card>
+
+
+
+                </Col>
+
+            </Row>
+
+            <Row>
+                <Col>
+                    <Card>
+                        <Card.Header>Assets by Total Value</Card.Header>
+                        <Card.Body>
+                            <BarChart data={portfolioData} width={700 * 0.6} height={400 * 0.6} />
+                        </Card.Body>
+                    </Card>
+                </Col>
+
+                <Col>
+                    <Card>
+                        <Card.Header>Market Capitalization </Card.Header>
+                        <Card.Body>
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700 * 0.6} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
+                        </Card.Body>
+                    </Card >
+
+
+                </Col>
+
+
+            </Row>
+
+
+            <Row>
+
+
+                <Col>
+                    <Card>
+                        <Card.Header>
+                            Sector Allocation
+                                        </Card.Header>
+                        <Card.Body>
+                            {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={600} height={400} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+
+                        </Card.Body>
+                    </Card>
+
+
+
+                </Col>
+
+            </Row>
+
+
+
 
         </Container>
 
