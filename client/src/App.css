@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+
+.DivBox {
+  text-align:center;
+  border-radius:3px;
+  background-color:#e9fbff;
+}
+
+.DivBox_Big {
+  display:block;
+  /* text-align:center; */
+  /* align-items: center; */
+  padding:3%;
+  margin:1%;
+  border-radius:3px;
+  background-color:#e9fbff;
+}
+
+.CenterChart {
+  justify-content: center;
+  text-align: center;
+  display:flex;
+  align-items: center;
+
+}

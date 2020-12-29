@@ -31,10 +31,10 @@ export default function App() {
 
         <div>
 
-          <Navbar variant="dark" bg="dark" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
+          <Navbar variant="light" bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
             <Navbar.Brand style={{ fontSize: "30px" }}>Paper Trader</Navbar.Brand>
 
-            <Nav>
+            <Nav style={{paddingLeft:"30px", paddingRight:"30px"}}>
               {/* <Nav.Link>
               <Link to="/login">Login</Link>
             </Nav.Link>  */}

@@ -6,9 +6,9 @@ function TreeMap(props) {
 
   // var data = props.data;
   
-  var margin = { top: 30, right: 10, bottom: 10, left: 10 },
-    width = 500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+    width = props.width - margin.left - margin.right,
+    height = props.height - margin.top - margin.bottom;
 
   const ref = useRef();
 
@@ -176,7 +176,7 @@ function TreeMap(props) {
         .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
         .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
         .text(function(d){ return d.data.name })
-        .attr("font-size", "19px")
+        .attr("font-size", "15px")
         .attr("fill", "white")
     
     // select node titles
@@ -202,7 +202,7 @@ function TreeMap(props) {
         .attr("x", function(d){ return d.x0})
         .attr("y", function(d){ return d.y0+21})
         .text(function(d){ return d.data.name })
-        .attr("font-size", "19px")
+        .attr("font-size", "15px")
         .attr("fill",  function(d){ return color(d.data.name)} )
 
     // Add the chart heading
@@ -216,7 +216,7 @@ function TreeMap(props) {
 }
 
   return (
-    <div className="treeMap" style={{ padding: 10, height:'500px', width:"100%"}}>
+    <div className="treeMap" style={{ padding: 10, height:props.height, width:props.width}}>
     <svg ref={ref} style={{width:"100%", height:"100%"}} >
     </svg>
 </div>

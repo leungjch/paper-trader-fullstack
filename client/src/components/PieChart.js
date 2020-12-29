@@ -96,7 +96,7 @@ function PieChart(props) {
             .data(data_ready)
             .enter()
             .append('text')
-            .text(function (d) { return d.data.label })
+            .text(function (d) { return d.data.label + ` (${Math.round(parseFloat(d.data.val)/parseFloat(d.data.total)*100)}%)` })
             .attr('transform', function (d) {
                 var pos = outerArc.centroid(d);
                 var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
