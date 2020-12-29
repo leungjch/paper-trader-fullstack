@@ -260,7 +260,7 @@ function PortfolioPage() {
                 </Col>
 
                 <Col xs={8} md={6} fluid id={"left"}>
-                    <div className = "DivBox_Big" style={{overflow:"auto !important", height:"50%"}}> 
+                    <div className = "DivBox_Big" style={{overflow:"hidden !important", height:"50%"}}> 
                     <h1>Portfolio Details</h1>
                     <div style={{ overflow: 'auto !important', height: "100%" }}>
                         <Table striped hover>
