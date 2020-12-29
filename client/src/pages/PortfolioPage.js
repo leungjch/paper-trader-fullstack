@@ -151,7 +151,7 @@ function PortfolioPage() {
 
     return (
         // <div>
-        //     <h1> Your Portfolio </h1>
+        //     <h2> Your Portfolio </h2>
         //     <h3> Available Cash: ${formatNumber(cash)} </h3>
         //     <h3> Portfolio Value: $ { portfolioHistory.length !== 0? formatNumber(portfolioHistory[portfolioHistory.length-1]['networth']) : "Loading"} </h3>
         // <Table striped hover>
@@ -185,7 +185,7 @@ function PortfolioPage() {
                 <Col xs={6} md={6} fluid id={"left"}>
                     <div>
                     <div className = "DivBoxTitle">
-                        <h1>Key Statistics</h1>
+                        <h2>Account Summary</h2>
                     </div>
                         <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                             <Row noGutters = {true} style={{ marginLeft: 0, marginRight: 0 }}>
@@ -194,9 +194,9 @@ function PortfolioPage() {
                                         <h3>
                                             Portfolio Value
                                         </h3>
-                                        <h1>
+                                        <h2>
                                             ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
-                                        </h1>
+                                        </h2>
                                     </div>
                                 </Col>
 
@@ -205,9 +205,9 @@ function PortfolioPage() {
                                         <h3>
                                             % Profit
                                         </h3>
-                                        <h1>
+                                        <h2>
                                             {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
-                                        </h1>
+                                        </h2>
                                     </div>
                                 </Col>
                             </Row>
@@ -218,9 +218,9 @@ function PortfolioPage() {
                                         <h3>
                                             Cash Reserve
                                         </h3>
-                                        <h1>
+                                        <h2>
                                             ${formatNumber(cash)}
-                                        </h1>
+                                        </h2>
                                     </div>
                                 </Col>
 
@@ -229,11 +229,20 @@ function PortfolioPage() {
                                         <h3>
                                             Assets Owned
                                         </h3>
-                                        <h1>
+                                        <h2>
                                             {portfolioData.length}
-                                        </h1>
+                                        </h2>
                                     </div>
                                 </Col>
+                            </Row>
+
+                            <Row>
+                            <div className = "DivBox_Big">
+                    <h2>Sector Allocation</h2>
+                    <div className="CenterChart">
+                    {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+                    </div>
+                    </div>
                             </Row>
 
                         </Container>
@@ -241,27 +250,20 @@ function PortfolioPage() {
                 </Col>
                 {/* Portfolio value chart */}
                 <Col xs={6} md={6} id={"right"}>
+
+                    <Row>
                     <div className="DivBox_Big">
-                    <h1>Portfolio Growth</h1>
-                    <AreaChart height={400} width={700} data={portfolioHistory} />
+                    <h2>Portfolio Growth</h2>
+                    <AreaChart height={300} width={1100} data={portfolioHistory} />
 
 
                     </div>
 
-                </Col>
+                    </Row>
 
-                <Col xs={8} md={6} fluid id={"left"}>
-                    <div className = "DivBox_Big">
-                    <h1>Sector Allocation</h1>
-                    <div className="CenterChart">
-                    {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
-                    </div>
-                    </div>
-                </Col>
-
-                <Col xs={8} md={6} fluid id={"left"}>
+                    <Row>
                     <div className = "DivBox_Big" style={{overflow:"hidden", height:"100%"}}> 
-                    <h1>Portfolio Details</h1>
+                    <h2>Portfolio Details</h2>
                     <div style={{ overflow: 'auto !important', height: "50%" }}>
                         <Table striped hover>
                             <thead>
@@ -285,7 +287,20 @@ function PortfolioPage() {
 
                     
                     </div>
+
+                    </Row>
+
                 </Col>
+
+                {/* <Col xs={8} md={6} fluid id={"left"}>
+                    <div className = "DivBox_Big">
+                    <h2>Sector Allocation</h2>
+                    <div className="CenterChart">
+                    {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+                    </div>
+                    </div>
+                </Col> */}
+
             </Row>
 
             <Row>

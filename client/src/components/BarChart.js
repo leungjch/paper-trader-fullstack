@@ -21,7 +21,7 @@ function BarChart(props) {
 
   useEffect(() => {
     const svg = d3.select(ref.current)
-    // svg.selectAll("*").remove();
+    svg.selectAll("*").remove();
     drawChart();
   }, [props.data]);
 
@@ -39,6 +39,10 @@ function BarChart(props) {
         "translate(" + margin.left + "," + margin.top + ")")
 
     // svg.selectAll("*").remove();
+
+    data.sort(function(a, b) {
+      return d3.descending(parseFloat(a.current_total), parseFloat(b.current_total))
+    })
 
     var x = d3.scaleBand()
       .range([0, width])

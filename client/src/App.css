@@ -51,18 +51,21 @@
 }
 
 .DivBoxTitle {
-  padding: 2%;
-  margin:5%;
+  text-align: center;
+  padding: 1%;
+  margin-bottom:0%;
+  margin-right: 0%;
+  margin-left: 0%;
   border-radius:3px;
   background-color:#e9fbff;
 
 }
 
 .colStats {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
+  margin-left: 0.5%;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-right: 0.5%;
 }
 
 .DivBoxSmall {
@@ -75,7 +78,7 @@
 
 
 
-  padding: 3%;
+  padding: 2%;
   padding-left:0%;
   margin-left:0;
   margin-right:0px;
