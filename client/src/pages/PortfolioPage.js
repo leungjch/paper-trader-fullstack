@@ -184,13 +184,13 @@ function PortfolioPage() {
                 {/* Key statistics card */}
                 <Col xs={6} md={6} fluid id={"left"}>
                     <div>
-                    <div className = "DivBox">
+                    <div className = "DivBoxTitle">
                         <h1>Key Statistics</h1>
                     </div>
-                        <Container fluid>
-                            <Row>
-                                <Col>
-                                    <div className = "DivBox">
+                        <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row noGutters = {true} style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col className="colStats">
+                                    <div className = "DivBoxSmall">
                                         <h3>
                                             Portfolio Value
                                         </h3>
@@ -200,8 +200,8 @@ function PortfolioPage() {
                                     </div>
                                 </Col>
 
-                                <Col>
-                                    <div className ="DivBox">
+                                <Col className="colStats">
+                                    <div className ="DivBoxSmall">
                                         <h3>
                                             % Profit
                                         </h3>
@@ -212,9 +212,9 @@ function PortfolioPage() {
                                 </Col>
                             </Row>
 
-                            <Row>
-                                <Col>
-                                    <div className = "DivBox">   
+                            <Row noGutters = {true}  style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col className="colStats">
+                                    <div className = "DivBoxSmall">   
                                         <h3>
                                             Cash Reserve
                                         </h3>
@@ -224,8 +224,8 @@ function PortfolioPage() {
                                     </div>
                                 </Col>
 
-                                <Col>
-                                        <div className = "DivBox">                                        
+                                <Col className="colStats">
+                                        <div className = "DivBoxSmall">                                        
                                         <h3>
                                             Assets Owned
                                         </h3>
@@ -260,9 +260,9 @@ function PortfolioPage() {
                 </Col>
 
                 <Col xs={8} md={6} fluid id={"left"}>
-                    <div className = "DivBox_Big" style={{overflow:"hidden !important", height:"50%"}}> 
+                    <div className = "DivBox_Big" style={{overflow:"hidden", height:"100%"}}> 
                     <h1>Portfolio Details</h1>
-                    <div style={{ overflow: 'auto !important', height: "100%" }}>
+                    <div style={{ overflow: 'auto !important', height: "50%" }}>
                         <Table striped hover>
                             <thead>
                                 <tr>
@@ -298,7 +298,7 @@ function PortfolioPage() {
 
                 <Col>
                     <div className = "DivBox_Big">
-                        <h2>Market Capitalization Allocation</h2>
+                        <h2>Market Capitalization</h2>
                         {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
                     </div>
 

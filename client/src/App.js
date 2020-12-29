@@ -15,8 +15,11 @@ import { PortfolioPage } from './pages/PortfolioPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { BuyPage } from './pages/BuyPage'
 import { SellPage } from './pages/SellPage'
+import { ValueHistoryPage } from './pages/ValueHistoryPage'
 
 import { useNavigate, useLocation } from "react-router-dom";
+
+import './App.css'
 
 export default function App() {
 
@@ -29,7 +32,7 @@ export default function App() {
     <UserProvider>
       <Router>
 
-        <div>
+        <div className="globalAppStyle">
 
           <Navbar variant="light" bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
             <Navbar.Brand style={{ fontSize: "30px" }}>Paper Trader</Navbar.Brand>
@@ -50,6 +53,9 @@ export default function App() {
               <Nav.Link>
                 <Link to="/history">Transactions</Link>
               </Nav.Link>
+              <Nav.Link>
+                <Link to="/networth">History</Link>
+              </Nav.Link>
             </Nav>
           </Navbar>
           <div style={{ margin: "2em" }}>
@@ -59,6 +65,7 @@ export default function App() {
               <PrivateRoute path={"/buy"} component={BuyPage} />
               <PrivateRoute path={"/sell"} component={SellPage} />
               <PrivateRoute path={"/history"} component={HistoryPage} />
+              <PrivateRoute path={"/networth"} component={ValueHistoryPage}/>
               <Route path="/" element={<LoginPage />} />
             </Routes>
           </div>

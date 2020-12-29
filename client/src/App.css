@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.globalAppStyle {
+  background-color: lightgray;
+}
+
 .App-logo {
   height: 20vmin;
   pointer-events: none;
@@ -39,8 +43,44 @@
 
 
 .DivBox {
-  text-align:center;
+  /* text-align:center; */
+  padding: 10%;
+  margin:5%;
   border-radius:3px;
+  background-color:#e9fbff;
+}
+
+.DivBoxTitle {
+  padding: 2%;
+  margin:5%;
+  border-radius:3px;
+  background-color:#e9fbff;
+
+}
+
+.colStats {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.DivBoxSmall {
+
+  text-align:center;
+  /* display: inline-block; */
+  /* display:flex; */
+  /* flex-direction: column; */
+  /* flex:auto; */
+
+
+
+  padding: 3%;
+  padding-left:0%;
+  margin-left:0;
+  margin-right:0px;
+  margin:0%;
+  border-radius:4px;
   background-color:#e9fbff;
 }
 
