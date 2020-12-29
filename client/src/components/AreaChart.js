@@ -5,7 +5,7 @@ import moment from 'moment';
 function AreaChart(props) {
 
     // var data = props.data;
-    var margin = {top: 10, right: 30, bottom: 50, left: 50};
+    var margin = {top: 0, right: 0, bottom: 40, left: 50};
     var width = props.width - margin.left + margin.right;
 
     var height = props.height - margin.top - margin.bottom;

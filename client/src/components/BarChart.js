@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 function BarChart(props) {
 
   // var data = props.data;
-  var margin = { top: 30, right: 30, bottom: 70, left: 60 };
+  var margin = { top: 30, right: 30, bottom: 60, left: 60 };
   var width = props.width - margin.left - margin.right;
   var height = props.height - margin.top - margin.bottom;
 
@@ -29,6 +29,8 @@ function BarChart(props) {
 
     // const data = [{ticker: "V", current_total:10}, {ticker:"F", current_total:5}]
     let data = props.data;
+    console.log("DATA BARCHART IS", data)
+
     let maxY = d3.max(data, function (d) { return parseFloat(d.current_total) })
 
     const svg = d3.select(ref.current)
@@ -53,7 +55,7 @@ function BarChart(props) {
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x))
       .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
+      .attr("transform", "translate(12,0)rotate(-10)")
       .style("text-anchor", "end");
 
     // Add Y axis
@@ -61,7 +63,10 @@ function BarChart(props) {
       .domain([0, maxY])
       .range([height, 0]);
     svg.append("g")
-      .call(d3.axisLeft(y));
+      .call(
+      d3.axisLeft(y)
+      .tickFormat(d => props.prefix + d.toString() + props.suffix)
+      );
 
     // Bars
     svg.selectAll("mybar")

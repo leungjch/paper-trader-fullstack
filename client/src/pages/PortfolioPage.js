@@ -22,6 +22,7 @@ function PortfolioPage() {
     const [portfolioData, setPortfolioData] = useState([])
     const [portfolioStatistics_mCapAggregate, setPortfolioStatistics_mCapAggregate] = useState(null)
     const [portfolioStatistics_sectorsTreeMap, setPortfolioStatistics_sectorsTreeMap] = useState(null)
+    const [portfolioStatistics_profitLoss, setPortfolioStatistics_profitLoss] = useState(null); 
 
     const [portfolioHistory, setPortfolioHistory] = useState([])
 
@@ -39,6 +40,7 @@ function PortfolioPage() {
                 setPortfolioData(data);
                 computeSectors(data)
                 computeMarketCaps(data)
+                profitLossCalculator(data)
             })
 
 
@@ -133,6 +135,7 @@ function PortfolioPage() {
             } else {
                 large += holding
             }
+
         }
         const total = micro + small + medium + large
         let obj = [{ label: "Micro", val: micro, total: total }, { label: "Small", val: small, total: total }, { label: "Medium", val: medium, total: total }, { label: "Large", val: large, total: total }]
@@ -143,6 +146,35 @@ function PortfolioPage() {
 
         console.log("Market caps obj is", cleanObj)
         setPortfolioStatistics_mCapAggregate(cleanObj);
+    }
+
+    // Calculate Profit Loss by Sector
+    function profitLossCalculator(data) {
+        const result = [];
+
+        for (const stock of data) {
+
+            // If sector exists
+            if (result.some(e => e.name === stock['sector'])) {
+                for (let obj of result) {
+
+                    if (obj['name'] === stock['sector']) {
+                        obj['worthNew'] = obj['worthNew'] + stock['current_price']*stock['n_holding']
+                        obj['worthOld'] = obj['worthOld'] + stock['buy_price']*stock['n_holding']
+                    }
+                }
+            } else result.push({ "name": stock['sector'], "worthNew": stock['current_price']*stock['n_holding'], 'worthOld': stock['buy_price']*stock['n_holding'] })
+        }
+
+        for (let i = 0; i < result.length; i++) {
+            result[i]['value'] = ((result[i]['worthNew']- result[i]['worthOld']) /result[i]['worthOld'])*100
+            result[i]['current_total'] = result[i]['value']
+            result[i]['ticker'] = result[i]['name']
+        }
+        const finalResult = result;
+
+        console.log("Profit/Loss", finalResult);
+        setPortfolioStatistics_profitLoss(finalResult);
     }
 
     useEffect(() => {
@@ -222,7 +254,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>
                             Portfolio Details
-        </Card.Header>
+                        </Card.Header>
                         <Card.Body>
                             <Table striped hover>
                                 <thead>
@@ -244,9 +276,6 @@ function PortfolioPage() {
 
 
                     </Card>
-
-
-
                 </Col>
 
 
@@ -258,12 +287,9 @@ function PortfolioPage() {
                                 </Card.Header>
                         <Card.Body>
                             <AreaChart height={500} width={800} data={portfolioHistory} />
-
                         </Card.Body>
                     </Card>
-
                 </Col>
-
 
             </Row>
 
@@ -272,7 +298,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>Assets by Total Value</Card.Header>
                         <Card.Body>
-                            <BarChart data={portfolioData} width={500} height={300} />
+                            <BarChart data={portfolioData} width={500} height={300} prefix={"$"} suffix={""} />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -281,7 +307,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>Market Capitalization </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300} data={portfolioStatistics_mCapAggregate} /> : ''}
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300} data={portfolioStatistics_mCapAggregate}  /> : ''}
                         </Card.Body>
                     </Card >
                 </Col>
@@ -290,7 +316,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>Profit/Loss By Sector </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={400} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
+                            {portfolioStatistics_profitLoss !== null ? <BarChart data={portfolioStatistics_profitLoss} width={500} height={300} prefix={""} suffix={"%"} /> : ""}
                         </Card.Body>
                     </Card >
 
