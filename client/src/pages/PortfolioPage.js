@@ -17,7 +17,8 @@ function PortfolioPage() {
 
     const [authenticated, setAuthenticated] = useState(false)
     const [portfolioData, setPortfolioData] = useState([])
-    const [portfolioStatistics, setPortfolioStatistics] = useState({mCapAggregate:[]})
+    const [portfolioStatistics_mCapAggregate, setPortfolioStatistics_mCapAggregate] = useState(null)
+    const [portfolioStatistics_sectorsTreeMap, setPortfolioStatistics_sectorsTreeMap] = useState(null)
 
     const [portfolioHistory, setPortfolioHistory] = useState([])
 
@@ -33,8 +34,8 @@ function PortfolioPage() {
                 console.log("Client: Loaded portfolio data", data);
                 console.log("User info is, ", user)
                 setPortfolioData(data);
-                computeMarketCaps(data)
                 computeSectors(data)
+                computeMarketCaps(data)
             })
 
         
@@ -96,8 +97,7 @@ function PortfolioPage() {
 
         
         console.log("TREEMAP", finalResult);
-        setPortfolioStatistics({ ...portfolioStatistics,
-            sectorTreeMap: finalResult                              })
+        setPortfolioStatistics_sectorsTreeMap(finalResult);
 }
 
     // Large cap: 10B+
@@ -138,15 +138,12 @@ function PortfolioPage() {
         })
 
         console.log("Market caps obj is", cleanObj)
-        setPortfolioStatistics({ ...portfolioStatistics,
-                                 mCapAggregate: cleanObj                              })
+        setPortfolioStatistics_mCapAggregate(cleanObj);
     }
-
 
     useEffect(() => {
         // Fetch portfolio data
         getPortfolio()
-
         // 
     }, [cash]);
 
@@ -173,9 +170,9 @@ function PortfolioPage() {
             </Table>
 
             <BarChart data={portfolioData} width={500} height={100} />
-            <PieChart data={portfolioStatistics['mCapAggregate']} />
+            {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
             <AreaChart data={portfolioHistory} />
-            {'sectorTreeMap' in portfolioStatistics ? <TreeMap data = {portfolioStatistics['sectorTreeMap']} /> : ''}
+            {portfolioStatistics_sectorsTreeMap !== null? <TreeMap data = {portfolioStatistics_sectorsTreeMap} /> : ''}
 
         </div>
 
