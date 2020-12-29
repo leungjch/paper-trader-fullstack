@@ -37,6 +37,9 @@ function BuyPage() {
                     setStockData(cleanStockData(data));
                     console.log(cleanStockData(data))
                 }
+            }).catch((error) => {
+                alert("Invalid stock ticker. Please try again.")
+
             })
         setConfirmButton(true)
         // console.log(cleanStockData(Tesla))

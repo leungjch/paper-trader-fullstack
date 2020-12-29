@@ -191,9 +191,14 @@ function PortfolioPage() {
     return (
 
         <Container fluid>
+            <Row style={rowStyle} noGutters = {true}>
 
+            <h2> Portfolio Dashboard </h2>
+
+            </Row>
             <Row style={rowStyle} noGutters={true}>
                 {/* Key statistics card */}
+                
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
                     <div className="DivBoxSmall">
