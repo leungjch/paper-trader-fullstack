@@ -12,6 +12,8 @@ import { UserContext, UserProvider } from './UserContext';
 
 import { LoginPage } from './pages/LoginPage'
 import { PortfolioPage } from './pages/PortfolioPage'
+import { PortfolioDetailsPage } from './pages/PortfolioDetailsPage'
+
 import { HistoryPage } from './pages/HistoryPage'
 import { BuyPage } from './pages/BuyPage'
 import { SellPage } from './pages/SellPage'
@@ -45,6 +47,9 @@ export default function App() {
                 <Link to="/portfolio">Dashboard</Link>
               </Nav.Link>
               <Nav.Link>
+                <Link to="/portfolioDetails">Portfolio</Link>
+              </Nav.Link>
+              <Nav.Link>
                 <Link to="/buy">Buy</Link>
               </Nav.Link>
               <Nav.Link>
@@ -56,12 +61,15 @@ export default function App() {
               <Nav.Link>
                 <Link to="/networth">History</Link>
               </Nav.Link>
+
             </Nav>
           </Navbar>
           <div style={{ margin: "2em" }}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <PrivateRoute path={"/portfolio"} component={PortfolioPage} />
+              <PrivateRoute path={"/portfolioDetails"} component={PortfolioDetailsPage} />
+
               <PrivateRoute path={"/buy"} component={BuyPage} />
               <PrivateRoute path={"/sell"} component={SellPage} />
               <PrivateRoute path={"/history"} component={HistoryPage} />

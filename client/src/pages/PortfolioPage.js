@@ -6,6 +6,8 @@ import AreaChart from "../components/AreaChart"
 import TreeMap from "../components/TreeMap"
 import '../App.css'
 
+
+
 import { UserContext, UserProvider } from '../UserContext';
 import formatNumber from '../helper-functions/formatNumber'
 import abbreviateNumber from "../helper-functions/abbreviateNumber"
@@ -60,16 +62,16 @@ function PortfolioPage() {
     }
 
     function renderPortfolioRow(item, index) {
+        const percentageChange = (100 * (item.current_price - item.buy_price) / item.buy_price).toFixed(2)
+        const profitLossIndicator = percentageChange > 0 ? "#00ff00" : "#FA8072";
         return (
             <tr key={index}>
                 <td>{item.ticker}</td>
                 <td>{item.n_holding}</td>
                 <td>${item.buy_price}</td>
                 <td>${item.current_price}</td>
-                <td>{(100 * (item.current_price - item.buy_price) / item.buy_price).toFixed(2)}%</td>
+                <td><div style={{ backgroundColor: profitLossIndicator, borderRadius: "0.2em", padding: "0%", textAlign: "center" }}>{percentageChange}%</div></td>
                 <td>${item.current_total}</td>
-                <td>{item.sector}</td>
-                <td>${abbreviateNumber(item.marketcap)}</td>
 
             </tr>
         )
@@ -132,8 +134,8 @@ function PortfolioPage() {
                 large += holding
             }
         }
-        const total = micro+small+medium+large
-        let obj = [{ label: "Micro", val: micro, total:total }, { label: "Small", val: small, total:total }, { label: "Medium", val: medium, total:total}, { label: "Large", val: large, total:total }]
+        const total = micro + small + medium + large
+        let obj = [{ label: "Micro", val: micro, total: total }, { label: "Small", val: small, total: total }, { label: "Medium", val: medium, total: total }, { label: "Large", val: large, total: total }]
 
         let cleanObj = obj.filter(function (el) {
             return el['val'] !== 0
@@ -182,113 +184,146 @@ function PortfolioPage() {
 
             <Row>
                 {/* Key statistics card */}
-                <Col xs={6} md={6} fluid id={"left"}>
+                <Col xs={5} md={5} fluid id={"left"}>
                     <div>
-                    <div className = "DivBoxTitle">
-                        <h2>Account Summary</h2>
-                    </div>
+                        <div className="DivBoxSmall">
+                            <div className="DivBoxTitle">
+                                Account Summary
+                        </div>
+
+                        </div>
                         <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row noGutters = {true} style={{ marginLeft: 0, marginRight: 0 }}>
+                            <Row noGutters={true} style={{ marginLeft: 0, marginRight: 0 }}>
                                 <Col className="colStats">
-                                    <div className = "DivBoxSmall">
-                                        <h3>
+                                    <div className="DivBoxSmall">
+                                        <div className="DivBoxText">
                                             Portfolio Value
-                                        </h3>
-                                        <h2>
+                                        </div>
+                                        <div className="DivBoxStatistic">
                                             ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
-                                        </h2>
+                                        </div>
                                     </div>
                                 </Col>
 
                                 <Col className="colStats">
-                                    <div className ="DivBoxSmall">
-                                        <h3>
+                                    <div className="DivBoxSmall">
+                                        <div className="DivBoxText">
                                             % Profit
-                                        </h3>
-                                        <h2>
+                                        </div>
+                                        <div className="DivBoxStatistic">
                                             {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
-                                        </h2>
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>
 
-                            <Row noGutters = {true}  style={{ marginLeft: 0, marginRight: 0 }}>
+                            <Row noGutters={true} style={{ marginLeft: 0, marginRight: 0 }}>
                                 <Col className="colStats">
-                                    <div className = "DivBoxSmall">   
-                                        <h3>
+                                    <div className="DivBoxSmall">
+                                        <div className="DivBoxText">
                                             Cash Reserve
-                                        </h3>
-                                        <h2>
+                                        </div>
+                                        <div className="DivBoxStatistic">
                                             ${formatNumber(cash)}
-                                        </h2>
+                                        </div>
                                     </div>
                                 </Col>
 
                                 <Col className="colStats">
-                                        <div className = "DivBoxSmall">                                        
-                                        <h3>
+                                    <div className="DivBoxSmall">
+                                        <div className="DivBoxText">
                                             Assets Owned
-                                        </h3>
-                                        <h2>
+                                            </div>
+                                        <div className="DivBoxStatistic">
                                             {portfolioData.length}
-                                        </h2>
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>
 
                             <Row>
-                            <div className = "DivBox_Big">
-                    <h2>Sector Allocation</h2>
-                    <div className="CenterChart">
-                    {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={500} data={portfolioStatistics_sectorsTreeMap} /> : ''}
-                    </div>
-                    </div>
+                                <Col>
+                                    <Card>
+                                        <Card.Header>
+                                            Sector Allocation
+                                        </Card.Header>
+                                        <Card.Body>
+                                            {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={600} height={1000} data={portfolioStatistics_sectorsTreeMap} /> : ''}
+
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+
                             </Row>
 
                         </Container>
                     </div>
                 </Col>
                 {/* Portfolio value chart */}
-                <Col xs={6} md={6} id={"right"}>
+                <Col xs={7} md={7} id={"right"}>
 
                     <Row>
-                    <div className="DivBox_Big">
-                    <h2>Portfolio Growth</h2>
-                    <AreaChart height={300} width={1100} data={portfolioHistory} />
+                        <Card>
+                            <Card.Header>
+                                Portfolio Growth
+                                </Card.Header>
+                            <Card.Body>
+                                <AreaChart height={300} width={900} data={portfolioHistory} />
 
-
-                    </div>
+                            </Card.Body>
+                        </Card>
 
                     </Row>
 
                     <Row>
-                    <div className = "DivBox_Big" style={{overflow:"hidden", height:"100%"}}> 
-                    <h2>Portfolio Details</h2>
-                    <div style={{ overflow: 'auto !important', height: "50%" }}>
-                        <Table striped hover>
-                            <thead>
-                                <tr>
-                                    <th>Asset</th>
-                                    <th>Shares</th>
-                                    <th>Buy-in price</th>
-                                    <th>Current price</th>
-                                    <th>% Profit</th>
-                                    <th>Total</th>
-                                    <th>Sector</th>
-                                    <th>Market cap</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {portfolioData.map(renderPortfolioRow)}
-                            </tbody>
-                        </Table>
+                        <Card>
+                            <Card.Header>
+                                Portfolio Details
+                            </Card.Header>
+                            <Card.Body>
+                                <Table striped hover>
+                                    <thead>
+                                        <tr>
+                                            <th>Asset</th>
+                                            <th>Shares</th>
+                                            <th>Buy-in price</th>
+                                            <th>Current price</th>
+                                            <th>% Profit</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {portfolioData.map(renderPortfolioRow)}
+                                    </tbody>
+                                </Table>
 
-                    </div>
+                            </Card.Body>
 
-                    
-                    </div>
+
+                        </Card>
 
                     </Row>
+                    <Row>
+                                <Col>
+                                    <Card>
+                                        <Card.Header>Assets by Total Value</Card.Header>
+                                        <Card.Body>
+                                            <BarChart data={portfolioData} width={700 * 0.6} height={400 * 0.6} />
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+
+                                <Col>
+                                    <Card>
+                                        <Card.Header>Market Capitalization</Card.Header>
+                                        <Card.Body>
+                                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700*0.6} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
+                                        </Card.Body>
+                                    </Card >
+
+
+                                </Col>
+                            </Row>
 
                 </Col>
 
@@ -300,26 +335,8 @@ function PortfolioPage() {
                     </div>
                     </div>
                 </Col> */}
-
             </Row>
 
-            <Row>
-                <Col>
-                <div className = "DivBox_Big">
-                    <h2>Assets by Total Value</h2>
-                    <BarChart data={portfolioData} width={500} height={300} />
-                </div>
-                </Col>
-
-                <Col>
-                    <div className = "DivBox_Big">
-                        <h2>Market Capitalization</h2>
-                        {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
-                    </div>
-
-
-                </Col>
-            </Row>
         </Container>
 
 

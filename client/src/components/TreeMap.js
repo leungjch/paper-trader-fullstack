@@ -125,6 +125,8 @@ function TreeMap(props) {
       "name":"CEO"
    };
    var data = props.data;
+   console.log("TREEMAP DATA IS", data)
+
     const svg = d3.select(ref.current);
 
     // Give the data to this cluster layout:
@@ -139,8 +141,8 @@ function TreeMap(props) {
         (root);
     
     const color = d3.scaleOrdinal()
-        .domain(["boss1", "boss2", "boss3"])
-        .range([ "#402D54", "#D18975", "#8FD175"]);
+        .domain(Array.from(data['children'], e => e.name))
+        .range(d3.schemeSet2);
 
     const opacity = d3.scaleLinear()
         .domain([10, 30])
@@ -159,7 +161,7 @@ function TreeMap(props) {
         .attr('y', function (d) { return d.y0; })
         .attr('width', function (d) { return d.x1 - d.x0; })
         .attr('height', function (d) { return d.y1 - d.y0; })
-        .style("stroke", "black")
+      //   .style("stroke", "black")
         .style("fill", function(d){ return color(d.parent.data.name)} )
         .style("opacity", function(d){ return opacity(d.data.value)})
 
@@ -216,8 +218,8 @@ function TreeMap(props) {
 }
 
   return (
-    <div className="treeMap" style={{ padding: 10, height:props.height, width:props.width}}>
-    <svg ref={ref} style={{width:"100%", height:"100%"}} >
+    <div className="treeMap" style={{ padding: 10}}>
+      <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
     </svg>
 </div>
 );

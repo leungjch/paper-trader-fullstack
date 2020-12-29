@@ -4,9 +4,10 @@ import * as d3 from 'd3';
 function PieChart(props) {
 
     // var data = props.data;
-    var width = 500
-    var height = 500
-    var margin = 100
+    var margin = 0
+
+    var width = props.width;
+    var height = props.height;
     var radius = Math.min(width, height) / 2 - margin
 
     const ref = useRef();
@@ -33,7 +34,7 @@ function PieChart(props) {
         .attr('width', width)
         .attr('height', height)
         .append('g')
-        .attr('transform', 'translate(' + (width / 2) +
+        .attr('transform', 'translate(' + (width /  2) +
             ',' + (height / 2) + ')');
 
         // Create dummy data
@@ -110,8 +111,8 @@ function PieChart(props) {
     }
 
     return (
-        <div className="piechart" style={{ padding: 10 }}>
-            <svg ref={ref} >
+        <div className="piechart" style={{  alignContent:"center", alignItems:"center", }}>
+            <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
             </svg>
         </div>
     );

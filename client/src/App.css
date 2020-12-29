@@ -1,3 +1,6 @@
+:root {
+  --sharpShadow: 0 1px 1px rgb(107, 107, 107),0 2px 2px rgba(128, 128, 128, 0.192),0 4px 4px rgba(184, 184, 184, 0.15),0 8px 8px rgba(197, 197, 197, 0.1),0 16px 16px rgba(0,0,0,0.05);
+}
 .App {
   text-align: center;
 }
@@ -51,14 +54,14 @@
 }
 
 .DivBoxTitle {
-  text-align: center;
+  text-align: left;
+  font-size:20px;
   padding: 1%;
+  font-weight:bold;
   margin-bottom:0%;
   margin-right: 0%;
   margin-left: 0%;
-  border-radius:3px;
   background-color:#e9fbff;
-
 }
 
 .colStats {
@@ -67,14 +70,17 @@
   margin-top: 5px;
   margin-right: 0.5%;
 }
-
+.shadow-sharp{
+  box-shadow:var(--sharpShadow);
+}  
 .DivBoxSmall {
-
+  box-shadow:var(--sharpShadow);
   text-align:center;
   /* display: inline-block; */
   /* display:flex; */
   /* flex-direction: column; */
   /* flex:auto; */
+  
 
 
 
@@ -89,14 +95,30 @@
 
 .DivBox_Big {
   display:block;
+  box-shadow: var(--sharpShadow);
   /* text-align:center; */
-  /* align-items: center; */
+  flex:auto;
+  align-items: center;
   padding:3%;
-  margin:1%;
+  margin-bottom:1%;
+  margin-top:0;
+  margin-left:1%;
+
+
   border-radius:3px;
   background-color:#e9fbff;
 }
 
+.DivBoxStatistic {
+  font-size:20px;
+  font-weight: "bold";
+}
+
+.DivBoxText {
+  font-size:15px;
+  font-weight: normal;
+
+}
 .CenterChart {
   justify-content: center;
   text-align: center;

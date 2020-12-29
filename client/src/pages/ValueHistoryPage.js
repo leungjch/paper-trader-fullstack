@@ -35,7 +35,7 @@ function ValueHistoryPage() {
 
     return (
         <div>
-            <h2> Transaction History </h2>
+            <h2> Portfolio Net Worth </h2>
 
             <Table striped hover>
                 <thead>

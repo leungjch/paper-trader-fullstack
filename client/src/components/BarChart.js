@@ -78,8 +78,8 @@ function BarChart(props) {
   }
 
   return (
-    <div className="barchart" style={{ padding: 10, width: "100%", height: "100%" }}>
-      <svg ref={ref} style={{ width: "100%", height: "100%" }}>
+    <div className="barchart" style={{ padding: 10 }}>
+      <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
       </svg>
     </div>
   );
