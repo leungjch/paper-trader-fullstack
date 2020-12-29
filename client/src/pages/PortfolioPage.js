@@ -152,23 +152,23 @@ function PortfolioPage() {
         //     <h2> Your Portfolio </h2>
         //     <h3> Available Cash: ${formatNumber(cash)} </h3>
         //     <h3> Portfolio Value: $ { portfolioHistory.length !== 0? formatNumber(portfolioHistory[portfolioHistory.length-1]['networth']) : "Loading"} </h3>
-        //     <Table striped hover>
-        //         <thead>
-        //             <tr>
-        //                 <th>Ticker</th>
-        //                 <th>Number of shares</th>
-        //                 <th>Average buy-in price</th>
-        //                 <th>Current price</th>
-        //                 <th>Percentage change</th>
-        //                 <th>Total value</th>
-        //                 <th>Sector</th>
-        //                 <th>Market cap</th>
-        //             </tr>
-        //         </thead>
-        //         <tbody>
-        //             {portfolioData.map(renderPortfolioRow)}
-        //         </tbody>
-        //     </Table>
+            // <Table striped hover>
+            //     <thead>
+            //         <tr>
+            //             <th>Ticker</th>
+            //             <th>Number of shares</th>
+            //             <th>Average buy-in price</th>
+            //             <th>Current price</th>
+            //             <th>Percentage change</th>
+            //             <th>Total value</th>
+            //             <th>Sector</th>
+            //             <th>Market cap</th>
+            //         </tr>
+            //     </thead>
+            //     <tbody>
+            //         {portfolioData.map(renderPortfolioRow)}
+            //     </tbody>
+            // </Table>
 
         //     <BarChart data={portfolioData} width={500} height={100} />
         //     {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
@@ -177,39 +177,104 @@ function PortfolioPage() {
         // </div>
 
         <Container>
+
             <Row>
-                <Col xs={12} md={8}>
-                <Card>Hello</Card>
+                <Col xs={8} md={4} fluid id={"left"}>
+                    {/* Key statistics card */}
+                        <Card>
+                            <Card.Title>Key Statistics</Card.Title>
+                            <Container>
+                                <Row>
+                                    <Col> 
+                                        <div>
+                                        <h8>
+                                            Portfolio Value
+                                        </h8>
+                                        <h4>
+                                            ${ portfolioHistory.length !== 0? formatNumber(portfolioHistory[portfolioHistory.length-1]['networth']) : "Loading"}
+                                        </h4>
+                                        </div>
+                                    </Col>
+
+                                    <Col>
+                                        <div>
+                                            <h8>
+                                                % Profit
+                                            </h8>
+                                            <h4>
+                                                { portfolioHistory.length !== 0? ((parseFloat(portfolioHistory[portfolioHistory.length-1]['networth'])-parseFloat(portfolioHistory[0]['networth']))/parseFloat(portfolioHistory[0]['networth'])*100).toFixed(3) : "Loading" }%
+                                            </h4>
+                                        </div>
+                                    </Col>
+                                </Row>
+
+                                <Row>
+                                    <Col>
+                                        <div>
+                                            <h8>
+                                            Cash Reserve
+                                            </h8>
+                                            <h4>
+                                                ${formatNumber(cash)}
+                                            </h4>
+                                        </div>
+                                    </Col>
+
+                                    <Col>
+                                        <div>
+                                            <h8>
+                                                Assets Owned
+                                            </h8>
+                                            <h3>
+                                                {portfolioData.length}
+                                            </h3>
+                                        </div>
+                                    </Col>
+                                </Row>
+
+                            </Container>
+                        </Card>
                 </Col>
-                <Col xs={6} md={4}>
-                <Card>Hello</Card>
+                    {/* Portfolio value chart */}
+                    <Col xs={4} md={8} id={"right"}>
+                    <AreaChart height = {400} width = {700} data={portfolioHistory} />
+                
                 </Col>
+
+                <Col xs={8} md={4} fluid id={"left"}>
+                    {portfolioStatistics_sectorsTreeMap !== null? <TreeMap data = {portfolioStatistics_sectorsTreeMap} /> : ''}
+                </Col>
+
+                <Col xs={8} md={4} fluid id={"left"}>
+                <Table striped hover>
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Shares</th>
+                        <th>Buy-in price</th>
+                        <th>Current price</th>
+                        <th>% Profit</th>
+                        <th>Total value</th>
+                        <th>Sector</th>
+                        <th>Market cap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {portfolioData.map(renderPortfolioRow)}
+                </tbody>
+            </Table>
+                </Col>                
             </Row>
 
-            {/* Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop */}
             <Row>
-                <Col class="border" style={{border:"10px", borderColor:"black", borderRadius:"1px"}} xs={6} md={4}>
-                <Card>Hello</Card>
+                <Col>
+                    <BarChart data={portfolioData} width={500} height={100} />
                 </Col>
-                <Col xs={6} md={4}>
-                <Card>Hello</Card>
 
-                </Col>
-                <Col xs={6} md={4}>
-                    <Card>Hello</Card>
+                <Col>
+                    {portfolioStatistics_mCapAggregate !== null ? <PieChart data={portfolioStatistics_mCapAggregate} /> : ''}
                 </Col>
             </Row>
-
-            {/* Columns are always 50% wide, on mobile and desktop */}
-            <Row>
-                <Col xs={6}>
-                    <Card>Hello</Card>
-                </Col>
-                <Col xs={6}>
-                <Card>Hello</Card>
-                </Col>
-            </Row>
-
         </Container>
 
 

@@ -118,7 +118,7 @@ const addUsers = (request, response) => {
 
 const addCashById = (request, response) => {
     const id = request.params.id
-    const addCash = request.params.addCash
+    const addCash = parseFloat(request.params.addCash)
     pool.query("UPDATE users SET cash = cash + $2 WHERE id = $1",
         [id, addCash],
         (error) => {

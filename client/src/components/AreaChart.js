@@ -6,9 +6,9 @@ function AreaChart(props) {
 
     // var data = props.data;
     var margin = {top: 10, right: 30, bottom: 50, left: 50};
-    var width = 800 - margin.left + margin.right;
+    var width = props.width - margin.left + margin.right;
 
-    var height = 500 - margin.top - margin.bottom;
+    var height = props.height - margin.top - margin.bottom;
 
     const ref = useRef();
 
@@ -73,7 +73,7 @@ function AreaChart(props) {
     }
 
     return (
-        <div className="areachart" style={{ padding: 10, height:'500px', width:"100%"}}>
+        <div className="areachart" style={{ padding: 10, height:props.height, width:props.width}}>
             <svg ref={ref} style={{width:"100%", height:"100%"}} >
             </svg>
         </div>
