@@ -34,6 +34,7 @@ function PortfolioPage() {
                 console.log("User info is, ", user)
                 setPortfolioData(data);
                 computeMarketCaps(data)
+                computeSectors(data)
             })
 
         
@@ -52,9 +53,8 @@ function PortfolioPage() {
             .then((data) => {
                 console.log('Portfoliovaluehistory is', data)
                 setPortfolioHistory(data);
-            })
-
-        
+                
+            })   
     }
     
     function renderPortfolioRow(item, index) {
@@ -73,11 +73,39 @@ function PortfolioPage() {
         )
     }
 
+    // Compute data for feeding into TreeMap
+    function computeSectors(data) {
+
+        const result = [];
+        
+        for (const stock of data) {
+
+            if (result.some(e => e.name === stock['sector'])) {
+                for (let obj of result) {
+                    
+                    if (obj['name'] === stock['sector']) {
+                        obj['children'].push({"name": stock['ticker'], "value": stock['current_total'], "colname": 3})
+                    }
+                    
+                }
+
+            } else result.push({"name": stock['sector'], "children": [{"name": stock['ticker'], "value": stock['current_total'], "colname": 3}], "colname": 2})
+
+            }
+        const finalResult = {"name": "Sectors", "colname": 1, "children":result}
+
+        
+        console.log("TREEMAP", finalResult);
+        setPortfolioStatistics({ ...portfolioStatistics,
+            sectorTreeMap: finalResult                              })
+}
+
     // Large cap: 10B+
     // Mid cap: 2-10B
     // Small cap: 0.3-2B
     // Micro cap: < 0.3B
     // Tabulate stocks by market cap
+    // For market cap donut/pie chart
     function computeMarketCaps(data) {
         let large = 0
         let medium = 0
@@ -147,7 +175,7 @@ function PortfolioPage() {
             <BarChart data={portfolioData} width={500} height={100} />
             <PieChart data={portfolioStatistics['mCapAggregate']} />
             <AreaChart data={portfolioHistory} />
-            <TreeMap />
+            {'sectorTreeMap' in portfolioStatistics ? <TreeMap data = {portfolioStatistics['sectorTreeMap']} /> : ''}
 
         </div>
 
