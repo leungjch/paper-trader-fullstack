@@ -166,8 +166,25 @@ function SellPage() {
                         <Form.Control
                             type="number"
                             placeholder="Number of shares"
-                            onChange={(e) => {setConfirmButton(true); setNumShares(parseInt(e.target.value))} } />
-                        <Form.Text className="text-muted">
+                            value={numShares}
+                            onChange={(e) => 
+                            
+                            {
+                                console.log("ONCHANGE IS", e.target.value)
+                                const re = /^[0-9\b]+$/;
+                                
+                                if (e.target.value === '' || re.test(e.target.value)) {
+                                  setNumShares(parseInt(e.target.value))
+                                  setConfirmButton(true)
+                                }
+                                else {
+                                    setNumShares(numShares)
+                                }
+                            
+                            } 
+                            
+                            } />
+                            <Form.Text className="text-muted">
                         </Form.Text>
                     </Form.Group>
                     <ButtonGroup>
