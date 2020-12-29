@@ -159,14 +159,15 @@ function PortfolioPage() {
                 {/* Key statistics card */}
 
                 <Col className="colStats">
-                    <Card>
-                        <Card.Header>
+                <div className="DivBoxSmall">
+                        <div className="DivBoxText">
                             Portfolio Value
-                                        </Card.Header>
-                        <Card.Body>
+                                        </div>
+                                        <div className="DivBoxStatistic">
+
                             ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
                 </Col>
 
                 <Col className="colStats">
@@ -216,7 +217,7 @@ function PortfolioPage() {
                             Portfolio Growth
                                 </Card.Header>
                         <Card.Body>
-                            <AreaChart height={500} width={800} data={portfolioHistory} />
+                            <AreaChart height={500} width={730} data={portfolioHistory} />
 
                         </Card.Body>
                     </Card>
@@ -262,7 +263,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>Assets by Total Value</Card.Header>
                         <Card.Body>
-                            <BarChart data={portfolioData} width={700 * 0.6} height={400 * 0.6} />
+                            <BarChart data={portfolioData} width={500} height={300} />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -271,7 +272,7 @@ function PortfolioPage() {
                     <Card>
                         <Card.Header>Market Capitalization </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700 * 0.6} height={200} data={portfolioStatistics_mCapAggregate} /> : ''}
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300}  data={portfolioStatistics_mCapAggregate} /> : ''}
                         </Card.Body>
                     </Card >
 
@@ -299,6 +300,19 @@ function PortfolioPage() {
 
 
                 </Col>
+
+                <Col>
+                    <Card>
+                        <Card.Header>Market Capitalization </Card.Header>
+                        <Card.Body>
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={300}  data={portfolioStatistics_mCapAggregate} /> : ''}
+                        </Card.Body>
+                    </Card >
+
+
+                </Col>
+
+
 
             </Row>
 

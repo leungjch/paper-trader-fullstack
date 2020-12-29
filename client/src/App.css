@@ -76,6 +76,7 @@
 .DivBoxSmall {
   box-shadow:var(--sharpShadow);
   text-align:center;
+  margin-bottom:10%;
   /* display: inline-block; */
   /* display:flex; */
   /* flex-direction: column; */
@@ -88,7 +89,6 @@
   padding-left:0%;
   margin-left:0;
   margin-right:0px;
-  margin:0%;
   border-radius:4px;
   background-color:#e9fbff;
 }

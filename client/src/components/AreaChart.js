@@ -73,7 +73,7 @@ function AreaChart(props) {
     }
 
     return (
-        <div className="areachart" style={{ padding: 10, height:props.height, width:props.width}}>
+        <div className="areachart" style={{ padding: 0, height:props.height, width:props.width}}>
             <svg ref={ref} style={{width:"100%", height:"100%"}} >
             </svg>
         </div>
