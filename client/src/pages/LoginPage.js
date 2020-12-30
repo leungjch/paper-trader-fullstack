@@ -7,8 +7,8 @@ function LoginPage() {
   
   const { login } = useContext(UserContext);
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState("Guest")
+  const [password, setPassword] = useState("hunter2")
   
     // Router navigator
   const navigate = useNavigate();
