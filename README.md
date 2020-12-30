@@ -10,6 +10,6 @@ Paper Trader is a full-stack stock portfolio simulator with live price updates e
 - **PostgreSQL** for storage of transaction history and portfolio and performing simple CRUD operations.
 - **Node.js** and Express.js for handling requests from client to fetch data from PostgreSQL or HTTP requests. To enable communication between the client and the database, I wrote RESTful APIs with Express route methods.
 - **yfinance** Python module for obtaining stock quotas from Yahoo Finance.
-- **pandas** for processing stock data and performing basic dataframe operations on bulk stock data.
+- **pandas** Python module for processing stock data and performing basic dataframe operations on bulk stock data.
 
 To read some more details over the course of the project, read the [dev diary](dev-diary.md). 
