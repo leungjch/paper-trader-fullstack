@@ -238,7 +238,7 @@ function PortfolioPage() {
 
                         </div>
 
-                        <AiOutlineAreaChart size={86} color={"#02a8c2"} />
+                        <AiOutlineAreaChart size={66} color={"#02a8c2"} />
 
                     </div>
                 </Col>
@@ -254,7 +254,7 @@ function PortfolioPage() {
                                         </div>
                         </div>
 
-                        <AiFillStar size={86} color={"#a6d854"} />
+                        <AiFillStar size={66} color={"#a6d854"} />
                     </div>
                 </Col>
 
@@ -270,7 +270,7 @@ function PortfolioPage() {
                             </div>
                         </div>
 
-                        <AiFillDollarCircle size={86} color={"#69b3a2"} />
+                        <AiFillDollarCircle size={66} color={"#69b3a2"} />
                     </div>
                 </Col>
 
@@ -286,7 +286,7 @@ function PortfolioPage() {
                             </div>
 
                         </div>
-                        <RiStackFill size={86} color={"#fc8d62"} />
+                        <RiStackFill size={66} color={"#fc8d62"} />
                     </div>
                 </Col>
 
@@ -334,7 +334,7 @@ function PortfolioPage() {
                             Portfolio Growth
                                 </Card.Header>
                         <Card.Body>
-                            <AreaChart height={500} width={800} data={portfolioHistory} />
+                            <AreaChart height={600} width={700} data={portfolioHistory} />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -345,7 +345,7 @@ function PortfolioPage() {
                 <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Assets by Total Value</Card.Header>
-                        <Card.Body>
+                        <Card.Body >
                             <BarChart data={portfolioData} width={500} height={500} allowNegative={false} prefix={"$"} suffix={""} />
                         </Card.Body>
                     </Card>
@@ -355,12 +355,22 @@ function PortfolioPage() {
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Market Capitalization </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700} height={500} data={portfolioStatistics_mCapAggregate} /> : ''}
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={500} height={500} data={portfolioStatistics_mCapAggregate} /> : ''}
                         </Card.Body>
                     </Card >
                 </Col>
 
-                <Col style={rowStyle} noGutters={true}>
+
+
+
+
+            </Row>
+
+
+            <Row style={rowStyle} noGutters={true}>
+
+
+            <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Profit and Loss By Sector </Card.Header>
                         <Card.Body>
@@ -371,33 +381,31 @@ function PortfolioPage() {
 
                 </Col>
 
+                <Col style={rowStyle} noGutters={true}>
+                    <Card style={cardStyle}>
+                        <Card.Header style={cardTitleStyle}>
+                            Top Gainers and Losers
+        </Card.Header>
+                        <Card.Body>
+                            {portfolioData !== null ? <VerticalBarChartNegative width={500} height={500} suffix={"%"} data={gainersLosers(portfolioData)} /> : ''}
+
+                        </Card.Body>
+                    </Card>
+
+
+                </Col>
 
             </Row>
 
+
             <Row style={rowStyle} noGutters={true}>
-                <Col style={rowStyle} noGutters={true} md={8}>
+                <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Sector Allocation Treemap
                                         </Card.Header>
                         <Card.Body>
                             {portfolioStatistics_sectorsTreeMap !== null ? <TreeMap width={800} height={400} data={portfolioStatistics_sectorsTreeMap} /> : ''}
-
-                        </Card.Body>
-                    </Card>
-
-
-
-
-
-                </Col>
-                <Col style={rowStyle} noGutters={true}>
-                    <Card style={cardStyle}>
-                        <Card.Header style={cardTitleStyle}>
-                            Top Gainers and Losers
-                        </Card.Header>
-                        <Card.Body>
-                            {portfolioData !== null ? <VerticalBarChartNegative width={400} height={650} suffix={"%"} data={gainersLosers(portfolioData)} /> : ''}
 
                         </Card.Body>
                     </Card>

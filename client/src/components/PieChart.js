@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 function PieChart(props) {
     // var data = props.data;
-    var margin = 0
+    var margin = props.width/8
 
     var width = props.width;
     var height = props.height;
@@ -108,8 +108,8 @@ function PieChart(props) {
     }
 
     return (
-        <div className="piechart" style={{  alignContent:"center", alignItems:"center", }}>
-            <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
+        <div className="piechart" style={{  padding:"0", alignContent:"center", alignItems:"center", }}>
+            <svg ref={ref} style={{padding:"0",  display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
             </svg>
         </div>
     );
