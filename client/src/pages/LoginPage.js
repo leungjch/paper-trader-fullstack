@@ -76,6 +76,7 @@ function LoginPage() {
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
+            value={username}
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)} />
           <Form.Text className="text-muted">
@@ -86,6 +87,7 @@ function LoginPage() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
