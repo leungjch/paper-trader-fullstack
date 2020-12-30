@@ -118,7 +118,7 @@ function VerticalBarChartNegative(props) {
   return (
     <div className="piechart" style={{ padding: 0, margin:0, display:"flex", justifyContent:"center" }}>
     <svg ref={ref} style={{padding:"0px",  display: "block", margin:"0%"}} preserveAspectRatio={"xMidYMid meet"} viewBox={`0 0 ${props.width} ${props.height}`} >
-  </svg>
+</svg>
     </div>
   );
 

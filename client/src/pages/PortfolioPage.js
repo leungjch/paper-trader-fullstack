@@ -205,6 +205,7 @@ function PortfolioPage() {
         justifyContent:"center",
         margin:"0.2%",
         padding: "0%",
+        
     };
 
     const cardTitleStyle = {
@@ -217,14 +218,16 @@ function PortfolioPage() {
         margin:"0%",
         display: 'inline-block',
 
-        position:"relative",
         width:"98%",
+        height:"100%",
         verticalAlign:"top",
         
     }
     const colStyle = {
         marginLeft:"0.0%",
-        marginRight:"0.0%"
+        marginRight:"0.0%",
+
+
     }
 
 
