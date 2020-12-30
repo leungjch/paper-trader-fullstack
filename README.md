@@ -13,6 +13,5 @@ Paper Trader is a full-stack stock portfolio simulator with live price updates e
 - **pandas** Python module for processing stock data and performing basic dataframe operations on bulk stock data.
 
 ## Diagram of project structure
-![screenshot](https://github.com/leungjch/paper-trader-fullstack/blob/main/project_diagram.png)
 
 To read some more details over the course of the project, read the [dev diary](dev-diary.md). 
