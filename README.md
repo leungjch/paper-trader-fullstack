@@ -1,5 +1,6 @@
 # Paper Trader | Stock Portfolio Simulator
-
+Paper Trader is a full-stack stock portfolio simulator with live price updates every 15 minutes. You can request to add any asset available on Yahoo Finance into a virtual portfolio, and track portfolio statistics, with data visualizations created using D3.js. 
+![screenshot](https://github.com/leungjch/paper-trader-fullstack/blob/main/screenshot.png)
 ## Tech stack
 Frontend: 
 - **React.js** for client display
