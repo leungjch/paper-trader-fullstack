@@ -9,7 +9,7 @@ import StockQuote from "../components/StockQuote"
 function SellPage() {
 
     const [requestTicker, setRequestTicker] = useState("")
-    const [numShares, setNumShares] = useState(0);
+    const [numShares, setNumShares] = useState(1);
     const [stockData, setStockData] = useState({ empty: true })
     const [confirmButton, setConfirmButton] = useState(false)
 
@@ -148,7 +148,7 @@ function SellPage() {
                         {/* <Form.Label></Form.Label> */}
                         <Form.Control
                             type="text"
-                            placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
+                            placeholder="Enter Ticker (FB, WMT, GOOG...)"
                             onChange={(e) => { setConfirmButton(false); setStockData({ empty: true }); setRequestTicker(e.target.value) }} />
                         <Form.Text className="text-muted">
                         </Form.Text>
@@ -172,15 +172,21 @@ function SellPage() {
                                     placeholder="Number of shares"
                                     value={numShares}
                                     onChange={(e) => {
-                                        console.log("ONCHANGE IS", e.target.value)
                                         const re = /^[0-9\b]+$/;
 
                                         if (e.target.value === '' || re.test(e.target.value)) {
-                                            setNumShares(parseInt(e.target.value))
-                                            setConfirmButton(true)
+                                            if (parseInt(e.target.value)>0) {
+                                                setNumShares(parseInt(e.target.value))
+                                                setConfirmButton(true)
+                                            } else {
+                                                setNumShares(parseInt(e.target.value))
+                                                setConfirmButton(false)
+    
+                                            }
                                         }
                                         else {
-                                            setNumShares(numShares)
+                                            alert("Please enter a valid number.")
+                                            setNumShares(1)
                                         }
 
                                     }

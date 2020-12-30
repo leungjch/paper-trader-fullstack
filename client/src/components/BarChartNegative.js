@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 function BarChartNegative(props) {
 
   // var data = props.data;
-  var margin = { top: 30, right: 30, bottom: 60, left: 60 };
+  var margin = { top: 30, right: 30, bottom: 60, left: props.width/6 };
   var width = props.width - margin.left - margin.right;
   var height = props.height - margin.top - margin.bottom;
 
@@ -115,8 +115,8 @@ function BarChartNegative(props) {
   }
 
   return (
-    <div className="barchart" style={{ padding: 0 }}>
-      <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
+    <div className="barchart" style={{ padding: 0, display:"flex", justifyContent:"center" }}>
+      <svg ref={ref} style={{display: "block"}} viewBox={`0 0 ${props.width} ${props.height}`} >
       </svg>
     </div>
   );
