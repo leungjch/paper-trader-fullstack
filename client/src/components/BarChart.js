@@ -56,8 +56,10 @@ function BarChart(props) {
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x))
       .selectAll("text")
-      .attr("transform", "translate(12,0)rotate(-10)")
-      .style("text-anchor", "end");
+      .attr("transform", "translate(0,0)rotate(-45)")
+      .style("text-anchor", "end")
+      .style("font-size","13px");
+      ;
 
     // Add Y axis
     if (props.allowNegative) {

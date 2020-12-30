@@ -252,8 +252,14 @@ const updatePriceInPortfolio = (userId, portfolio) => {
         console.log(`child process close all stdio with code ${code}`);
         // send data to browser
         // response.send(dataset.join(""))
-        updatedPrices = JSON.parse(dataset.join("").replace(/'/g, '"'))
-        console.log("UPDATED PRICES ARE", dataset.join(""))
+        var updatedPrices = []
+        try {
+            updatedPrices = JSON.parse(dataset.join("").replace(/'/g, '"'))
+        }
+        catch {
+            console.log("Error parsing updatedPrices")
+        }
+       
         for (let item of updatedPrices) {
             console.log("Updating ", item['ticker'], " to ", item['price'])
         // Perform SQL query to update multiple rows at once

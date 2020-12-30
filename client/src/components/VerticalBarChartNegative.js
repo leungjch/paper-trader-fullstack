@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 function VerticalBarChartNegative(props) {
 
   // var data = props.data;
-  var margin = ({top: 30, right: 60, bottom: 10, left: 60})
+  var margin = ({top: 30, right: 60, bottom: 10, left: 20})
   var height = props.height
   var width = props.width
 

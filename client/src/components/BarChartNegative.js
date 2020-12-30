@@ -57,7 +57,9 @@ function BarChartNegative(props) {
       .call(d3.axisBottom(x))
       .selectAll("text")
       .attr("transform", "translate(12,0)rotate(-10)")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("font-size","13px");
+      ;
 
     // Add Y axis
     if (props.allowNegative) {

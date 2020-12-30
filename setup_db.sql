@@ -58,7 +58,7 @@ VALUES ('Guest', 'hunter2', 500000);
 INSERT INTO portfolio (user_id, ticker, n_holding, buy_price, current_price, current_total, sector, marketCap) 
 VALUES
     (1, 'ELA-USD', 7500, 1.54, 1.52, 7500*1.54, 'Cryptocurrency', 26206354),
-    (1, 'LTC-USD', 84, 140.01, 130.51, 84*130.51, 'Cryptocurrency', 8616181760),
+    (1, 'LTC-USD', 84, 135.51, 130.51, 84*130.51, 'Cryptocurrency', 8616181760),
     (1, 'COST', 20, 365.50, 372.25, 20*365.50, 'Consumer Defensive', 165098192896),
     (1, 'MA', 26, 337.86, 347.78, 337.86*26, 'Financial Services', 345594036224),
     (1, 'AMD', 150, 90.66, 91.66, 90.66*150, 'Technology', 109112827904),
@@ -81,7 +81,7 @@ VALUES
     -- (1, 'BTC-USD', 'Buy', 2, 10.59, '2020-12-10');
 
     (1, 'ELA-USD', 'Buy', 7500, 1.54, '2020-12-10'),
-    (1, 'LTC-USD', 'Buy', 84, 140.51, '2020-12-10'),
+    (1, 'LTC-USD', 'Buy', 84, 135.51, '2020-12-10'),
     (1, 'COST', 'Buy', 20, 365.50,'2020-12-10'),
     (1, 'MA', 'Buy', 26, 337.86, '2020-12-10'),
     (1, 'AMD', 'Buy', 150, 90.66,'2020-12-10'),

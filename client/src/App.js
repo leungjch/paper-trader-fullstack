@@ -33,12 +33,10 @@ export default function App() {
 
     <UserProvider>
       <Router>
-
-
-          <Navbar variant="light" bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
+          <Navbar  bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
             <Navbar.Brand style={{ fontSize: "30px" }}>Paper Trader</Navbar.Brand>
 
-            <Nav style={{paddingLeft:"30px", paddingRight:"30px"}}>
+            <Nav fill variant="pills" defaultActiveKey="/" style={{paddingLeft:"30px", paddingRight:"30px" , borderColor:"black", border:"2px"}}>
               {/* <Nav.Link>
               <Link to="/login">Login</Link>
             </Nav.Link>  */}

@@ -65,7 +65,7 @@ async function updatePortfolioEverything() {
 
 }
 updatePortfolioEverything();
-setInterval(updatePortfolioEverything, 900000);  // update every 15 minutes
+setInterval(updatePortfolioEverything, 15*60*1000);  // update every 15 minutes
 
 app.listen(PORT, function () {
   console.error(`App listening on port ${PORT}`);

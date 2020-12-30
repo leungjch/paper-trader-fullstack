@@ -7,6 +7,8 @@ import TreeMap from "../components/TreeMap"
 import BarChartNegative from "../components/BarChartNegative"
 import VerticalBarChartNegative from "../components/VerticalBarChartNegative"
 
+import { AiFillStar, AiFillDollarCircle, AiOutlineAreaChart } from 'react-icons/ai';
+import {RiStackFill} from 'react-icons/ri'
 import '../App.css'
 
 
@@ -77,7 +79,7 @@ function PortfolioPage() {
                 <td>${item.buy_price}</td>
                 <td>${item.current_price}</td>
                 <td><div style={{ backgroundColor: profitLossIndicator, borderRadius: "0.2em", padding: "0%", textAlign: "center" }}>{percentageChange}%</div></td>
-                <td>${item.current_total}</td>
+                <td>${(parseFloat(item.n_holding)*parseFloat(item.buy_price) - parseFloat(item.n_holding)*parseFloat(item.current_price)).toFixed(2)}</td>
 
             </tr>
         )
@@ -208,12 +210,15 @@ function PortfolioPage() {
         fontSize: '24px'
     }
 
+    const cardStyle = {
+        boxShadow: "0 2px 2px rgb(156, 156, 156),0 2px 2px rgba(189, 189, 189, 0.192),0 4px 4px rgba(184, 184, 184, 0.15),0 12px 12px rgba(197, 197, 197, 0.1),0 16px 16px rgba(0,0,0,0.05)"
+    }
+
+
     return (
 
         <Container fluid style={{margin: "0%", padding:0}}>
             <Row style={rowStyle} noGutters = {true}>
-
-            <h2> Portfolio Dashboard </h2>
 
             </Row>
             <Row style={rowStyle} noGutters={true}>
@@ -221,49 +226,67 @@ function PortfolioPage() {
                 
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                    <div className="DivBoxSmall">
-                        <div className="DivBoxText">
+                    <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #02a8c2"}}>
+                        <div>
+                        <div className="DivBoxText" style={{color:"#02a8c2"}}>
                             Portfolio Value
                                         </div>
-                        <div className="DivBoxStatistic">
+                        <div className="DivBoxStatistic" style={{color:"#02a8c2"}}>
 
                             ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
                         </div>
+                        
+                        </div>
+                        
+                        <AiOutlineAreaChart  size={86} color={"#02a8c2"} />
+
                     </div>
                 </Col>
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                    <div className="DivBoxSmall">
-                        <div className="DivBoxText">
+                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #a6d854"}}>
+                        <div>
+                        <div className="DivBoxText" style={{color:"#a6d854"}}>
                             % Profit
                                         </div>
-                        <div className="DivBoxStatistic">
+                        <div className="DivBoxStatistic" style={{color:"#a6d854"}}>
                             {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
                                         </div>
+                        </div>
+
+                        <AiFillStar size={86} color={"#a6d854"} />
                     </div>
                 </Col>
 
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                    <div className="DivBoxSmall">
-                        <div className="DivBoxText">
+                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #69b3a2"}}>
+                        <div>
+                        <div className="DivBoxText" style={{color:"#69b3a2"}}>
                             Cash Reserve
                                         </div>
-                        <div className="DivBoxStatistic">
+                        <div className="DivBoxStatistic" style={{color:"#69b3a2"}}>
                             ${formatNumber(cash)}
                         </div>
+                        </div>
+
+                        <AiFillDollarCircle size={86} color={"#69b3a2"} />
                     </div>
                 </Col>
 
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                    <div className="DivBoxSmall">
-                        <div className="DivBoxText">
+                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #fc8d62"}}>
+                        <div>
+                        <div className="DivBoxText" style={{color:"#fc8d62"}}>
                             Assets Owned
                                             </div>
-                        <div className="DivBoxStatistic">
+                        <div className="DivBoxStatistic" style={{color:"#fc8d62"}}>
                             {portfolioData.length}
                         </div>
+
+                        </div>
+                        <RiStackFill size={86} color={"#fc8d62"} />
                     </div>
                 </Col>
 
@@ -276,7 +299,7 @@ function PortfolioPage() {
 
                 <Col style={rowStyle} noGutters={true}>
 
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Portfolio Details
                         </Card.Header>
@@ -289,7 +312,7 @@ function PortfolioPage() {
                                         <th>Buy-in price</th>
                                         <th>Current price</th>
                                         <th>% Profit</th>
-                                        <th>Total</th>
+                                        <th>Profit / Loss</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -306,7 +329,7 @@ function PortfolioPage() {
 
                 <Col style={rowStyle} noGutters={true}>
 
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Portfolio Growth
                                 </Card.Header>
@@ -320,7 +343,7 @@ function PortfolioPage() {
 
             <Row style={rowStyle} noGutters={true}>
                 <Col style={rowStyle}   noGutters={true}>
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Assets by Total Value</Card.Header>
                         <Card.Body>
                             <BarChart data={portfolioData} width={500} height={500} allowNegative = {false} prefix={"$"} suffix={""} />
@@ -329,7 +352,7 @@ function PortfolioPage() {
                 </Col>
 
                 <Col style={rowStyle}  noGutters={true}>
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Market Capitalization </Card.Header>
                         <Card.Body>
                             {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700} height={500} data={portfolioStatistics_mCapAggregate}  /> : ''}
@@ -338,8 +361,8 @@ function PortfolioPage() {
                 </Col>
 
                 <Col style={rowStyle} noGutters={true}>
-                    <Card>
-                        <Card.Header style={cardTitleStyle}>Profit/Loss By Sector </Card.Header>
+                    <Card style={cardStyle}>
+                        <Card.Header style={cardTitleStyle}>Profit and Loss By Sector </Card.Header>
                         <Card.Body>
                             {portfolioStatistics_profitLoss !== null ? <BarChartNegative data={portfolioStatistics_profitLoss} allowNegative = {true} width={500} height={500} prefix={""} suffix={"%"} /> : ""}
                         </Card.Body>
@@ -353,7 +376,7 @@ function PortfolioPage() {
 
             <Row style={rowStyle} noGutters={true}>
                 <Col style={rowStyle} noGutters={true} md={8}>
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Sector Allocation Treemap
                                         </Card.Header>
@@ -369,7 +392,7 @@ function PortfolioPage() {
 
                 </Col>
                 <Col style={rowStyle} noGutters={true}>
-                    <Card>
+                    <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Top Gainers and Losers
                         </Card.Header>
