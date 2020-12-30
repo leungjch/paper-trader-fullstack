@@ -2,13 +2,12 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 function PieChart(props) {
-
     // var data = props.data;
     var margin = 0
 
     var width = props.width;
     var height = props.height;
-    var radius = Math.min(width, height) / 2 - margin
+    var radius = Math.min(width, height) / 2.5 - margin
 
     const ref = useRef();
 
@@ -29,7 +28,6 @@ function PieChart(props) {
 
     const drawChart = () => {
         let data = props.data
-
         var svg = d3.select(ref.current)
         .attr('width', width)
         .attr('height', height)
@@ -39,11 +37,10 @@ function PieChart(props) {
 
         // Create dummy data
         // var data = [{label:"A", val:1}, {label:"B", val:4}]
-
         // set the color scale
         var color = d3.scaleOrdinal()
-            .domain(["A", "B"])
-            .range(d3.schemeDark2);
+            .domain(Array.from(data, x=> x.label))
+            .range(d3.schemeSet2);
 
         // Compute the position of each group on the pie:
         var pie = d3.pie()
@@ -68,7 +65,7 @@ function PieChart(props) {
             .enter()
             .append('path')
             .attr('d', arc)
-            .attr('fill', function (d) { return (color(d.key)) })
+            .attr('fill', function (d) { return (color(d.data.label)) })
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 0.7)

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-function BarChart(props) {
+function BarChartNegative(props) {
 
   // var data = props.data;
   var margin = { top: 30, right: 30, bottom: 60, left: 60 };
@@ -62,13 +62,16 @@ function BarChart(props) {
     // Add Y axis
     if (props.allowNegative) {
       var y = d3.scaleLinear()
-      .domain([minY, maxY])
+      .domain([1.1*minY, 1.1*maxY])
       .range([height, 0]);
     } else {
       var y = d3.scaleLinear()
       .domain([0, maxY])
       .range([height, 0]);
     }
+
+
+
 
     svg.append("g")
       .call(
@@ -82,10 +85,29 @@ function BarChart(props) {
       .enter()
       .append("rect")
       .attr("x", function (d) { return x(d.ticker); })
-      .attr("y", function (d) { return y(d.current_total); })
+      .attr("y", function(d) {
+        if(y(0) > y(d.current_total))
+            return y(d.current_total);
+        else
+          return y(0);
+    })
       .attr("width", x.bandwidth())
-      .attr("height", function (d) { return height - y(d.current_total); })
-      .attr("fill", "#69b3a2")
+      .attr("height", function(d) {
+        return Math.abs(y(0) - y(d.current_total));
+    })
+    .attr("fill", function(d) {
+      if(y(0) > y(d.current_total))
+          return "#a6d854"
+      else
+        return "#fc8d62";
+  })
+ // Add y=0
+  svg.append("line")
+  .attr("x1",-6)
+  .attr("y1",y(0))//so that the line passes through the y 0
+  .attr("x2",width)
+  .attr("y2",y(0))//so that the line passes through the y 0
+  .style("stroke", "black");
 
     //selection.attr(“property”, (d, i) => {})
   }
@@ -99,4 +121,4 @@ function BarChart(props) {
 
 }
 
-export default BarChart;
+export default BarChartNegative;

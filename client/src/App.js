@@ -63,7 +63,7 @@ export default function App() {
 
             </Nav>
           </Navbar>
-          <div style={{ margin: "2em" }}>
+          <div style={{ margin: "0em" }}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <PrivateRoute path={"/portfolio"} component={PortfolioPage} />
