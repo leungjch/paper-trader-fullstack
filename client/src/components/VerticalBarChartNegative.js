@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 function VerticalBarChartNegative(props) {
 
   // var data = props.data;
-  var margin = ({top: 30, right: 60, bottom: 10, left: 20})
+  var margin = ({top: 10, right: 60, bottom: 10, left: 20})
   var height = props.height
   var width = props.width
 
@@ -116,9 +116,9 @@ function VerticalBarChartNegative(props) {
   }
 
   return (
-    <div className="barchart" style={{ padding: 0 }}>
-      <svg ref={ref} style={{display: "block", margin:"auto"}} viewBox={`0 0 ${props.width} ${props.height}`} >
-      </svg>
+    <div className="piechart" style={{ padding: 0, margin:0, display:"flex", justifyContent:"center" }}>
+    <svg ref={ref} style={{padding:"0px",  display: "block", margin:"0%"}} preserveAspectRatio={"xMidYMid meet"} viewBox={`0 0 ${props.width} ${props.height}`} >
+  </svg>
     </div>
   );
 

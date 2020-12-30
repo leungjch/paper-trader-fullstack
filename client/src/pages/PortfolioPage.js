@@ -201,9 +201,10 @@ function PortfolioPage() {
 
     // Set margin for rows
     const rowStyle = {
-        margin: '0.2%',
+        display:"flex",
+        justifyContent:"center",
+        margin:"0.2%",
         padding: "0%",
-        whiteSpace: "nowrap",
     };
 
     const cardTitleStyle = {
@@ -215,10 +216,15 @@ function PortfolioPage() {
         padding:"0%",
         margin:"0%",
         display: 'inline-block',
+
         position:"relative",
-        width:"100%",
+        width:"98%",
         verticalAlign:"top",
-        overflow:"hidden"
+        
+    }
+    const colStyle = {
+        marginLeft:"0.0%",
+        marginRight:"0.0%"
     }
 
 
@@ -228,10 +234,10 @@ function PortfolioPage() {
             <Row style={rowStyle} noGutters={true}>
 
             </Row>
-            <Row style={rowStyle} noGutters={true}>
+            <Row  noGutters={true}>
                 {/* Key statistics card */}
 
-                <Col style={rowStyle} noGutters={true} className="colStats">
+                <Col  noGutters={true} className="colStats">
                     <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #02a8c2" }}>
                         <div>
                             <div className="DivBoxText" style={{ color: "#02a8c2" }}>
@@ -249,7 +255,7 @@ function PortfolioPage() {
                     </div>
                 </Col>
 
-                <Col style={rowStyle} noGutters={true} className="colStats">
+                <Col  noGutters={true} className="colStats">
                     <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #a6d854" }}>
                         <div>
                             <div className="DivBoxText" style={{ color: "#a6d854" }}>
@@ -265,7 +271,7 @@ function PortfolioPage() {
                 </Col>
 
 
-                <Col style={rowStyle} noGutters={true} className="colStats">
+                <Col noGutters={true} className="colStats">
                     <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #69b3a2" }}>
                         <div>
                             <div className="DivBoxText" style={{ color: "#69b3a2" }}>
@@ -281,11 +287,11 @@ function PortfolioPage() {
                 </Col>
 
 
-                <Col style={rowStyle} noGutters={true} className="colStats">
+                <Col  noGutters={true} className="colStats">
                     <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #fc8d62" }}>
                         <div>
                             <div className="DivBoxText" style={{ color: "#fc8d62" }}>
-                                Assets Owned
+                                Assets
                                             </div>
                             <div className="DivBoxStatistic" style={{ color: "#fc8d62" }}>
                                 {portfolioData.length}
@@ -303,7 +309,7 @@ function PortfolioPage() {
             <Row style={rowStyle} noGutters={true}>
 
 
-                <Col style={rowStyle}  md = {6} lg={6} sm = {6} noGutters={true}>
+                <Col style={colStyle}  md = {6} lg={6} sm = {6} noGutters={true}>
 
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
@@ -332,14 +338,14 @@ function PortfolioPage() {
                 </Col>
 
 
-                <Col style={rowStyle}  noGutters={true}>
+                <Col style={colStyle}  noGutters={true}>
 
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Portfolio Growth
                                 </Card.Header>
                         <Card.Body>
-                            <AreaChart height={400} width={1000} data={portfolioHistory} />
+                            <AreaChart height={400} width={800} data={portfolioHistory} />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -347,7 +353,7 @@ function PortfolioPage() {
             </Row>
 
             <Row style={rowStyle} noGutters={true}>
-                <Col style={rowStyle} noGutters={true}>
+                <Col style={colStyle}  md={3} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Assets by Total Value</Card.Header>
                         <Card.Body >
@@ -356,7 +362,7 @@ function PortfolioPage() {
                     </Card>
                 </Col>
 
-                <Col style={rowStyle}   noGutters={true}>
+                <Col style={colStyle}  md={3}   noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Market Capitalization </Card.Header>
                         <Card.Body>
@@ -367,15 +373,9 @@ function PortfolioPage() {
 
 
 
-
-
-
-
-
-
-            <Col style={rowStyle}  noGutters={true}>
+            <Col style={colStyle}  md={3} noGutters={true}>
                     <Card style={cardStyle}>
-                        <Card.Header style={cardTitleStyle}>Profit and Loss By Sector </Card.Header>
+                        <Card.Header style={cardTitleStyle}>Profit / Loss By Sector </Card.Header>
                         <Card.Body>
                             {portfolioStatistics_profitLoss !== null ? <BarChartNegative data={portfolioStatistics_profitLoss} allowNegative={true} width={500} height={500} prefix={""} suffix={"%"} /> : ""}
                         </Card.Body>
@@ -384,13 +384,13 @@ function PortfolioPage() {
 
                 </Col>
 
-                <Col style={rowStyle}  noGutters={true}>
+                <Col style={colStyle}  md={3} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
                             Top Gainers and Losers
         </Card.Header>
                         <Card.Body>
-                            {portfolioData !== null ? <VerticalBarChartNegative width={500} height={500} suffix={"%"} data={gainersLosers(portfolioData)} /> : ''}
+                            {portfolioData !== null ? <VerticalBarChartNegative width={300} height={500} suffix={"%"} data={gainersLosers(portfolioData)} /> : ''}
 
                         </Card.Body>
                     </Card>
@@ -401,7 +401,7 @@ function PortfolioPage() {
             </Row>
 
 
-            <Row style={rowStyle} noGutters={true}>
+            <Row style={rowStyle}  noGutters={true}>
                 <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>
