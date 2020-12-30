@@ -126,9 +126,14 @@ function PortfolioDetailsPage() {
     }, [cash]);
 
     return (
-        <div>
-        <h2> Your Portfolio </h2>
-        <Table striped hover>
+        
+        <div className="DivBoxBig">
+            <div>
+                <h2> Portfolio Details </h2>
+            </div>
+
+            <div>
+            <Table striped hover>
             <thead>
                 <tr>
                     <th>Ticker</th>
@@ -145,6 +150,8 @@ function PortfolioDetailsPage() {
                 {portfolioData.map(renderPortfolioRow)}
             </tbody>
         </Table>
+
+            </div>
 
         </div>
 

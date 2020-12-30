@@ -69,8 +69,8 @@ function LoginPage() {
   }
 
   return (
-
-    <div className="LoginPage" style = {{ alignItems: 'center', justifyContent:'center', margin: 'auto', width: "50%"}}>
+    <div style={{display:"flex", alignContent:"center", justifyContent:"center", alignItems:"center", width:"100%"}}>
+    <div className="DivBoxBigLogin" style = {{ alignItems: 'center', justifyContent:'center', width: "30%", padding:"1%"}}>
       <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
@@ -104,6 +104,9 @@ function LoginPage() {
         </ButtonGroup>
       </Form>
     </div>
+
+    </div>
+
   );
 }
 

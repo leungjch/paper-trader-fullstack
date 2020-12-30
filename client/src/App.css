@@ -117,18 +117,60 @@
 
 .DivBoxStatistic {
   font-size:38px;
-  font-weight: bold;
+  font-weight: regular;
   margin-left:15%;
   /* color:white; */
 
 }
 
 .DivBoxText {
-  font-size:20px;
-  font-weight: bold;
+  font-size:25px;
+  font-weight: regular;
   margin-left:15%;
   /* color:white; */
 
+}
+
+.DivBoxBig {
+    box-shadow:var(--sharpShadow);
+    text-align:left;
+    margin-bottom:2%;
+  
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+  
+    /* display: inline-block; */
+    /* display:flex; */
+    /* flex-direction: column; */
+    /* flex:auto; */
+    
+  
+  
+    
+    padding: 2%;
+    margin-left:5%;
+    margin-right:5%;
+    border-radius:4px;
+    background-color:#ffffff;
+  }
+
+
+
+.DivBoxBigLogin {
+  box-shadow:var(--sharpShadow);
+
+
+  /* display: inline-block; */
+  /* display:flex; */
+  /* flex-direction: column; */
+  /* flex:auto; */
+  
+
+
+  
+  border-radius:2px;
+  background-color:#ffffff;
 }
 .CenterChart {
   justify-content: center;

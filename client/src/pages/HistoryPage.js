@@ -21,15 +21,15 @@ function HistoryPage() {
 
     function renderHistoryRow(item, index) {
         return (
-          <tr key={index}>
-            <td>{item.ticker}</td>
-            <td>{item.trade_type}</td>
-            <td>{item.trade_n}</td>
-            <td>${item.price}</td>
-            <td>{item.date}</td>
-          </tr>
+            <tr key={index}>
+                <td>{item.ticker}</td>
+                <td>{item.trade_type}</td>
+                <td>{item.trade_n}</td>
+                <td>${item.price}</td>
+                <td>{item.date}</td>
+            </tr>
         )
-      }
+    }
 
     useEffect(() => {
         // Fetch portfolio data
@@ -37,24 +37,29 @@ function HistoryPage() {
     }, []);
 
     return (
-        <div>
-            <h2> Transaction History </h2>
+        <div className="DivBoxBig">
+            <div>
+                <h2> Transaction History </h2>
+            </div>
 
-            <Table striped hover>
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Action</th>
-                        <th>Number of shares</th>
-                        <th>Price</th>
-                        <th>Date</th>
+            <div>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {historyData.map(renderHistoryRow)}
-                </tbody>
-            </Table>
+                <Table striped hover>
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Action</th>
+                            <th>Number of shares</th>
+                            <th>Price</th>
+                            <th>Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {historyData.map(renderHistoryRow)}
+                    </tbody>
+                </Table>
+            </div>
         </div>
     );
 }

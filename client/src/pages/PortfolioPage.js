@@ -8,7 +8,7 @@ import BarChartNegative from "../components/BarChartNegative"
 import VerticalBarChartNegative from "../components/VerticalBarChartNegative"
 
 import { AiFillStar, AiFillDollarCircle, AiOutlineAreaChart } from 'react-icons/ai';
-import {RiStackFill} from 'react-icons/ri'
+import { RiStackFill } from 'react-icons/ri'
 import '../App.css'
 
 
@@ -27,7 +27,7 @@ function PortfolioPage() {
     const [portfolioData, setPortfolioData] = useState([])
     const [portfolioStatistics_mCapAggregate, setPortfolioStatistics_mCapAggregate] = useState(null)
     const [portfolioStatistics_sectorsTreeMap, setPortfolioStatistics_sectorsTreeMap] = useState(null)
-    const [portfolioStatistics_profitLoss, setPortfolioStatistics_profitLoss] = useState(null); 
+    const [portfolioStatistics_profitLoss, setPortfolioStatistics_profitLoss] = useState(null);
 
     const [portfolioHistory, setPortfolioHistory] = useState([])
 
@@ -79,7 +79,7 @@ function PortfolioPage() {
                 <td>${item.buy_price}</td>
                 <td>${item.current_price}</td>
                 <td><div style={{ backgroundColor: profitLossIndicator, borderRadius: "0.2em", padding: "0%", textAlign: "center" }}>{percentageChange}%</div></td>
-                <td>${(parseFloat(item.n_holding)*parseFloat(item.buy_price) - parseFloat(item.n_holding)*parseFloat(item.current_price)).toFixed(2)}</td>
+                <td>${(parseFloat(item.n_holding) * parseFloat(item.buy_price) - parseFloat(item.n_holding) * parseFloat(item.current_price)).toFixed(2)}</td>
 
             </tr>
         )
@@ -165,15 +165,15 @@ function PortfolioPage() {
                 for (let obj of result) {
 
                     if (obj['name'] === stock['sector']) {
-                        obj['worthNew'] = obj['worthNew'] + stock['current_price']*stock['n_holding']
-                        obj['worthOld'] = obj['worthOld'] + stock['buy_price']*stock['n_holding']
+                        obj['worthNew'] = obj['worthNew'] + stock['current_price'] * stock['n_holding']
+                        obj['worthOld'] = obj['worthOld'] + stock['buy_price'] * stock['n_holding']
                     }
                 }
-            } else result.push({ "name": stock['sector'], "worthNew": stock['current_price']*stock['n_holding'], 'worthOld': stock['buy_price']*stock['n_holding'] })
+            } else result.push({ "name": stock['sector'], "worthNew": stock['current_price'] * stock['n_holding'], 'worthOld': stock['buy_price'] * stock['n_holding'] })
         }
 
         for (let i = 0; i < result.length; i++) {
-            result[i]['value'] = ((result[i]['worthNew']- result[i]['worthOld']) /result[i]['worthOld'])*100
+            result[i]['value'] = ((result[i]['worthNew'] - result[i]['worthOld']) / result[i]['worthOld']) * 100
             result[i]['current_total'] = result[i]['value']
             result[i]['ticker'] = result[i]['name']
         }
@@ -188,7 +188,7 @@ function PortfolioPage() {
         const result = []
         for (const stock of portfolio) {
             let percentageChange = (100 * (stock.current_price - stock.buy_price) / stock.buy_price).toFixed(2);
-            result.push({name: stock['ticker'], value: percentageChange})
+            result.push({ name: stock['ticker'], value: percentageChange })
         }
         return result
     }
@@ -202,7 +202,7 @@ function PortfolioPage() {
     // Set margin for rows
     const rowStyle = {
         margin: '0.5%',
-        padding:0,
+        padding: 0,
         whiteSpace: "nowrap",
     };
 
@@ -217,40 +217,40 @@ function PortfolioPage() {
 
     return (
 
-        <Container fluid style={{margin: "0%", padding:0}}>
-            <Row style={rowStyle} noGutters = {true}>
+        <Container fluid style={{ margin: "0%", padding: 0 }}>
+            <Row style={rowStyle} noGutters={true}>
 
             </Row>
             <Row style={rowStyle} noGutters={true}>
                 {/* Key statistics card */}
-                
+
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                    <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #02a8c2"}}>
+                    <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #02a8c2" }}>
                         <div>
-                        <div className="DivBoxText" style={{color:"#02a8c2"}}>
-                            Portfolio Value
+                            <div className="DivBoxText" style={{ color: "#02a8c2" }}>
+                                Portfolio Value
                                         </div>
-                        <div className="DivBoxStatistic" style={{color:"#02a8c2"}}>
+                            <div className="DivBoxStatistic" style={{ color: "#02a8c2" }}>
 
-                            ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
+                                ${portfolioHistory.length !== 0 ? formatNumber(portfolioHistory[portfolioHistory.length - 1]['networth']) : "Loading"}
+                            </div>
+
                         </div>
-                        
-                        </div>
-                        
-                        <AiOutlineAreaChart  size={86} color={"#02a8c2"} />
+
+                        <AiOutlineAreaChart size={86} color={"#02a8c2"} />
 
                     </div>
                 </Col>
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #a6d854"}}>
+                    <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #a6d854" }}>
                         <div>
-                        <div className="DivBoxText" style={{color:"#a6d854"}}>
-                            % Profit
+                            <div className="DivBoxText" style={{ color: "#a6d854" }}>
+                                % Profit
                                         </div>
-                        <div className="DivBoxStatistic" style={{color:"#a6d854"}}>
-                            {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
+                            <div className="DivBoxStatistic" style={{ color: "#a6d854" }}>
+                                {portfolioHistory.length !== 0 ? ((parseFloat(portfolioHistory[portfolioHistory.length - 1]['networth']) - parseFloat(portfolioHistory[0]['networth'])) / parseFloat(portfolioHistory[0]['networth']) * 100).toFixed(3) : "Loading"}%
                                         </div>
                         </div>
 
@@ -260,14 +260,14 @@ function PortfolioPage() {
 
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #69b3a2"}}>
+                    <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #69b3a2" }}>
                         <div>
-                        <div className="DivBoxText" style={{color:"#69b3a2"}}>
-                            Cash Reserve
+                            <div className="DivBoxText" style={{ color: "#69b3a2" }}>
+                                Cash Reserve
                                         </div>
-                        <div className="DivBoxStatistic" style={{color:"#69b3a2"}}>
-                            ${formatNumber(cash)}
-                        </div>
+                            <div className="DivBoxStatistic" style={{ color: "#69b3a2" }}>
+                                ${formatNumber(cash)}
+                            </div>
                         </div>
 
                         <AiFillDollarCircle size={86} color={"#69b3a2"} />
@@ -276,14 +276,14 @@ function PortfolioPage() {
 
 
                 <Col style={rowStyle} noGutters={true} className="colStats">
-                <div className="DivBoxSmall" style={{borderLeft:"0.5em solid #fc8d62"}}>
+                    <div className="DivBoxSmall" style={{ borderLeft: "0.5em solid #fc8d62" }}>
                         <div>
-                        <div className="DivBoxText" style={{color:"#fc8d62"}}>
-                            Assets Owned
+                            <div className="DivBoxText" style={{ color: "#fc8d62" }}>
+                                Assets Owned
                                             </div>
-                        <div className="DivBoxStatistic" style={{color:"#fc8d62"}}>
-                            {portfolioData.length}
-                        </div>
+                            <div className="DivBoxStatistic" style={{ color: "#fc8d62" }}>
+                                {portfolioData.length}
+                            </div>
 
                         </div>
                         <RiStackFill size={86} color={"#fc8d62"} />
@@ -342,20 +342,20 @@ function PortfolioPage() {
             </Row>
 
             <Row style={rowStyle} noGutters={true}>
-                <Col style={rowStyle}   noGutters={true}>
+                <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Assets by Total Value</Card.Header>
                         <Card.Body>
-                            <BarChart data={portfolioData} width={500} height={500} allowNegative = {false} prefix={"$"} suffix={""} />
+                            <BarChart data={portfolioData} width={500} height={500} allowNegative={false} prefix={"$"} suffix={""} />
                         </Card.Body>
                     </Card>
                 </Col>
 
-                <Col style={rowStyle}  noGutters={true}>
+                <Col style={rowStyle} noGutters={true}>
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Market Capitalization </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700} height={500} data={portfolioStatistics_mCapAggregate}  /> : ''}
+                            {portfolioStatistics_mCapAggregate !== null ? <PieChart width={700} height={500} data={portfolioStatistics_mCapAggregate} /> : ''}
                         </Card.Body>
                     </Card >
                 </Col>
@@ -364,7 +364,7 @@ function PortfolioPage() {
                     <Card style={cardStyle}>
                         <Card.Header style={cardTitleStyle}>Profit and Loss By Sector </Card.Header>
                         <Card.Body>
-                            {portfolioStatistics_profitLoss !== null ? <BarChartNegative data={portfolioStatistics_profitLoss} allowNegative = {true} width={500} height={500} prefix={""} suffix={"%"} /> : ""}
+                            {portfolioStatistics_profitLoss !== null ? <BarChartNegative data={portfolioStatistics_profitLoss} allowNegative={true} width={500} height={500} prefix={""} suffix={"%"} /> : ""}
                         </Card.Body>
                     </Card >
 
@@ -397,7 +397,7 @@ function PortfolioPage() {
                             Top Gainers and Losers
                         </Card.Header>
                         <Card.Body>
-                            {portfolioData !== null ? <VerticalBarChartNegative width={400} height={650} suffix = {"%"} data={gainersLosers(portfolioData)} /> : ''}
+                            {portfolioData !== null ? <VerticalBarChartNegative width={400} height={650} suffix={"%"} data={gainersLosers(portfolioData)} /> : ''}
 
                         </Card.Body>
                     </Card>

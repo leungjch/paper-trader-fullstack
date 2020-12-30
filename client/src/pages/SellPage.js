@@ -17,10 +17,10 @@ function SellPage() {
 
     const navigate = useNavigate();
 
-    
+
     function getQuote() {
         if (requestTicker === "") {
-            return 
+            return
         }
         console.log("User request is", `/api/yfinance/${requestTicker}/info`)
         fetch(`/api/yfinance/${requestTicker}/info`)
@@ -39,14 +39,14 @@ function SellPage() {
                 }
             })
             .catch((error) => {
-            alert("Invalid stock ticker. Please try again.")
+                alert("Invalid stock ticker. Please try again.")
 
-        })
+            })
         setConfirmButton(true)
 
         // console.log(cleanStockData(Tesla))
         // setStockData(cleanStockData(Tesla))
-    
+
     }
 
     function sellShares() {
@@ -136,76 +136,80 @@ function SellPage() {
     }
 
     return (
-        <div>
-            <Form style={{marginBottom: "1em"}}>
-                <Form.Group controlId="formBasicEmail">
-                    <h2>Sell</h2>
+        <div className="DivBoxBig">
+            <div>
+                <h2> Sell Assets </h2>
+            </div>
 
-                    {/* <Form.Label></Form.Label> */}
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
-                        onChange={(e) => { setConfirmButton(false); setStockData({empty:true}); setRequestTicker(e.target.value)}} />
-                    <Form.Text className="text-muted">
-                    </Form.Text>
-                </Form.Group>
-                <Button
+            <div>
+                <Form style={{ marginTop: "1em" }}>
+                    <Form.Group controlId="formBasicEmail">
+
+                        {/* <Form.Label></Form.Label> */}
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
+                            onChange={(e) => { setConfirmButton(false); setStockData({ empty: true }); setRequestTicker(e.target.value) }} />
+                        <Form.Text className="text-muted">
+                        </Form.Text>
+                    </Form.Group>
+                    <Button
                         variant="info"
                         // type="submit"
                         onClick={getQuote}>
                         Request Quote
                 </Button>
-            </Form>
+                </Form>
 
-            { stockData['empty'] ?
-                '' :
-                <div>
-                 <Form style={{marginBottom: "1em"}}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Sell shares</Form.Label>
-                        <Form.Control
-                            type="number"
-                            placeholder="Number of shares"
-                            value={numShares}
-                            onChange={(e) => 
-                            
-                            {
-                                console.log("ONCHANGE IS", e.target.value)
-                                const re = /^[0-9\b]+$/;
-                                
-                                if (e.target.value === '' || re.test(e.target.value)) {
-                                  setNumShares(parseInt(e.target.value))
-                                  setConfirmButton(true)
-                                }
-                                else {
-                                    setNumShares(numShares)
-                                }
-                            
-                            } 
-                            
-                            } />
-                            <Form.Text className="text-muted">
-                        </Form.Text>
-                    </Form.Group>
-                    <ButtonGroup>
-                    { confirmButton ? 
-                        <Button
-                            variant="success"
-                            // type="success"
-                            onClick={sellShares}>
-                            Confirm Sell
+                {stockData['empty'] ?
+                    '' :
+                    <div>
+                        <Form style={{ marginTop: "1em" }}>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Sell shares</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Number of shares"
+                                    value={numShares}
+                                    onChange={(e) => {
+                                        console.log("ONCHANGE IS", e.target.value)
+                                        const re = /^[0-9\b]+$/;
+
+                                        if (e.target.value === '' || re.test(e.target.value)) {
+                                            setNumShares(parseInt(e.target.value))
+                                            setConfirmButton(true)
+                                        }
+                                        else {
+                                            setNumShares(numShares)
+                                        }
+
+                                    }
+
+                                    } />
+                                <Form.Text className="text-muted">
+                                </Form.Text>
+                            </Form.Group>
+                            <ButtonGroup>
+                                {confirmButton ?
+                                    <Button
+                                        variant="success"
+                                        // type="success"
+                                        onClick={sellShares}>
+                                        Confirm Sell
 
                 </Button>
 
-                        : ""
-                    }
-                    </ButtonGroup>
-                </Form>
+                                    : ""
+                                }
+                            </ButtonGroup>
+                        </Form>
+                        <div style={{display:"flex", justifyContent:"center"}}> 
 
-                <StockQuote data={stockData} />
-
-                </div>
+                        <StockQuote data={stockData} />
+                        </div>
+                    </div>
                 }
+            </div>
         </div>
     );
 }

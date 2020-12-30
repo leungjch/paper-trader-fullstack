@@ -28,36 +28,50 @@ export default function App() {
   const { user } = useContext(UserContext);
   console.log("User auth from app.js", user)
 
-
+  const navItemStyle  = {
+    color: "#eeeeee"
+  }
   return (
 
     <UserProvider>
       <Router>
-          <Navbar  bg="light" expand="lg" style={{ fontSize: "22px", marginBottom: "1em" }}>
+          <Navbar bg="info" variant="dark" style={{ fontSize: "22px", marginBottom: "1em" }}>
             <Navbar.Brand style={{ fontSize: "30px" }}>Paper Trader</Navbar.Brand>
 
-            <Nav fill variant="pills" defaultActiveKey="/" style={{paddingLeft:"30px", paddingRight:"30px" , borderColor:"black", border:"2px"}}>
-              {/* <Nav.Link>
-              <Link to="/login">Login</Link>
-            </Nav.Link>  */}
+            <Nav variant="pills" defaultActiveKey="/" >
+              <Nav.Item>
+                <Nav.Link style={navItemStyle}>
+                  <Link style={navItemStyle} to="/portfolio" className="nav-link">Dashboard</Link>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
               <Nav.Link>
-                <Link to="/portfolio">Dashboard</Link>
+                <Link style={navItemStyle} to="/portfolioDetails" className="nav-link">Portfolio</Link>
               </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
               <Nav.Link>
-                <Link to="/portfolioDetails">Portfolio</Link>
+                <Link style={navItemStyle} to="/buy" className="nav-link">Buy</Link>
               </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
               <Nav.Link>
-                <Link to="/buy">Buy</Link>
+                <Link style={navItemStyle} to="/sell" className="nav-link">Sell</Link>
               </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
               <Nav.Link>
-                <Link to="/sell">Sell</Link>
+                <Link style={navItemStyle} to="/history" className="nav-link">Transactions</Link>
               </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
               <Nav.Link>
-                <Link to="/history">Transactions</Link>
+                <Link style={navItemStyle} to="/networth" className="nav-link">Net Worth</Link>
               </Nav.Link>
-              <Nav.Link>
-                <Link to="/networth">History</Link>
-              </Nav.Link>
+              </Nav.Item>
+
+
+
 
             </Nav>
           </Navbar>

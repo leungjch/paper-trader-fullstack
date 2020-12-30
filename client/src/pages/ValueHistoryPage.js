@@ -34,9 +34,12 @@ function ValueHistoryPage() {
     }, []);
 
     return (
-        <div>
-            <h2> Portfolio Net Worth </h2>
+        <div className="DivBoxBig">
+            <div>
+                <h2> Net Worth History </h2>
+            </div>
 
+            <div>
             <Table striped hover>
                 <thead>
                     <tr>
@@ -49,6 +52,7 @@ function ValueHistoryPage() {
                     {historyData.map(renderHistoryRow)}
                 </tbody>
             </Table>
+        </div>
         </div>
     );
 }

@@ -20,7 +20,7 @@ function BuyPage() {
 
     function getQuote() {
         if (requestTicker === "") {
-            return 
+            return
         }
         console.log("User request is", `/api/yfinance/${requestTicker}/info`)
         fetch(`/api/yfinance/${requestTicker}/info`)
@@ -78,13 +78,13 @@ function BuyPage() {
                         .then((data) => {
                             // Loop through portfolio and check if stock already exists
                             let isNewEntry = true;
-                            let oldStock = {n_holding: 0, price: 0, current_total:0, buy_price:0}; 
+                            let oldStock = { n_holding: 0, price: 0, current_total: 0, buy_price: 0 };
                             data.forEach(function (value, index) {
                                 if (value['ticker'] == stockData['ticker']) {
                                     console.log("Updating value", value)
                                     isNewEntry = false;
                                     oldStock = value
-                                    
+
                                 }
                             })
                             console.log("Isnewentry: ", isNewEntry)
@@ -99,12 +99,12 @@ function BuyPage() {
                                     body: JSON.stringify({ user_id: user.id, ticker: stockData['ticker'], buy_price: price, n_holding: numShares, current_price: price, current_total: price * (numShares), sector: stockData['sector'], marketCap: stockData['marketCap'] })
                                 })
                             } else {
-                                let avgPrice = (parseFloat(oldStock['current_total']) + stockData['price']*numShares)/(parseInt(oldStock['n_holding']) + numShares)
+                                let avgPrice = (parseFloat(oldStock['current_total']) + stockData['price'] * numShares) / (parseInt(oldStock['n_holding']) + numShares)
                                 let newTotal = price * numShares + parseFloat(oldStock['current_total'])
 
                                 console.log("UPDATNG", numShares + oldStock['n_holding'])
                                 console.log("DUPATING", avgPrice)
-                                  // Perform UPDATE into portfolio DB
+                                // Perform UPDATE into portfolio DB
                                 fetch(`/api/portfolio/${user.id}/${stockData['ticker']}`, {
                                     method: 'PUT',
                                     headers: {
@@ -131,82 +131,89 @@ function BuyPage() {
 
             ).then(// Redirect back to portfolio
                 navigate("/portfolio"))
-            
 
-        }
+
+    }
 
     return (
-        <div>
-            <Form style={{marginBottom: "1em"}}>
-                <Form.Group controlId="formBasicEmail">
-                    <h2>Buy</h2>
+        <div className="DivBoxBig">
+            <div>
+                <h2> Buy Assets </h2>
+            </div>
 
-                    {/* <Form.Label></Form.Label> */}
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
-                        onChange={(e) => { setConfirmButton(false); setStockData({empty:true}); setRequestTicker(e.target.value)}} />
-                    <Form.Text className="text-muted">
-                    </Form.Text>
-                </Form.Group>
-                <Button
+            <div>
+                <Form style={{ marginTop: "1em" }}>
+                    <Form.Group controlId="formBasicEmail">
+
+                        {/* <Form.Label></Form.Label> */}
+
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter Ticker (TSLA, WMT, GOOG...)"
+                            onChange={(e) => { setConfirmButton(false); setStockData({ empty: true }); setRequestTicker(e.target.value) }} />
+                        <Form.Text className="text-muted">
+                        </Form.Text>
+                    </Form.Group>
+                    <Button
                         variant="info"
                         // type="submit"
                         onClick={getQuote}>
                         Request Quote
                 </Button>
-            </Form>
+                </Form>
 
-            { stockData['empty'] ?
-                '' :
-                <div>
-                 <Form style={{marginBottom: "1em"}}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Buy shares</Form.Label>
-                        <Form.Control
-                            type="number"
-                            placeholder="Number of shares"
-                            value={numShares}
-                            onChange={(e) => 
-                            
-                            {
-                                console.log("ONCHANGE IS", e.target.value)
-                                const re = /^[0-9\b]+$/;
-                                
-                                if (e.target.value === '' || re.test(e.target.value)) {
-                                  setNumShares(parseInt(e.target.value))
-                                  setConfirmButton(true)
-                                }
-                                else {
-                                    setNumShares(numShares)
-                                }
-                            
-                            } 
-                            
-                            } />
-                        <Form.Text className="text-muted">
-                        </Form.Text>
-                    </Form.Group>
-                    <ButtonGroup>
-                    { confirmButton ? 
-                        <Button
-                            variant="success"
-                            // type="success"
-                            onClick={buyShares}>
-                            Confirm Buy
+                {stockData['empty'] ?
+                    '' :
+                    <div>
+                        <Form style={{ marginTop: "1em" }}>
+                            <Form.Group controlId="formBasicEmail">
+
+                                <Form.Label>Buy shares</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Number of shares"
+                                    value={numShares}
+                                    onChange={(e) => {
+                                        console.log("ONCHANGE IS", e.target.value)
+                                        const re = /^[0-9\b]+$/;
+
+                                        if (e.target.value === '' || re.test(e.target.value)) {
+                                            setNumShares(parseInt(e.target.value))
+                                            setConfirmButton(true)
+                                        }
+                                        else {
+                                            setNumShares(numShares)
+                                        }
+
+                                    }
+
+                                    } />
+                                <Form.Text className="text-muted">
+                                </Form.Text>
+                            </Form.Group>
+                            <ButtonGroup>
+                                {confirmButton ?
+                                    <Button
+                                        variant="success"
+                                        // type="success"
+                                        onClick={buyShares}>
+                                        Confirm Buy
 
                 </Button>
 
-                        : ""
-                    }
-                    </ButtonGroup>
-                </Form>
+                                    : ""
+                                }
+                            </ButtonGroup>
+                        </Form>
+                        <div style={{display:"flex", justifyContent:"center"}}> 
+                        <StockQuote data={stockData} />
 
-                <StockQuote data={stockData} />
+                        </div>
 
-                </div>
+                    </div>
                 }
-            
+
+            </div>
         </div>
     );
 }
