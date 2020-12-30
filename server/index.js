@@ -44,6 +44,11 @@ app.get('/api/yfinance/:stock/:type', getYFinance)
 
 app.get('/api/portfolioValueHistory/:id', getPortfolioValueHistory)
 
+// Redirect user to login page if unauthenticated
+app.get('*', function(req, res) {
+  res.redirect('/');
+});
+
 // Update portfolio prices every 15 minutes
 // Back-forecast portfolio values
 async function updatePortfolioEverything() {
